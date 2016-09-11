@@ -22,14 +22,14 @@ class main_listener implements EventSubscriberInterface
 	 */
 	static public function getSubscribedEvents()
 	{
-		return array(
+		return [
 			'core.user_setup'							=> 'load_language_on_setup',
 			'core.text_formatter_s9e_configure_after'	=> 'configure_media_embed',
-		);
+		];
 	}
 
 	/**
-	 * Load common files during user setup
+	 * Load common lang files during user setup
 	 *
 	 * @access public
 	 * @param \phpbb\event\data $event The event object
@@ -37,10 +37,10 @@ class main_listener implements EventSubscriberInterface
 	public function load_language_on_setup($event)
 	{
 		$lang_set_ext = $event['lang_set_ext'];
-		$lang_set_ext[] = array(
+		$lang_set_ext[] = [
 			'ext_name' => 'phpbb/mediaembed',
 			'lang_set' => 'common',
-		);
+		];
 		$event['lang_set_ext'] = $lang_set_ext;
 	}
 
