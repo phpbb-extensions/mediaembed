@@ -57,6 +57,11 @@ class main_listener implements EventSubscriberInterface
 
 		foreach ($configurator->MediaEmbed->defaultSites->getIds() as $siteId)
 		{
+			if (isset($configurator->BBCodes[$siteId]))
+			{
+				continue;
+			}
+
 			$configurator->MediaEmbed->add($siteId);
 		}
 	}
