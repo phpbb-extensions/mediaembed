@@ -17,9 +17,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class main_listener implements EventSubscriberInterface
 {
-	/**
-	 * @inheritdoc
-	 */
 	static public function getSubscribedEvents()
 	{
 		return [
