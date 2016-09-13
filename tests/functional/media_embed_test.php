@@ -30,4 +30,15 @@ class media_embed_test extends \phpbb_functional_test_case
 		$crawler = self::request('GET', "viewtopic.php?t={$post['topic_id']}&sid={$this->sid}");
 		static::assertContains("//www.youtube.com/embed/{$youtubeId}", $crawler->filter("#post_content{$post['topic_id']} iframe")->attr('src'));
 	}
+
+	public function test_media_embed_help()
+	{
+		$this->add_lang_ext('phpbb/mediaembed', 'help');
+
+		$crawler = self::request('GET', 'app.php/help/bbcode');
+		$this->assertContainsLang('HELP_EMBEDDING_MEDIA', $crawler->filter('#faqlinks')->text());
+
+		preg_match('/https:\/\/youtu\.be\/(.*)/', $this->lang('HELP_EMBEDDING_MEDIA_DEMO'), $matches);
+		static::assertContains("//www.youtube.com/embed/{$matches[1]}", $crawler->filter('body iframe')->attr('src'));
+	}
 }
