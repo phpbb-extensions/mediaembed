@@ -28,7 +28,6 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Load common lang files during user setup
 	 *
-	 * @access public
 	 * @param \phpbb\event\data $event The event object
 	 */
 	public function load_language_on_setup($event)
@@ -44,7 +43,6 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Configure Media Embed PlugIn
 	 *
-	 * @access public
 	 * @param \phpbb\event\data $event The event object
 	 */
 	public function configure_media_embed($event)
