@@ -41,4 +41,40 @@ class media_embed_test extends \phpbb_functional_test_case
 		preg_match('/https:\/\/youtu\.be\/(.*)/', $this->lang('HELP_EMBEDDING_MEDIA_DEMO'), $matches);
 		static::assertContains("//www.youtube.com/embed/{$matches[1]}", $crawler->filter('body iframe')->attr('src'));
 	}
+
+	public function test_acp_modules()
+	{
+		$this->add_lang_ext('phpbb/mediaembed', 'acp');
+
+		$this->login();
+		$this->admin_login();
+
+		$crawler = self::request('GET', "adm/index.php?i=\\phpbb\\mediaembed\\acp\\main_module&mode=settings&sid={$this->sid}");
+		$this->assertContainsLang('ACP_MEDIA_SETTINGS', $crawler->filter('#main')->text(), 'The Media Embed settings module failed to load');
+
+		$crawler = self::request('GET', "adm/index.php?i=\\phpbb\\mediaembed\\acp\\main_module&mode=manage&sid={$this->sid}");
+		$this->assertContainsLang('ACP_MEDIA_MANAGE', $crawler->filter('#main')->text(), 'The Media Embed settings module failed to load');
+
+		$this->assert_checkbox_is_checked($crawler, 'youtube');
+	}
+
+	/**
+	 * Override original function to search by checkbox value instead of name
+	 *
+	 * {@inheritDoc}
+	 */
+	public function assert_find_one_checkbox($crawler, $name, $message = '')
+	{
+		$query = sprintf('//input[@type="checkbox" and @value="%s"]', $name);
+		$result = $crawler->filterXPath($query);
+
+		$this->assertEquals(
+			1,
+			sizeof($result),
+			$message ?: 'Failed asserting that exactly one checkbox with name' .
+				" $name exists in crawler scope."
+		);
+
+		return $result;
+	}
 }
