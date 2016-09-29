@@ -8,8 +8,8 @@
 	<table class="table1 zebra-table">
 		{% for sites in MEDIA_SITES|batch(5, '') %}
 			<tr>
-				{% for name, checked in sites %}
-					<td>{% if name %}<input type="checkbox" class="radio" name="mark[]" value="{{ name }}"{% if checked %} checked{% endif %} />{% endif %} {{ name }}</td>
+				{% for site in sites %}
+					<td>{% if site.name %}<input type="checkbox" class="radio" name="mark[]" value="{{ site.name }}"{% if site.checked %} checked{% endif %} />{% endif %} {{ site.name }}</td>
 				{% endfor %}
 			</tr>
 		{% else %}

@@ -78,12 +78,15 @@ class main_module
 						continue;
 					}
 
-					$sites[$siteId] = in_array($siteId, $allowed_sites);
+					$sites[] = [
+						'name'		=> $siteId,
+						'checked'	=> in_array($siteId, $allowed_sites),
+					];
 				}
 
 				$template->assign_vars([
 					'U_ACTION'		=> $this->u_action,
-					'MEDIA_SITES'			=> $sites,
+					'MEDIA_SITES'	=> $sites,
 				]);
 
 			break;
