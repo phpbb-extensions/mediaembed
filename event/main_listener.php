@@ -17,6 +17,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class main_listener implements EventSubscriberInterface
 {
+	/** @var \phpbb\config\config $config */
+	protected $config;
+
 	/** @var \phpbb\language\language $language */
 	protected $language;
 
@@ -35,11 +38,13 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Constructor
 	 *
+	 * @param \phpbb\config\config     $config
 	 * @param \phpbb\language\language $language
 	 * @param \phpbb\template\template $template
 	 */
-	public function __construct(\phpbb\language\language $language, \phpbb\template\template $template)
+	public function __construct(\phpbb\config\config $config, \phpbb\language\language $language, \phpbb\template\template $template)
 	{
+		$this->config = $config;
 		$this->language = $language;
 		$this->template = $template;
 	}
@@ -71,6 +76,7 @@ class main_listener implements EventSubscriberInterface
 	public function setup_media_bbcode()
 	{
 		$this->language->add_lang('common', 'phpbb/mediaembed');
+		$this->template->assign_var('S_BBCODE_MEDIA', $this->config->offsetGet('media_embed_bbcode'));
 	}
 
 	/**
