@@ -54,9 +54,9 @@ class m1_install_data extends \phpbb\db\migration\container_aware_migration
 	{
 		$configurator = $this->container->get('text_formatter.s9e.factory')->get_configurator();
 		$sites = array_filter($configurator->MediaEmbed->defaultSites->getIds(), function ($siteId) use ($configurator) {
-			return !array_key_exists($siteId, $configurator->BBCodes);
+			return !isset($configurator->BBCodes[$siteId]);
 		});
 
-		return json_encode($sites);
+		return json_encode(array_values($sites));
 	}
 }
