@@ -6,10 +6,10 @@
 
 <form id="mediaembed_manage" method="post" action="{{ U_ACTION }}">
 	<table class="table1 zebra-table">
-		{% for row in MEDIA_SITES|batch(5, '') %}
+		{% for sites in MEDIA_SITES|batch(5, '') %}
 			<tr>
-				{% for column, key in row %}
-					<td>{% if column %}<input type="checkbox" class="radio" name="mark[]" value="{{ column }}"{% if key %} checked{% endif %} />{% endif %} {{ column }}</td>
+				{% for name, checked in sites %}
+					<td>{% if name %}<input type="checkbox" class="radio" name="mark[]" value="{{ name }}"{% if checked %} checked{% endif %} />{% endif %} {{ name }}</td>
 				{% endfor %}
 			</tr>
 		{% else %}
