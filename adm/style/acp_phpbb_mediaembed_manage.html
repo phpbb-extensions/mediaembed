@@ -9,7 +9,7 @@
 		{% for sites in MEDIA_SITES|batch(5, '') %}
 			<tr>
 				{% for site in sites %}
-					<td>{% if site.name %}<input type="checkbox" class="radio" name="mark[]" value="{{ site.name }}"{% if site.checked %} checked{% endif %} />{% endif %} {{ site.name }}</td>
+					<td><label style="font-size:1em;">{% if site.name %}<input type="checkbox" class="radio" name="mark[]" value="{{ site.name }}"{% if site.checked %} checked{% endif %} />{% endif %} {{ site.name }}</label></td>
 				{% endfor %}
 			</tr>
 		{% else %}
