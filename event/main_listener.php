@@ -26,8 +26,8 @@ class main_listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return [
-			'core.user_setup'							=> 'load_language_on_setup',
 			'core.text_formatter_s9e_configure_after'	=> 'configure_media_embed',
+			'core.display_custom_bbcodes'				=> 'setup_media_bbcode',
 			'core.help_manager_add_block_before'		=> 'media_embed_help',
 		];
 	}
@@ -42,21 +42,6 @@ class main_listener implements EventSubscriberInterface
 	{
 		$this->language = $language;
 		$this->template = $template;
-	}
-
-	/**
-	 * Load common lang files during user setup
-	 *
-	 * @param \phpbb\event\data $event The event object
-	 */
-	public function load_language_on_setup($event)
-	{
-		$lang_set_ext = $event['lang_set_ext'];
-		$lang_set_ext[] = [
-			'ext_name' => 'phpbb/mediaembed',
-			'lang_set' => 'common',
-		];
-		$event['lang_set_ext'] = $lang_set_ext;
 	}
 
 	/**
@@ -78,6 +63,14 @@ class main_listener implements EventSubscriberInterface
 
 			$configurator->MediaEmbed->add($siteId);
 		}
+	}
+
+	/**
+	 * Set template switch for displaying the [media] BBCode button
+	 */
+	public function setup_media_bbcode()
+	{
+		$this->language->add_lang('common', 'phpbb/mediaembed');
 	}
 
 	/**
