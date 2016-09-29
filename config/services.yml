@@ -3,6 +3,7 @@ services:
         class: phpbb\mediaembed\event\main_listener
         arguments:
             - '@config'
+            - '@config_text'
             - '@language'
             - '@template'
         tags:

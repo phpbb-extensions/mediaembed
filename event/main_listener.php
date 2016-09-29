@@ -20,6 +20,9 @@ class main_listener implements EventSubscriberInterface
 	/** @var \phpbb\config\config $config */
 	protected $config;
 
+	/** @var \phpbb\config\db_text $config_text */
+	protected $config_text;
+
 	/** @var \phpbb\language\language $language */
 	protected $language;
 
@@ -39,14 +42,16 @@ class main_listener implements EventSubscriberInterface
 	 * Constructor
 	 *
 	 * @param \phpbb\config\config     $config
+	 * @param \phpbb\config\db_text    $config_text
 	 * @param \phpbb\language\language $language
 	 * @param \phpbb\template\template $template
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\language\language $language, \phpbb\template\template $template)
+	public function __construct(\phpbb\config\config $config, \phpbb\config\db_text $config_text, \phpbb\language\language $language, \phpbb\template\template $template)
 	{
 		$this->config = $config;
 		$this->language = $language;
 		$this->template = $template;
+		$this->config_text = $config_text;
 	}
 
 	/**
@@ -59,7 +64,7 @@ class main_listener implements EventSubscriberInterface
 		/** @var \s9e\TextFormatter\Configurator $configurator */
 		$configurator = $event['configurator'];
 
-		foreach ($configurator->MediaEmbed->defaultSites->getIds() as $siteId)
+		foreach ($this->get_siteIds() as $siteId)
 		{
 			if (isset($configurator->BBCodes[$siteId]))
 			{
@@ -105,5 +110,17 @@ class main_listener implements EventSubscriberInterface
 				'FAQ_ANSWER'	=> $this->language->lang('HELP_EMBEDDING_MEDIA_ANSWER', $demo_text, $demo_display),
 			]);
 		}
+	}
+
+	/**
+	 * Get allowed sites for media embedding
+	 *
+	 * @return array An array of sites
+	 */
+	protected function get_siteIds()
+	{
+		$siteIds = $this->config_text->get('media_embed_sites');
+
+		return $siteIds ? json_decode($siteIds, true) : [];
 	}
 }
