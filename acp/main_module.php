@@ -59,7 +59,8 @@ class main_module
 
 					$config_text->set('media_embed_sites', json_encode($request->variable('mark', [''])));
 
-					$cache->purge();
+					$cache->destroy($phpbb_container->getParameter('text_formatter.cache.parser.key'));
+					$cache->destroy($phpbb_container->getParameter('text_formatter.cache.renderer.key'));
 
 					trigger_error($language->lang('CONFIG_UPDATED') . adm_back_link($this->u_action));
 				}
