@@ -1,0 +1,22 @@
+{% include 'overall_header.html' %}
+
+<h1>{{ lang('ACP_MEDIA_SETTINGS') }}</h1>
+
+<p>{{ lang('ACP_MEDIA_SETTINGS_EXPLAIN') }}</p>
+
+<form id="mediaembed_settings" method="post" action="{{ U_ACTION }}">
+	<fieldset>
+		<dl>
+			<dt><label for="media_embed_bbcode">{{ lang('ACP_MEDIA_DISPLAY_BBCODE') }}</label><br /><span>{{ lang('ACP_MEDIA_DISPLAY_BBCODE_EXPLAIN') }}</span></dt>
+			<dd><input type="radio" class="radio" name="media_embed_bbcode" value="1" {% if S_MEDIA_EMBED_BBCODE %}checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
+				<input type="radio" class="radio" name="media_embed_bbcode" value="0" {% if not S_MEDIA_EMBED_BBCODE %}checked="checked"{% endif %} /> {{ lang('NO') }}</dd>
+		</dl>
+	</fieldset>
+	<fieldset class="submit-buttons">
+		<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
+		<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}" />
+		{{ S_FORM_TOKEN }}
+	</fieldset>
+</form>
+
+{% include 'overall_footer.html' %}
