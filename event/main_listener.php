@@ -23,7 +23,7 @@ class main_listener implements EventSubscriberInterface
 	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	static public function getSubscribedEvents()
+	public static function getSubscribedEvents()
 	{
 		return [
 			'core.user_setup'							=> 'load_language_on_setup',
