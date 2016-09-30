@@ -20,7 +20,7 @@ class m1_install_data extends \phpbb\db\migration\container_aware_migration
 		return $this->config->offsetExists('media_embed_bbcode');
 	}
 
-	static public function depends_on()
+	public static function depends_on()
 	{
 		return ['\phpbb\db\migration\data\v320\v320rc1'];
 	}
