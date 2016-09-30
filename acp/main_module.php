@@ -70,26 +70,20 @@ class main_module
 	public function main($id, $mode)
 	{
 		add_form_key($this->form_key);
+
+		if ($this->request->is_set_post('submit'))
+		{
+			$this->{'save_' . strtolower($mode)}();
+		}
+
 		switch ($mode)
 		{
 			case 'manage':
-				if ($this->request->is_set_post('submit'))
-				{
-					$this->save_manage();
-				}
-				$this->display($mode, [
-					'MEDIA_SITES' => $this->get_sites(),
-				]);
+				$this->display($mode, ['MEDIA_SITES' => $this->get_sites()]);
 			break;
 
 			case 'settings':
-				if ($this->request->is_set_post('submit'))
-				{
-					$this->save_settings();
-				}
-				$this->display($mode, [
-					'S_MEDIA_EMBED_BBCODE' => $this->config['media_embed_bbcode'],
-				]);
+				$this->display($mode, ['S_MEDIA_EMBED_BBCODE' => $this->config['media_embed_bbcode']]);
 			break;
 		}
 	}
