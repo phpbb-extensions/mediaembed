@@ -15,107 +15,165 @@ namespace phpbb\mediaembed\acp;
  */
 class main_module
 {
+	/** @var \phpbb\cache\driver\driver_interface $cache */
+	protected $cache;
+
+	/** @var \phpbb\config\config $config */
+	protected $config;
+
+	/** @var \phpbb\config\db_text $config_text */
+	protected $config_text;
+
+	/** @var \Symfony\Component\DependencyInjection\ContainerInterface $container */
+	protected $container;
+
+	/** @var \phpbb\request\request $request */
+	protected $request;
+
+	/** @var \phpbb\template\template $template */
+	protected $template;
+
+	/** @var \phpbb\language\language $language */
+	protected $language;
+
+	/** @var string $form_key */
+	protected $form_key;
+
+	/** @var string $u_action */
 	public $u_action;
 
-	public function main($id, $mode)
+	/**
+	 * Constructor
+	 */
+	public function __construct()
 	{
 		global $phpbb_container;
 
-		/** @var \phpbb\cache\driver\driver_interface $cache */
-		$cache = $phpbb_container->get('cache');
+		$this->container   = $phpbb_container;
+		$this->cache       = $this->container->get('cache');
+		$this->config      = $this->container->get('config');
+		$this->config_text = $this->container->get('config_text');
+		$this->request     = $this->container->get('request');
+		$this->template    = $this->container->get('template');
+		$this->language    = $this->container->get('language');
+		$this->form_key    = 'phpbb/mediaembed';
 
-		/** @var \phpbb\config\config $config */
-		$config = $phpbb_container->get('config');
+		$this->language->add_lang('acp', 'phpbb/mediaembed');
+	}
 
-		/** @var \phpbb\request\request $request */
-		$request = $phpbb_container->get('request');
-
-		/** @var \phpbb\template\template $template */
-		$template = $phpbb_container->get('template');
-
-		/** @var \phpbb\language\language $language */
-		$language = $phpbb_container->get('language');
-		$language->add_lang('acp', 'phpbb/mediaembed');
-
-		$form_key = 'phpbb/mediaembed';
-		add_form_key($form_key);
-
+	/**
+	 * Main ACP module
+	 *
+	 * @param int    $id   The module ID
+	 * @param string $mode The module mode
+	 */
+	public function main($id, $mode)
+	{
+		add_form_key($this->form_key);
 		switch ($mode)
 		{
 			case 'manage':
-
-				$this->tpl_name = 'acp_phpbb_mediaembed_manage';
-				$this->page_title = $language->lang('ACP_MEDIA_MANAGE');
-
-				/** @var \phpbb\config\db_text $config_text */
-				$config_text = $phpbb_container->get('config_text');
-
-				if ($request->is_set_post('submit'))
+				if ($this->request->is_set_post('submit'))
 				{
-					if (!check_form_key($form_key))
-					{
-						trigger_error('FORM_INVALID');
-					}
-
-					$config_text->set('media_embed_sites', json_encode($request->variable('mark', [''])));
-
-					$cache->destroy($phpbb_container->getParameter('text_formatter.cache.parser.key'));
-					$cache->destroy($phpbb_container->getParameter('text_formatter.cache.renderer.key'));
-
-					trigger_error($language->lang('CONFIG_UPDATED') . adm_back_link($this->u_action));
+					$this->save_manage();
 				}
-
-				$sites = [];
-
-				$allowed_sites = $config_text->get('media_embed_sites');
-				$allowed_sites = $allowed_sites ? json_decode($allowed_sites, true) : [];
-
-				/** @var \s9e\TextFormatter\Configurator $configurator */
-				$configurator = $phpbb_container->get('text_formatter.s9e.factory')->get_configurator();
-				foreach ($configurator->MediaEmbed->defaultSites->getIds() as $siteId)
-				{
-					if (isset($configurator->BBCodes[$siteId]))
-					{
-						continue;
-					}
-
-					$sites[] = [
-						'name'		=> $siteId,
-						'checked'	=> in_array($siteId, $allowed_sites),
-					];
-				}
-
-				$template->assign_vars([
-					'U_ACTION'		=> $this->u_action,
-					'MEDIA_SITES'	=> $sites,
+				$this->display($mode, [
+					'MEDIA_SITES' => $this->get_sites(),
 				]);
-
 			break;
 
 			case 'settings':
-			default:
-
-				$this->tpl_name = 'acp_phpbb_mediaembed_settings';
-				$this->page_title = $language->lang('ACP_MEDIA_SETTINGS');
-
-				if ($request->is_set_post('submit'))
+				if ($this->request->is_set_post('submit'))
 				{
-					if (!check_form_key($form_key))
-					{
-						trigger_error('FORM_INVALID');
-					}
-
-					$config->set('media_embed_bbcode', $request->variable('media_embed_bbcode', 0));
-
-					trigger_error($language->lang('CONFIG_UPDATED') . adm_back_link($this->u_action));
+					$this->save_settings();
 				}
-
-				$template->assign_vars([
-					'U_ACTION'				=> $this->u_action,
-					'S_MEDIA_EMBED_BBCODE'	=> $config['media_embed_bbcode'],
+				$this->display($mode, [
+					'S_MEDIA_EMBED_BBCODE' => $this->config['media_embed_bbcode'],
 				]);
-
 			break;
+		}
+	}
+
+	/**
+	 * Display data in the ACP module
+	 *
+	 * @param string $mode The ACP module mode (manage|settings)
+	 * @param array  $data Array of data to assign to the template
+	 */
+	protected function display($mode, $data)
+	{
+		$this->tpl_name   = 'acp_phpbb_mediaembed_' . strtolower($mode);
+		$this->page_title = $this->language->lang('ACP_MEDIA_' . strtoupper($mode));
+
+		$this->template->assign_vars(array_merge($data, [
+			'U_ACTION'	=> $this->u_action,
+		]));
+	}
+
+	/**
+	 * Get a list of available sites
+	 *
+	 * @return array An array of available sites
+	 */
+	protected function get_sites()
+	{
+		$sites = [];
+
+		$checked_sites = $this->config_text->get('media_embed_sites');
+		$checked_sites = $checked_sites ? json_decode($checked_sites, true) : [];
+
+		$configurator = $this->container->get('text_formatter.s9e.factory')->get_configurator();
+		foreach ($configurator->MediaEmbed->defaultSites->getIds() as $siteId)
+		{
+			if (isset($configurator->BBCodes[$siteId]))
+			{
+				continue;
+			}
+
+			$sites[] = [
+				'name'		=> $siteId,
+				'checked'	=> in_array($siteId, $checked_sites),
+			];
+		}
+
+		return $sites;
+	}
+
+	/**
+	 * Save site managed data to the database
+	 */
+	protected function save_manage()
+	{
+		$this->check_form_key();
+
+		$this->config_text->set('media_embed_sites', json_encode($this->request->variable('mark', [''])));
+
+		$this->cache->destroy($this->container->getParameter('text_formatter.cache.parser.key'));
+		$this->cache->destroy($this->container->getParameter('text_formatter.cache.renderer.key'));
+
+		trigger_error($this->language->lang('CONFIG_UPDATED') . adm_back_link($this->u_action));
+	}
+
+	/**
+	 * Save settings data to the database
+	 */
+	protected function save_settings()
+	{
+		$this->check_form_key();
+
+		$this->config->set('media_embed_bbcode', $this->request->variable('media_embed_bbcode', 0));
+
+		trigger_error($this->language->lang('CONFIG_UPDATED') . adm_back_link($this->u_action));
+	}
+
+	/**
+	 * Check the form key, trigger error if invalid
+	 */
+	protected function check_form_key()
+	{
+		if (!check_form_key($this->form_key))
+		{
+			trigger_error('FORM_INVALID');
 		}
 	}
 }
