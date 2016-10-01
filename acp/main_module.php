@@ -42,6 +42,9 @@ class main_module
 	/** @var \phpbb\user */
 	protected $user;
 
+	/** @var array $enabled_sites */
+	protected $enabled_sites;
+
 	/** @var string $form_key */
 	protected $form_key;
 
@@ -127,9 +130,6 @@ class main_module
 	{
 		$sites = [];
 
-		$checked_sites = $this->config_text->get('media_embed_sites');
-		$checked_sites = $checked_sites ? json_decode($checked_sites, true) : [];
-
 		$configurator = $this->container->get('text_formatter.s9e.factory')->get_configurator();
 		foreach ($configurator->MediaEmbed->defaultSites->getIds() as $siteId)
 		{
@@ -140,11 +140,27 @@ class main_module
 
 			$sites[] = [
 				'name'		=> $siteId,
-				'checked'	=> in_array($siteId, $checked_sites),
+				'enabled'	=> in_array($siteId, $this->get_enabled_sites()),
 			];
 		}
 
 		return $sites;
+	}
+
+	/**
+	 * Get enabled media sites stored in the database
+	 *
+	 * @return array An array of enabled sites
+	 */
+	protected function get_enabled_sites()
+	{
+		if ($this->enabled_sites === null)
+		{
+			$sites = json_decode($this->config_text->get('media_embed_sites'), true);
+			$this->enabled_sites = is_array($sites) ? $sites : [];
+		}
+
+		return $this->enabled_sites;
 	}
 
 	/**
