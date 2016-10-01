@@ -45,6 +45,12 @@ class main_module
 	/** @var string $form_key */
 	protected $form_key;
 
+	/** @var string $page_title */
+	public $page_title;
+
+	/** @var string $tpl_name */
+	public $tpl_name;
+
 	/** @var string $u_action */
 	public $u_action;
 
