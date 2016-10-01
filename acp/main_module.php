@@ -36,6 +36,12 @@ class main_module
 	/** @var \phpbb\language\language $language */
 	protected $language;
 
+	/** @var \phpbb\log\log $log */
+	protected $log;
+
+	/** @var \phpbb\user */
+	protected $user;
+
 	/** @var string $form_key */
 	protected $form_key;
 
@@ -53,9 +59,11 @@ class main_module
 		$this->cache       = $this->container->get('cache');
 		$this->config      = $this->container->get('config');
 		$this->config_text = $this->container->get('config_text');
+		$this->language    = $this->container->get('language');
+		$this->log         = $this->container->get('log');
 		$this->request     = $this->container->get('request');
 		$this->template    = $this->container->get('template');
-		$this->language    = $this->container->get('language');
+		$this->user        = $this->container->get('user');
 		$this->form_key    = 'phpbb/mediaembed';
 
 		$this->language->add_lang('acp', 'phpbb/mediaembed');
@@ -145,6 +153,8 @@ class main_module
 		$this->cache->destroy($this->container->getParameter('text_formatter.cache.parser.key'));
 		$this->cache->destroy($this->container->getParameter('text_formatter.cache.renderer.key'));
 
+		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PHPBB_MEDIA_EMBED_MANAGE');
+
 		trigger_error($this->language->lang('CONFIG_UPDATED') . adm_back_link($this->u_action));
 	}
 
@@ -156,6 +166,8 @@ class main_module
 		$this->check_form_key();
 
 		$this->config->set('media_embed_bbcode', $this->request->variable('media_embed_bbcode', 0));
+
+		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PHPBB_MEDIA_EMBED_SETTINGS');
 
 		trigger_error($this->language->lang('CONFIG_UPDATED') . adm_back_link($this->u_action));
 	}

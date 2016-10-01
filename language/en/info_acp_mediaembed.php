@@ -22,4 +22,8 @@ $lang = array_merge($lang, array(
 	'ACP_PHPBB_MEDIA_EMBED'				=> 'Media Embed',
 	'ACP_PHPBB_MEDIA_EMBED_MANAGE'		=> 'Manage sites',
 	'ACP_PHPBB_MEDIA_EMBED_SETTINGS'	=> 'Settings',
+
+	// Log keys
+	'LOG_PHPBB_MEDIA_EMBED_MANAGE'		=> '<strong>Media Embed sites updated</strong>',
+	'LOG_PHPBB_MEDIA_EMBED_SETTINGS'	=> '<strong>Media Embed settings updated</strong>',
 ));
