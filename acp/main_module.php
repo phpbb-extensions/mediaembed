@@ -131,7 +131,7 @@ class main_module
 		$sites = [];
 
 		$configurator = $this->container->get('text_formatter.s9e.factory')->get_configurator();
-		foreach ($configurator->MediaEmbed->defaultSites->getIds() as $siteId)
+		foreach ($configurator->MediaEmbed->defaultSites as $siteId => $siteConfig)
 		{
 			if (isset($configurator->BBCodes[$siteId]))
 			{
