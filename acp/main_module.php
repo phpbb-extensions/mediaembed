@@ -139,7 +139,8 @@ class main_module
 			}
 
 			$sites[] = [
-				'name'		=> $siteId,
+				'id'		=> $siteId,
+				'name'		=> $siteConfig['name'],
 				'enabled'	=> in_array($siteId, $this->get_enabled_sites()),
 			];
 		}
