@@ -17,6 +17,12 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class main_listener implements EventSubscriberInterface
 {
+	/** @var \phpbb\config\config $config */
+	protected $config;
+
+	/** @var \phpbb\config\db_text $config_text */
+	protected $config_text;
+
 	/** @var \phpbb\language\language $language */
 	protected $language;
 
@@ -26,8 +32,8 @@ class main_listener implements EventSubscriberInterface
 	public static function getSubscribedEvents()
 	{
 		return [
-			'core.user_setup'							=> 'load_language_on_setup',
 			'core.text_formatter_s9e_configure_after'	=> 'configure_media_embed',
+			'core.display_custom_bbcodes'				=> 'setup_media_bbcode',
 			'core.help_manager_add_block_before'		=> 'media_embed_help',
 		];
 	}
@@ -35,28 +41,17 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Constructor
 	 *
+	 * @param \phpbb\config\config     $config
+	 * @param \phpbb\config\db_text    $config_text
 	 * @param \phpbb\language\language $language
 	 * @param \phpbb\template\template $template
 	 */
-	public function __construct(\phpbb\language\language $language, \phpbb\template\template $template)
+	public function __construct(\phpbb\config\config $config, \phpbb\config\db_text $config_text, \phpbb\language\language $language, \phpbb\template\template $template)
 	{
+		$this->config = $config;
 		$this->language = $language;
 		$this->template = $template;
-	}
-
-	/**
-	 * Load common lang files during user setup
-	 *
-	 * @param \phpbb\event\data $event The event object
-	 */
-	public function load_language_on_setup($event)
-	{
-		$lang_set_ext = $event['lang_set_ext'];
-		$lang_set_ext[] = [
-			'ext_name' => 'phpbb/mediaembed',
-			'lang_set' => 'common',
-		];
-		$event['lang_set_ext'] = $lang_set_ext;
+		$this->config_text = $config_text;
 	}
 
 	/**
@@ -69,7 +64,7 @@ class main_listener implements EventSubscriberInterface
 		/** @var \s9e\TextFormatter\Configurator $configurator */
 		$configurator = $event['configurator'];
 
-		foreach ($configurator->MediaEmbed->defaultSites->getIds() as $siteId)
+		foreach ($this->get_siteIds() as $siteId)
 		{
 			if (isset($configurator->BBCodes[$siteId]))
 			{
@@ -78,6 +73,15 @@ class main_listener implements EventSubscriberInterface
 
 			$configurator->MediaEmbed->add($siteId);
 		}
+	}
+
+	/**
+	 * Set template switch for displaying the [media] BBCode button
+	 */
+	public function setup_media_bbcode()
+	{
+		$this->language->add_lang('common', 'phpbb/mediaembed');
+		$this->template->assign_var('S_BBCODE_MEDIA', $this->config->offsetGet('media_embed_bbcode'));
 	}
 
 	/**
@@ -100,11 +104,24 @@ class main_listener implements EventSubscriberInterface
 			$demo_text = $this->language->lang('HELP_EMBEDDING_MEDIA_DEMO');
 			generate_text_for_storage($demo_text, $uid, $bitfield, $flags, true);
 			$demo_display = generate_text_for_display($demo_text, $uid, $bitfield, $flags);
+			$list_sites = implode(', ', $this->get_siteIds());
 
 			$this->template->assign_block_vars('faq_block.faq_row', [
 				'FAQ_QUESTION'	=> $this->language->lang('HELP_EMBEDDING_MEDIA_QUESTION'),
-				'FAQ_ANSWER'	=> $this->language->lang('HELP_EMBEDDING_MEDIA_ANSWER', $demo_text, $demo_display),
+				'FAQ_ANSWER'	=> $this->language->lang('HELP_EMBEDDING_MEDIA_ANSWER', $demo_text, $demo_display, $list_sites),
 			]);
 		}
+	}
+
+	/**
+	 * Get allowed sites for media embedding
+	 *
+	 * @return array An array of sites
+	 */
+	protected function get_siteIds()
+	{
+		$siteIds = $this->config_text->get('media_embed_sites');
+
+		return $siteIds ? json_decode($siteIds, true) : [];
 	}
 }

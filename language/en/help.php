@@ -46,6 +46,10 @@ $lang = array_merge($lang, array(
 										<strong>[media]</strong>%1$s<strong>[/media]</strong>
 										<br /><br />As noted above, the link could also be used without the 
 										<strong>[media]</strong> tags.
-										<br /><br />The example shown here would generate:<br /><br />%2$s',
+										<br /><br />The example shown here would generate:<br /><br />%2$s
+										<br /><br />The following sites are supported:<br /><samp>%3$s.</samp>
+										<br /><br />For complete documentation on supported sites and example URLs, 
+										visit the <a href="http://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
+										MediaEmbed Plugin Documentation</a>.',
 	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
 ));
