@@ -13,12 +13,32 @@ namespace phpbb\mediaembed;
 class ext extends \phpbb\extension\base
 {
 	/**
-	 * Extension can be enabled if the s9e TextFormatter is available
-	 *
 	 * {@inheritDoc}
 	 */
 	public function is_enableable()
 	{
+		return $this->s9e_textformatter_installed() && !$this->s9e_mediamebed_installed();
+	}
+
+	/**
+	 * Check if s9e TextFormatter is installed (it must be
+	 * to enable this extension).
+	 *
+	 * @return bool
+	 */
+	public function s9e_textformatter_installed()
+	{
 		return class_exists('\s9e\TextFormatter\Configurator');
+	}
+
+	/**
+	 * Check if s9e MediaEmbed extension for phpBB is installed
+	 * (it must NOT be to enable this extension).
+	 *
+	 * @return bool
+	 */
+	public function s9e_mediamebed_installed()
+	{
+		return class_exists('\s9e\mediaembed\ext');
 	}
 }
