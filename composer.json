@@ -1,27 +1,32 @@
 {
-    "name": "phpbb/mediaembed",
-    "type": "phpbb-extension",
-    "description": "This extension allows the user to embed content from allowed sites using a [media] BBCode, or from simply posting a supported URL in plain text.",
-    "homepage": "https://www.phpbb.com",
-    "version": "1.0.0-dev",
-    "license": "GPL-2.0",
-    "authors": [
-        {
-            "name": "Matt Friedman (VSE)",
-            "homepage": "http://mattfriedman.me",
-            "role": "Extensions Development Team Lead"
-        }
-    ],
-    "require": {
-        "php": ">=5.4"
-    },
-    "extra": {
-        "display-name": "phpBB Media Embed PlugIn",
-        "soft-require": {
-            "phpbb/phpbb": ">=3.2.0"
-        }
-    },
-    "require-dev": {
-        "phing/phing": "2.4.*"
-    }
+	"name": "phpbb/mediaembed",
+	"type": "phpbb-extension",
+	"description": "This extension allows the user to embed content from allowed sites using a [media] BBCode, or from simply posting a supported URL in plain text.",
+	"homepage": "https://www.phpbb.com",
+	"version": "1.0.0-dev",
+	"license": "GPL-2.0",
+	"authors": [
+		{
+			"name": "Matt Friedman (VSE)",
+			"homepage": "http://mattfriedman.me",
+			"role": "Extensions Development Team Lead"
+		}
+	],
+	"require": {
+		"php": ">=5.4"
+	},
+	"extra": {
+		"display-name": "phpBB Media Embed PlugIn",
+		"soft-require": {
+			"phpbb/phpbb": ">=3.2.0"
+		},
+		"version-check": {
+			"host": "version.phpbb.com",
+			"directory": "/phpbb-extensions",
+			"filename": "media_embed_versions.json"
+		}
+	},
+	"require-dev": {
+		"phing/phing": "2.4.*"
+	}
 }
