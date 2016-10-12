@@ -7,7 +7,7 @@
 <form id="mediaembed_settings" method="post" action="{{ U_ACTION }}">
 	<fieldset>
 		<dl>
-			<dt><label for="media_embed_bbcode">{{ lang('ACP_MEDIA_DISPLAY_BBCODE') }}</label><br /><span>{{ lang('ACP_MEDIA_DISPLAY_BBCODE_EXPLAIN') }}</span></dt>
+			<dt><label for="media_embed_bbcode">{{ lang('ACP_MEDIA_DISPLAY_BBCODE') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_MEDIA_DISPLAY_BBCODE_EXPLAIN') }}</span></dt>
 			<dd><label><input type="radio" class="radio" name="media_embed_bbcode" id="media_embed_bbcode" value="1" {% if S_MEDIA_EMBED_BBCODE %}checked="checked"{% endif %}/> {{ lang('YES') }}</label>
 				<label><input type="radio" class="radio" name="media_embed_bbcode" value="0" {% if not S_MEDIA_EMBED_BBCODE %}checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
 		</dl>
