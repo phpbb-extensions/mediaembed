@@ -24,6 +24,8 @@ $lang = array_merge($lang, array(
 	'ACP_MEDIA_SETTINGS_EXPLAIN'		=> 'Here you can configure the settings for the Media Embed PlugIn.',
 	'ACP_MEDIA_DISPLAY_BBCODE'			=> 'Display <samp>[MEDIA]</samp> BBCode on posting page',
 	'ACP_MEDIA_DISPLAY_BBCODE_EXPLAIN'	=> 'If disallowed, the BBCode button will not be displayed, however users can still use the <samp>[media]</samp> tag in their posts',
+	'ACP_MEDIA_ALLOW_SIG'				=> 'Allow in user signatures',
+	'ACP_MEDIA_ALLOW_SIG_EXPLAIN'		=> 'Allow links in user signatures to be displayed as embedded media content.',
 
 	// Manage sites
 	'ACP_MEDIA_MANAGE'					=> 'Manage Media Embed Sites',

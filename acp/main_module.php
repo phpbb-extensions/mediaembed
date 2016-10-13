@@ -100,7 +100,10 @@ class main_module
 			break;
 
 			case 'settings':
-				$this->display($mode, ['S_MEDIA_EMBED_BBCODE' => $this->config['media_embed_bbcode']]);
+				$this->display($mode, [
+					'S_MEDIA_EMBED_BBCODE'		=> $this->config['media_embed_bbcode'],
+					'S_MEDIA_EMBED_ALLOW_SIG'	=> $this->config['media_embed_allow_sig'],
+				]);
 			break;
 		}
 	}
@@ -189,6 +192,7 @@ class main_module
 		$this->check_form_key();
 
 		$this->config->set('media_embed_bbcode', $this->request->variable('media_embed_bbcode', 0));
+		$this->config->set('media_embed_allow_sig', $this->request->variable('media_embed_allow_sig', 0));
 
 		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PHPBB_MEDIA_EMBED_SETTINGS');
 
