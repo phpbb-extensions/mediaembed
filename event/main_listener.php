@@ -29,17 +29,12 @@ class main_listener implements EventSubscriberInterface
 	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	/** @var bool $signature Posting mode is signature */
-	protected $signature = false;
-
 	public static function getSubscribedEvents()
 	{
 		return [
 			'core.text_formatter_s9e_configure_after'	=> 'configure_media_embed',
 			'core.display_custom_bbcodes'				=> 'setup_media_bbcode',
 			'core.help_manager_add_block_before'		=> 'media_embed_help',
-			'core.message_parser_check_message'			=> 'set_signature',
-			'core.text_formatter_s9e_parser_setup'		=> 'disable_in_signature',
 		];
 	}
 
@@ -116,36 +111,6 @@ class main_listener implements EventSubscriberInterface
 				'FAQ_ANSWER'	=> $this->language->lang('HELP_EMBEDDING_MEDIA_ANSWER', $demo_text, $demo_display, $list_sites),
 			]);
 		}
-	}
-
-	/**
-	 * Set the signature property.
-	 * True if posting mode is signature, false otherwise.
-	 *
-	 * @param \phpbb\event\data $event The event object
-	 */
-	public function set_signature($event)
-	{
-		$this->signature = $event['mode'] === 'sig';
-	}
-
-	/**
-	 * Disable the Media Embed plugin when posting mode is a signature
-	 *
-	 * @param \phpbb\event\data $event The event object
-	 */
-	public function disable_in_signature($event)
-	{
-		if (!$this->signature || $this->config->offsetGet('media_embed_allow_sig'))
-		{
-			return;
-		}
-
-		/** @var \phpbb\textformatter\s9e\parser $service  */
-		$service = $event['parser'];
-		$parser = $service->get_parser();
-		$parser->disablePlugin('MediaEmbed');
-		$parser->disableTag('MEDIA');
 	}
 
 	/**

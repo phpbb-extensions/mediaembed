@@ -11,11 +11,6 @@
 			<dd><label><input type="radio" class="radio" name="media_embed_bbcode" id="media_embed_bbcode" value="1" {% if S_MEDIA_EMBED_BBCODE %}checked="checked"{% endif %}/> {{ lang('YES') }}</label>
 				<label><input type="radio" class="radio" name="media_embed_bbcode" value="0" {% if not S_MEDIA_EMBED_BBCODE %}checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
 		</dl>
-		<dl>
-			<dt><label for="media_embed_allow_sig">{{ lang('ACP_MEDIA_ALLOW_SIG') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_MEDIA_ALLOW_SIG_EXPLAIN') }}</span></dt>
-			<dd><label><input type="radio" class="radio" name="media_embed_allow_sig" id="media_embed_allow_sig" value="1" {% if S_MEDIA_EMBED_ALLOW_SIG %}checked="checked"{% endif %}/> {{ lang('YES') }}</label>
-				<label><input type="radio" class="radio" name="media_embed_allow_sig" value="0" {% if not S_MEDIA_EMBED_ALLOW_SIG %}checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
-		</dl>
 	</fieldset>
 	<fieldset class="submit-buttons">
 		<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
