@@ -17,18 +17,20 @@ class ext extends \phpbb\extension\base
 	 */
 	public function is_enableable()
 	{
-		return $this->s9e_textformatter_installed() && !$this->s9e_mediamebed_installed();
+		return $this->phpbb_version_is_valid() && !$this->s9e_mediamebed_installed();
 	}
 
 	/**
-	 * Check if s9e TextFormatter is installed (it must be
-	 * to enable this extension).
+	 * Check the installed phpBB version meets this
+	 * extension's requirements.
+	 *
+	 * Requires phpBB 3.2.0-rc2 and TextFormatter 0.8.1
 	 *
 	 * @return bool
 	 */
-	public function s9e_textformatter_installed()
+	public function phpbb_version_is_valid()
 	{
-		return class_exists('\s9e\TextFormatter\Configurator');
+		return phpbb_version_compare(PHPBB_VERSION, '3.2.0-rc2', '>=');
 	}
 
 	/**
