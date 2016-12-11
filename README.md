@@ -5,6 +5,10 @@ An extension for phpBB 3.2 that allows the user to embed content from allowed si
 [![Build Status](https://travis-ci.org/phpbb-extensions/mediaembed.svg?branch=master)](https://travis-ci.org/phpbb-extensions/mediaembed)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phpbb-extensions/mediaembed/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phpbb-extensions/mediaembed/?branch=master)
 
+## Requirements:
+
+* phpBB 3.2.0-RC2 or higher
+
 ## Install
 
 1. [Download the latest release](https://github.com/phpbb-extensions/mediaembed/releases).
@@ -27,7 +31,7 @@ An extension for phpBB 3.2 that allows the user to embed content from allowed si
 
 ## Translations
 
-* Translations will not be accepted until after the first official stable release.
+Translations will not be accepted until after the first official stable release.
 
 ## Contributing
 
