@@ -18,7 +18,7 @@
 	"extra": {
 		"display-name": "phpBB Media Embed PlugIn",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.2.0"
+			"phpbb/phpbb": ">=3.2.0-RC2"
 		},
 		"version-check": {
 			"host": "version.phpbb.com",
