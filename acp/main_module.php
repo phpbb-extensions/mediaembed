@@ -27,17 +27,17 @@ class main_module
 	/** @var \Symfony\Component\DependencyInjection\ContainerInterface $container */
 	protected $container;
 
-	/** @var \phpbb\request\request $request */
-	protected $request;
-
-	/** @var \phpbb\template\template $template */
-	protected $template;
-
 	/** @var \phpbb\language\language $language */
 	protected $language;
 
 	/** @var \phpbb\log\log $log */
 	protected $log;
+
+	/** @var \phpbb\request\request $request */
+	protected $request;
+
+	/** @var \phpbb\template\template $template */
+	protected $template;
 
 	/** @var \phpbb\user */
 	protected $user;
@@ -86,42 +86,42 @@ class main_module
 	 */
 	public function main($id, $mode)
 	{
+		$mode = strtolower($mode);
+
+		$this->tpl_name   = 'acp_phpbb_mediaembed_' . $mode;
+		$this->page_title = $this->language->lang('ACP_MEDIA_' . strtoupper($mode));
+
 		add_form_key($this->form_key);
 
 		if ($this->request->is_set_post('submit'))
 		{
-			$this->{'save_' . strtolower($mode)}();
+			$this->{'save_' . $mode}();
 		}
 
-		switch ($mode)
-		{
-			case 'manage':
-				$this->display($mode, ['MEDIA_SITES' => $this->get_sites()]);
-			break;
-
-			case 'settings':
-				$this->display($mode, [
-					'S_MEDIA_EMBED_BBCODE'		=> $this->config['media_embed_bbcode'],
-					'S_MEDIA_EMBED_ALLOW_SIG'	=> $this->config['media_embed_allow_sig'],
-				]);
-			break;
-		}
+		$this->{'display_' . $mode}();
 	}
 
 	/**
-	 * Display data in the ACP module
-	 *
-	 * @param string $mode The ACP module mode (manage|settings)
-	 * @param array  $data Array of data to assign to the template
+	 * Add settings template vars to the form
 	 */
-	protected function display($mode, $data)
+	protected function display_settings()
 	{
-		$this->tpl_name   = 'acp_phpbb_mediaembed_' . strtolower($mode);
-		$this->page_title = $this->language->lang('ACP_MEDIA_' . strtoupper($mode));
+		$this->template->assign_vars([
+			'S_MEDIA_EMBED_BBCODE'		=> $this->config['media_embed_bbcode'],
+			'S_MEDIA_EMBED_ALLOW_SIG'	=> $this->config['media_embed_allow_sig'],
+			'U_ACTION'					=> $this->u_action,
+		]);
+	}
 
-		$this->template->assign_vars(array_merge($data, [
-			'U_ACTION'	=> $this->u_action,
-		]));
+	/**
+	 * Add manage sites template vars to the form
+	 */
+	protected function display_manage()
+	{
+		$this->template->assign_vars([
+			'MEDIA_SITES'	=> $this->get_sites(),
+			'U_ACTION'		=> $this->u_action,
+		]);
 	}
 
 	/**
