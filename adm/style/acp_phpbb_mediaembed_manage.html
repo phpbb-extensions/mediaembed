@@ -11,8 +11,8 @@
 				{% for site in sites %}
 					<td style="width:25%">
 						{% if site %}
-							<label style="font-size:1em;">
-								<input type="checkbox" class="radio" name="mark[]" value="{{ site.id }}"{% if site.enabled %} checked{% endif %} /> {{ site.name }}
+							<label style="font-size:1em;" title="{{ site.title }}">
+								<input type="checkbox" class="radio" name="mark[]" value="{{ site.id }}"{% if site.enabled %} checked{% elseif site.disabled %} disabled{% endif %} /> {{ site.name }}
 							</label>
 						{% endif %}
 					</td>
