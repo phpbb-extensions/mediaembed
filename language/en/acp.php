@@ -26,6 +26,8 @@ $lang = array_merge($lang, array(
 	'ACP_MEDIA_DISPLAY_BBCODE_EXPLAIN'	=> 'If disallowed, the BBCode button will not be displayed, however users can still use the <samp>[media]</samp> tag in their posts',
 	'ACP_MEDIA_ALLOW_SIG'				=> 'Allow in user signatures',
 	'ACP_MEDIA_ALLOW_SIG_EXPLAIN'		=> 'Allow user signatures to display embedded media content.',
+	'ACP_MEDIA_SITE_TITLE'				=> 'Site id: %s',
+	'ACP_MEDIA_SITE_DISABLED'			=> 'This site conflicts with an existing BBCode: [%s]',
 
 	// Manage sites
 	'ACP_MEDIA_MANAGE'					=> 'Manage Media Embed Sites',

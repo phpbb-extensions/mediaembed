@@ -136,15 +136,13 @@ class main_module
 		$configurator = $this->container->get('text_formatter.s9e.factory')->get_configurator();
 		foreach ($configurator->MediaEmbed->defaultSites as $siteId => $siteConfig)
 		{
-			if (isset($configurator->BBCodes[$siteId]))
-			{
-				continue;
-			}
-
+			$disabled = isset($configurator->BBCodes[$siteId]);
 			$sites[] = [
 				'id'		=> $siteId,
 				'name'		=> $siteConfig['name'],
+				'title'		=> $this->language->lang($disabled ? 'ACP_MEDIA_SITE_DISABLED' : 'ACP_MEDIA_SITE_TITLE', $siteId),
 				'enabled'	=> in_array($siteId, $this->get_enabled_sites()),
+				'disabled'	=> $disabled,
 			];
 		}
 
