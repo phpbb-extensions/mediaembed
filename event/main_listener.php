@@ -29,8 +29,11 @@ class main_listener implements EventSubscriberInterface
 	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	/** @var bool $signature Posting mode is signature */
-	protected $signature = false;
+	/** @var string $post_mode The posting mode */
+	protected $post_mode;
+
+	/** @var string $reparser Name of a text reparser */
+	protected $reparser;
 
 	public static function getSubscribedEvents()
 	{
@@ -38,7 +41,8 @@ class main_listener implements EventSubscriberInterface
 			'core.text_formatter_s9e_configure_after'	=> 'configure_media_embed',
 			'core.display_custom_bbcodes'				=> 'setup_media_bbcode',
 			'core.help_manager_add_block_before'		=> 'media_embed_help',
-			'core.message_parser_check_message'			=> 'set_signature',
+			'core.message_parser_check_message'			=> 'set_post_mode',
+			'core.console_command_reparser_reparse'		=> 'set_reparser',
 			'core.text_formatter_s9e_parser_setup'		=> 'disable_in_signature',
 		];
 	}
@@ -119,14 +123,34 @@ class main_listener implements EventSubscriberInterface
 	}
 
 	/**
-	 * Set the signature property.
-	 * True if posting mode is signature, false otherwise.
+	 * Set the post mode property.
 	 *
 	 * @param \phpbb\event\data $event The event object
 	 */
-	public function set_signature($event)
+	public function set_post_mode($event)
 	{
-		$this->signature = $event['mode'] === 'sig';
+		$this->post_mode = $event['mode'];
+	}
+
+	/**
+	 * Set the reparser property.
+	 *
+	 * @param \phpbb\event\data $event The event object
+	 */
+	public function set_reparser($event)
+	{
+		$this->reparser = $event['name'];
+	}
+
+	/**
+	 * Is a signature being parsed.
+	 *
+	 * @return bool True if posting mode is signature or if reparsing
+	 * user signatures, false otherwise.
+	 */
+	protected function is_signature()
+	{
+		return $this->post_mode === 'sig' || ($this->post_mode === 'reparse' && $this->reparser === 'text_reparser.user_signature');
 	}
 
 	/**
@@ -136,7 +160,7 @@ class main_listener implements EventSubscriberInterface
 	 */
 	public function disable_in_signature($event)
 	{
-		if (!$this->signature || $this->config->offsetGet('media_embed_allow_sig'))
+		if (!$this->is_signature() || $this->config->offsetGet('media_embed_allow_sig'))
 		{
 			return;
 		}
