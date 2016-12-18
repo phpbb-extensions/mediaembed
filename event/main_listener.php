@@ -29,14 +29,8 @@ class main_listener implements EventSubscriberInterface
 	/** @var \phpbb\template\template $template */
 	protected $template;
 
-	/** @var string $cron_task Name of a cron task */
-	protected $cron_task;
-
-	/** @var string $post_mode The posting mode */
-	protected $post_mode;
-
-	/** @var string $reparser Name of a text reparser */
-	protected $reparser;
+	/** @var bool $signature Posting mode is signature */
+	protected $signature = false;
 
 	public static function getSubscribedEvents()
 	{
@@ -44,9 +38,7 @@ class main_listener implements EventSubscriberInterface
 			'core.text_formatter_s9e_configure_after'	=> 'configure_media_embed',
 			'core.display_custom_bbcodes'				=> 'setup_media_bbcode',
 			'core.help_manager_add_block_before'		=> 'media_embed_help',
-			'core.message_parser_check_message'			=> 'set_post_mode',
-			'core.console_command_reparser_reparse'		=> 'set_reparser',
-			'core.cron_manager_find_task_name'			=> 'set_cron_task',
+			'core.message_parser_check_message'			=> 'set_signature',
 			'core.text_formatter_s9e_parser_setup'		=> 'disable_in_signature',
 		];
 	}
@@ -127,46 +119,14 @@ class main_listener implements EventSubscriberInterface
 	}
 
 	/**
-	 * Set the post mode property.
+	 * Set the signature property.
+	 * Posting signatures is 'sig', reparsing signatures is 'user_signature'.
 	 *
 	 * @param \phpbb\event\data $event The event object
 	 */
-	public function set_post_mode($event)
+	public function set_signature($event)
 	{
-		$this->post_mode = $event['mode'];
-	}
-
-	/**
-	 * Set the reparser property.
-	 *
-	 * @param \phpbb\event\data $event The event object
-	 */
-	public function set_reparser($event)
-	{
-		$this->reparser = $event['name'];
-	}
-
-	/**
-	 * Set the cron_task property.
-	 *
-	 * @param \phpbb\event\data $event The event object
-	 */
-	public function set_cron_task($event)
-	{
-		$this->cron_task = $event['name'];
-	}
-
-	/**
-	 * Is a signature being parsed.
-	 *
-	 * @return bool True if posting mode is signature or if reparsing
-	 * user signatures, false otherwise.
-	 */
-	protected function is_signature()
-	{
-		return $this->post_mode === 'sig' ||
-			($this->post_mode === 'reparse' && $this->reparser === 'text_reparser.user_signature') ||
-			($this->post_mode === 'reparse' && $this->cron_task === 'cron.task.text_reparser.user_signature');
+		$this->signature = $event['mode'] === 'sig' || $event['mode'] === 'user_signature';
 	}
 
 	/**
@@ -176,7 +136,7 @@ class main_listener implements EventSubscriberInterface
 	 */
 	public function disable_in_signature($event)
 	{
-		if (!$this->is_signature() || $this->config->offsetGet('media_embed_allow_sig'))
+		if (!$this->signature || $this->config->offsetGet('media_embed_allow_sig'))
 		{
 			return;
 		}
