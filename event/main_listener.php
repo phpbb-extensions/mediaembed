@@ -126,7 +126,7 @@ class main_listener implements EventSubscriberInterface
 	 */
 	public function set_signature($event)
 	{
-		$this->signature = $event['mode'] === 'sig' || $event['mode'] === 'user_signature';
+		$this->signature = $event['mode'] === 'sig' || $event['mode'] === 'text_reparser.user_signature';
 	}
 
 	/**
