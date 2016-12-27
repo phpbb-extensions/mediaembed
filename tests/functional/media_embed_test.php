@@ -31,6 +31,52 @@ class media_embed_test extends \phpbb_functional_test_case
 		$this->assertContains("//www.youtube.com/embed/{$this->youtubeId}", $crawler->filter("#post_content{$post['topic_id']} iframe")->attr('src'));
 	}
 
+	public function signatures_data()
+	{
+		return [
+			[false, 'UNAUTHORISED_BBCODE'],
+			[true, "//www.youtube.com/embed/{$this->youtubeId}"],
+		];
+	}
+
+	/**
+	 * @dataProvider signatures_data
+	 * @param bool   $allowed
+	 * @param string $expected
+	 * @throws \InvalidArgumentException
+	 * @throws \RuntimeException
+	 */
+	public function test_signatures($allowed, $expected)
+	{
+		$this->add_lang(['ucp', 'posting']);
+
+		$db = $this->get_db();
+		$sql = 'UPDATE ' . CONFIG_TABLE . ' SET config_value = ' . (int) $allowed . " WHERE config_name = 'media_embed_allow_sig'";
+		$db->sql_query($sql);
+		$this->purge_cache();
+
+		$this->login();
+
+		$crawler = self::request('GET', 'ucp.php?i=ucp_profile&mode=signature');
+
+		$form = $crawler->selectButton('Submit')->form([
+			'signature'	=> "[media]https://youtu.be/{$this->youtubeId}[/media]",
+		]);
+
+		$crawler = self::submit($form);
+
+		if ($allowed)
+		{
+			$this->assertContainsLang('PROFILE_UPDATED', $crawler->filter('#page-body')->text());
+			$crawler = self::request('GET', 'ucp.php?i=ucp_profile&mode=signature');
+			$this->assertContains($expected, $crawler->filter('#postform iframe')->attr('src'));
+		}
+		else
+		{
+			$this->assertContains($this->lang($expected, '[media]'), $crawler->filter('#postform')->text());
+		}
+	}
+
 	public function test_media_embed_help()
 	{
 		$this->add_lang_ext('phpbb/mediaembed', 'help');
