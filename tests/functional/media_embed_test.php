@@ -15,20 +15,66 @@ namespace phpbb\mediaembed\tests\functional;
  */
 class media_embed_test extends \phpbb_functional_test_case
 {
+	protected $youtubeId = 'PHzShhtkzEk';
+
 	static protected function setup_extensions()
 	{
-		return array('phpbb/mediaembed');
+		return ['phpbb/mediaembed'];
 	}
 
 	public function test_posting_media_bbcode()
 	{
 		$this->login();
 
-		$youtubeId = 'PHzShhtkzEk';
-
-		$post = $this->create_topic(2, 'Media Embed Test Topic 1', "[media]https://youtu.be/{$youtubeId}[/media]");
+		$post = $this->create_topic(2, 'Media Embed Test Topic 1', "[media]https://youtu.be/{$this->youtubeId}[/media]");
 		$crawler = self::request('GET', "viewtopic.php?t={$post['topic_id']}&sid={$this->sid}");
-		static::assertContains("//www.youtube.com/embed/{$youtubeId}", $crawler->filter("#post_content{$post['topic_id']} iframe")->attr('src'));
+		$this->assertContains("//www.youtube.com/embed/{$this->youtubeId}", $crawler->filter("#post_content{$post['topic_id']} iframe")->attr('src'));
+	}
+
+	public function signatures_data()
+	{
+		return [
+			[false, 'UNAUTHORISED_BBCODE'],
+			[true, "//www.youtube.com/embed/{$this->youtubeId}"],
+		];
+	}
+
+	/**
+	 * @dataProvider signatures_data
+	 * @param bool   $allowed
+	 * @param string $expected
+	 * @throws \InvalidArgumentException
+	 * @throws \RuntimeException
+	 */
+	public function test_signatures($allowed, $expected)
+	{
+		$this->add_lang(['ucp', 'posting']);
+
+		$db = $this->get_db();
+		$sql = 'UPDATE ' . CONFIG_TABLE . ' SET config_value = ' . (int) $allowed . " WHERE config_name = 'media_embed_allow_sig'";
+		$db->sql_query($sql);
+		$this->purge_cache();
+
+		$this->login();
+
+		$crawler = self::request('GET', 'ucp.php?i=ucp_profile&mode=signature');
+
+		$form = $crawler->selectButton('Submit')->form([
+			'signature'	=> "[media]https://youtu.be/{$this->youtubeId}[/media]",
+		]);
+
+		$crawler = self::submit($form);
+
+		if ($allowed)
+		{
+			$this->assertContainsLang('PROFILE_UPDATED', $crawler->filter('#page-body')->text());
+			$crawler = self::request('GET', 'ucp.php?i=ucp_profile&mode=signature');
+			$this->assertContains($expected, $crawler->filter('#postform iframe')->attr('src'));
+		}
+		else
+		{
+			$this->assertContains($this->lang($expected, '[media]'), $crawler->filter('#postform')->text());
+		}
 	}
 
 	public function test_media_embed_help()
@@ -39,7 +85,7 @@ class media_embed_test extends \phpbb_functional_test_case
 		$this->assertContainsLang('HELP_EMBEDDING_MEDIA', $crawler->filter('#faqlinks')->text());
 
 		preg_match('/https:\/\/youtu\.be\/(.*)/', $this->lang('HELP_EMBEDDING_MEDIA_DEMO'), $matches);
-		static::assertContains("//www.youtube.com/embed/{$matches[1]}", $crawler->filter('body iframe')->attr('src'));
+		$this->assertContains("//www.youtube.com/embed/{$matches[1]}", $crawler->filter('body iframe')->attr('src'));
 	}
 
 	public function test_acp_modules()
@@ -68,9 +114,9 @@ class media_embed_test extends \phpbb_functional_test_case
 		$query = sprintf('//input[@type="checkbox" and @value="%s"]', $name);
 		$result = $crawler->filterXPath($query);
 
-		$this->assertEquals(
+		$this->assertCount(
 			1,
-			sizeof($result),
+			$result,
 			$message ?: 'Failed asserting that exactly one checkbox with name' .
 				" $name exists in crawler scope."
 		);
