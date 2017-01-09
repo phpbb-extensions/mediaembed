@@ -7,7 +7,7 @@ An extension for phpBB 3.2 that allows the user to embed content from allowed si
 
 ## Requirements:
 
-* phpBB 3.2.0-RC2 or higher
+* phpBB 3.2.0 or higher
 
 ## Install
 
