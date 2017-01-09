@@ -24,13 +24,13 @@ class ext extends \phpbb\extension\base
 	 * Check the installed phpBB version meets this
 	 * extension's requirements.
 	 *
-	 * Requires phpBB 3.2.0-rc2 and TextFormatter 0.8.1
+	 * Requires phpBB 3.2.0 and TextFormatter 0.8.1
 	 *
 	 * @return bool
 	 */
 	public function phpbb_version_is_valid()
 	{
-		return phpbb_version_compare(PHPBB_VERSION, '3.2.0-rc2', '>=');
+		return phpbb_version_compare(PHPBB_VERSION, '3.2.0', '>=');
 	}
 
 	/**
