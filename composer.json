@@ -7,9 +7,26 @@
 	"license": "GPL-2.0",
 	"authors": [
 		{
-			"name": "Matt Friedman (VSE)",
+			"name": "Marc Alexander",
+			"email": "admin@m-a-styles.de",
+			"homepage": "http://www.m-a-styles.de",
+			"role": "Extensions Team Consultant"
+		},
+		{
+			"name": "Michael Cullum",
+			"email": "michael@phpbb.com",
+			"homepage": "http://michaelcullum.com",
+			"role": "Extensions Team Consultant"
+		},
+		{
+			"name": "Matt Friedman",
 			"homepage": "http://mattfriedman.me",
 			"role": "Extensions Development Team Lead"
+		},
+		{
+			"name": "Ruslan Uzdenov",
+			"homepage": "http://www.phpbbguru.net",
+			"role": "Extensions Development Team"
 		}
 	],
 	"require": {
