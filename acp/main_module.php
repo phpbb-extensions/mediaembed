@@ -45,9 +45,6 @@ class main_module
 	/** @var array $enabled_sites */
 	protected $enabled_sites;
 
-	/** @var string $form_key */
-	protected $form_key;
-
 	/** @var string $page_title */
 	public $page_title;
 
@@ -73,7 +70,6 @@ class main_module
 		$this->request     = $this->container->get('request');
 		$this->template    = $this->container->get('template');
 		$this->user        = $this->container->get('user');
-		$this->form_key    = 'phpbb/mediaembed';
 
 		$this->language->add_lang('acp', 'phpbb/mediaembed');
 	}
@@ -81,8 +77,8 @@ class main_module
 	/**
 	 * Main ACP module
 	 *
-	 * @param int    $id   The module ID
-	 * @param string $mode The module mode
+	 * @param int    $id   The module ID (not used)
+	 * @param string $mode The module mode (manage|settings)
 	 */
 	public function main($id, $mode)
 	{
@@ -91,10 +87,16 @@ class main_module
 		$this->tpl_name   = 'acp_phpbb_mediaembed_' . $mode;
 		$this->page_title = $this->language->lang('ACP_MEDIA_' . strtoupper($mode));
 
-		add_form_key($this->form_key);
+		$form_key = 'phpbb/mediaembed';
+		add_form_key($form_key);
 
 		if ($this->request->is_set_post('submit'))
 		{
+			if (!check_form_key($form_key))
+			{
+				trigger_error('FORM_INVALID', E_USER_WARNING);
+			}
+
 			$this->{'save_' . $mode}();
 		}
 
@@ -170,8 +172,6 @@ class main_module
 	 */
 	protected function save_manage()
 	{
-		$this->check_form_key();
-
 		$this->config_text->set('media_embed_sites', json_encode($this->request->variable('mark', [''])));
 
 		$this->cache->destroy($this->container->getParameter('text_formatter.cache.parser.key'));
@@ -187,24 +187,11 @@ class main_module
 	 */
 	protected function save_settings()
 	{
-		$this->check_form_key();
-
 		$this->config->set('media_embed_bbcode', $this->request->variable('media_embed_bbcode', 0));
 		$this->config->set('media_embed_allow_sig', $this->request->variable('media_embed_allow_sig', 0));
 
 		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PHPBB_MEDIA_EMBED_SETTINGS');
 
 		trigger_error($this->language->lang('CONFIG_UPDATED') . adm_back_link($this->u_action));
-	}
-
-	/**
-	 * Check the form key, trigger error if invalid
-	 */
-	protected function check_form_key()
-	{
-		if (!check_form_key($this->form_key))
-		{
-			trigger_error('FORM_INVALID');
-		}
 	}
 }
