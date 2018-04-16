@@ -41,6 +41,8 @@ class ext extends \phpbb\extension\base
 	 */
 	public function s9e_mediamebed_installed()
 	{
-		return class_exists('\s9e\mediaembed\ext');
+		$ext_manager = $this->container->get('ext.manager');
+
+		return $ext_manager->is_enabled('s9e/mediaembed');
 	}
 }
