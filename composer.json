@@ -3,8 +3,8 @@
 	"type": "phpbb-extension",
 	"description": "An official phpBB extension that allows users to embed content from allowed sites using a [media] BBCode, or from simply posting a supported URL in plain text.",
 	"homepage": "https://www.phpbb.com",
-	"version": "1.0.1",
-	"license": "GPL-2.0",
+	"version": "1.0.2-dev",
+	"license": "GPL-2.0-only",
 	"authors": [
 		{
 			"name": "Marc Alexander",
