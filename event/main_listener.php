@@ -78,6 +78,12 @@ class main_listener implements EventSubscriberInterface
 
 			$configurator->MediaEmbed->add($siteId);
 		}
+
+		// Disable plain url parsing
+		if ($this->config->offsetGet('media_embed_parse_urls') == 0)
+		{
+			unset($configurator->MediaEmbed);
+		}
 	}
 
 	/**

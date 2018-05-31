@@ -111,6 +111,7 @@ class main_module
 		$this->template->assign_vars([
 			'S_MEDIA_EMBED_BBCODE'		=> $this->config['media_embed_bbcode'],
 			'S_MEDIA_EMBED_ALLOW_SIG'	=> $this->config['media_embed_allow_sig'],
+			'S_MEDIA_EMBED_PARSE_URLS'	=> $this->config['media_embed_parse_urls'],
 			'U_ACTION'					=> $this->u_action,
 		]);
 	}
@@ -174,8 +175,7 @@ class main_module
 	{
 		$this->config_text->set('media_embed_sites', json_encode($this->request->variable('mark', [''])));
 
-		$this->cache->destroy($this->container->getParameter('text_formatter.cache.parser.key'));
-		$this->cache->destroy($this->container->getParameter('text_formatter.cache.renderer.key'));
+		$this->purge_textformatter_cache();
 
 		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PHPBB_MEDIA_EMBED_MANAGE');
 
@@ -189,9 +189,21 @@ class main_module
 	{
 		$this->config->set('media_embed_bbcode', $this->request->variable('media_embed_bbcode', 0));
 		$this->config->set('media_embed_allow_sig', $this->request->variable('media_embed_allow_sig', 0));
+		$this->config->set('media_embed_parse_urls', $this->request->variable('media_embed_parse_urls', 0));
+
+		$this->purge_textformatter_cache();
 
 		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PHPBB_MEDIA_EMBED_SETTINGS');
 
 		trigger_error($this->language->lang('CONFIG_UPDATED') . adm_back_link($this->u_action));
+	}
+
+	/**
+	 * Purge cached TextFormatter files
+	 */
+	protected function purge_textformatter_cache()
+	{
+		$this->cache->destroy($this->container->getParameter('text_formatter.cache.parser.key'));
+		$this->cache->destroy($this->container->getParameter('text_formatter.cache.renderer.key'));
 	}
 }

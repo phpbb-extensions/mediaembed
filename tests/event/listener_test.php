@@ -55,6 +55,7 @@ class listener_test extends \phpbb_database_test_case
 		$this->config = new \phpbb\config\config([
 			'media_embed_bbcode' => 1,
 			'media_embed_allow_sig' => 0,
+			'media_embed_parse_urls' => 1,
 		]);
 
 		$this->config_text = $this->getMockBuilder('\phpbb\config\db_text')
@@ -110,18 +111,43 @@ class listener_test extends \phpbb_database_test_case
 	}
 
 	/**
-	 * Test the configure_media_embed method
+	 * Data for test_configure_media_embed
+	 *
+	 * @return array
 	 */
-	public function test_configure_media_embed()
+	public function configure_media_embed_data()
 	{
+		return [
+			['dailymotion', '[media]http://www.dailymotion.com/video/x222z1[/media]', 'DAILYMOTION id="x222z1"', false, true, true], // site using the MEDIA BBCode
+			['dailymotion', '[media]http://www.dailymotion.com/video/x222z1[/media]', 'DAILYMOTION id="x222z1"', true, true, false], // ignored site using the MEDIA BBCode
+			['facebook', 'https://www.facebook.com/video/video.php?v=10100658170103643', 'FACEBOOK id="10100658170103643"', false, true, true], // site using plain url
+			['facebook', 'https://www.facebook.com/video/video.php?v=10100658170103643', 'FACEBOOK id="10100658170103643"', false, false, false], // disallow site using plain url
+			['youtube', 'https://youtu.be/-cEzsCAzTak', 'YOUTUBE id="-cEzsCAzTak"', true, true, false], // ignored site using plain url
+			['youtube', 'https://youtu.be/-cEzsCAzTak', 'YOUTUBE id="-cEzsCAzTak"', true, false, false], // ignored site and disallowed plain url
+		];
+	}
+
+	/**
+	 * Test the configure_media_embed method
+	 *
+	 * @dataProvider configure_media_embed_data
+	 */
+	public function test_configure_media_embed($tag, $code, $id, $exists, $parse_urls, $expected)
+	{
+		// Update configs with test values
+		$this->config['media_embed_parse_urls'] = $parse_urls;
+
 		// Get the s9e configurator
 		$configurator = $this->container
 			->get('text_formatter.s9e.factory')
 			->get_configurator();
 
-		// Add a BBCode. This will simulate an existing youtube bbcode,
-		// which should therefore be ignored by the media embed plugin.
-		$configurator->BBCodes->add('youtube');
+		if ($exists)
+		{
+			// Add a BBCode. This will simulate an existing bbcode,
+			// which should therefore be ignored by the media embed plugin.
+			$configurator->BBCodes->add($tag);
+		}
 
 		// Mock config_text should return all MediaEmbed sites
 		$this->config_text->expects($this->any())
@@ -142,14 +168,9 @@ class listener_test extends \phpbb_database_test_case
 		$parser = null;
 		extract($configurator->finalize(), EXTR_OVERWRITE);
 
-		// Assert that sites are being processed by MediEmbed plugin with the MEDIA BBCode
-		$this->assertContains('DAILYMOTION id="x222z1"', $parser->parse('[media]http://www.dailymotion.com/video/x222z1[/media]'));
+		$assertion = $expected ? 'assertContains' : 'assertNotContains';
 
-		// Assert that sites are being processed by MediEmbed plugin as raw URLs
-		$this->assertContains('FACEBOOK id="10100658170103643"', $parser->parse('https://www.facebook.com/video/video.php?v=10100658170103643'));
-
-		// Assert that ignored sites are NOT being processed by MediEmbed plugin
-		$this->assertNotContains('YOUTUBE id="-cEzsCAzTak"', $parser->parse('https://youtu.be/-cEzsCAzTak'));
+		$this->{$assertion}($id, $parser->parse($code));
 	}
 
 	/**
