@@ -32,14 +32,17 @@ class main_listener implements EventSubscriberInterface
 	/** @var bool $signature Posting mode is signature */
 	protected $signature = false;
 
+	/** @var bool $magic_urls Magic urls are allowed */
+	protected $magic_urls = true;
+
 	public static function getSubscribedEvents()
 	{
 		return [
 			'core.text_formatter_s9e_configure_after'	=> 'configure_media_embed',
 			'core.display_custom_bbcodes'				=> 'setup_media_bbcode',
 			'core.help_manager_add_block_before'		=> 'media_embed_help',
-			'core.message_parser_check_message'			=> 'set_signature',
-			'core.text_formatter_s9e_parser_setup'		=> 'disable_in_signature',
+			'core.message_parser_check_message'			=> [['set_signature'], ['set_magic_urls']],
+			'core.text_formatter_s9e_parser_setup'		=> [['disable_in_signature'], ['disable_magic_urls']],
 		];
 	}
 
@@ -80,7 +83,7 @@ class main_listener implements EventSubscriberInterface
 		}
 
 		// Disable plain url parsing
-		if ($this->config->offsetGet('media_embed_parse_urls') == 0)
+		if (!$this->config->offsetGet('media_embed_parse_urls'))
 		{
 			unset($configurator->MediaEmbed);
 		}
@@ -113,7 +116,7 @@ class main_listener implements EventSubscriberInterface
 
 			$uid = $bitfield = $flags = '';
 			$demo_text = $this->language->lang('HELP_EMBEDDING_MEDIA_DEMO');
-			generate_text_for_storage($demo_text, $uid, $bitfield, $flags, true);
+			generate_text_for_storage($demo_text, $uid, $bitfield, $flags, true, true);
 			$demo_display = generate_text_for_display($demo_text, $uid, $bitfield, $flags);
 			$list_sites = implode(', ', $this->get_siteIds());
 
@@ -152,6 +155,34 @@ class main_listener implements EventSubscriberInterface
 		$parser = $service->get_parser();
 		$parser->disablePlugin('MediaEmbed');
 		$parser->disableTag('MEDIA');
+	}
+
+	/**
+	 * Set the magic urls allowed property.
+	 *
+	 * @param \phpbb\event\data $event The event object
+	 */
+	public function set_magic_urls($event)
+	{
+		$this->magic_urls = $event['allow_magic_url'];
+	}
+
+	/**
+	 * Disable converting plain URLs when magic URLs are not allowed
+	 *
+	 * @param \phpbb\event\data $event The event object
+	 */
+	public function disable_magic_urls($event)
+	{
+		if ($this->magic_urls && $this->config->offsetGet('media_embed_parse_urls'))
+		{
+			return;
+		}
+
+		/** @var \phpbb\textformatter\s9e\parser $service  */
+		$service = $event['parser'];
+		$parser = $service->get_parser();
+		$parser->disablePlugin('MediaEmbed');
 	}
 
 	/**

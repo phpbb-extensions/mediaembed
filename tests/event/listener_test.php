@@ -203,9 +203,7 @@ class listener_test extends \phpbb_database_test_case
 		$this->config['media_embed_allow_sig'] = $allowed;
 
 		// Must use a mock of the s9e parser
-		$mock = $this->getMockBuilder('s9e\\TextFormatter\\Parser')
-			->disableOriginalConstructor()
-			->getMock();
+		$mock = $this->mock_s9e_parser();
 
 		// Test the expected parser method is called
 		$mock->expects($this->exactly($expected))
@@ -218,9 +216,7 @@ class listener_test extends \phpbb_database_test_case
 			->with('MEDIA');
 
 		// Must use a mock of the phpbb parser to pass to the event
-		$parser = $this->getMockBuilder('phpbb\\textformatter\\s9e\\parser')
-			->disableOriginalConstructor()
-			->getMock();
+		$parser = $this->mock_phpbb_parser();
 
 		// The phpbb parser must get the mocked s9e parser
 		$parser->expects($this->exactly($expected))
@@ -237,6 +233,57 @@ class listener_test extends \phpbb_database_test_case
 		$listener = $this->get_listener();
 		$listener->set_signature($event);
 		$listener->disable_in_signature($event);
+	}
+
+	/**
+	 * Data for test_disable_magic_urls
+	 *
+	 * @return array
+	 */
+	public function disable_magic_urls_data()
+	{
+		return array(
+			array(false, 1),
+			array(true, 0),
+		);
+	}
+
+	/**
+	 * Test the disable_magic_urls method
+	 *
+	 * @param bool   $allowed  Are magic urls allowed
+	 * @param int    $expected The expected times parser plugin methods are called
+	 *
+	 * @dataProvider disable_magic_urls_data
+	 */
+	public function test_disable_magic_urls($allowed, $expected)
+	{
+		// Must use a mock of the s9e parser
+		$mock = $this->mock_s9e_parser();
+
+		// Test the expected parser method is called
+		$mock->expects($this->exactly($expected))
+			->method('disablePlugin')
+			->with('MediaEmbed');
+
+		// Must use a mock of the phpbb parser to pass to the event
+		$parser = $this->mock_phpbb_parser();
+
+		// The phpbb parser must get the mocked s9e parser
+		$parser->expects($this->exactly($expected))
+			->method('get_parser')
+			->will($this->returnValue($mock));
+
+		// Assign $event data
+		$event = new \phpbb\event\data([
+			'allow_magic_url'	=> $allowed,
+			'parser'			=> $parser,
+		]);
+
+		// Get the listener and call the methods
+		$listener = $this->get_listener();
+		$listener->set_magic_urls($event);
+		$listener->disable_magic_urls($event);
 	}
 
 	/**
@@ -277,5 +324,19 @@ class listener_test extends \phpbb_database_test_case
 		// Get the listener and call the media_embed_help method
 		$listener = $this->get_listener();
 		$listener->media_embed_help($event);
+	}
+
+	protected function mock_s9e_parser()
+	{
+		return $this->getMockBuilder('s9e\\TextFormatter\\Parser')
+			->disableOriginalConstructor()
+			->getMock();
+	}
+
+	protected function mock_phpbb_parser()
+	{
+		return $this->getMockBuilder('phpbb\\textformatter\\s9e\\parser')
+			->disableOriginalConstructor()
+			->getMock();
 	}
 }
