@@ -26,6 +26,8 @@ $lang = array_merge($lang, array(
 	'ACP_MEDIA_DISPLAY_BBCODE_EXPLAIN'	=> 'Если это запрещено, кнопка бб-кода не отображается, но пользователи могут использовать <samp>[media]</samp> бб-код в своих сообщениях.',
 	'ACP_MEDIA_ALLOW_SIG'				=> 'Разрешить в подписях пользователей',
 	'ACP_MEDIA_ALLOW_SIG_EXPLAIN'		=> 'Разрешить в подписях пользователей показывать Media Embed.',
+	'ACP_MEDIA_PARSE_URLS'				=> 'Convert plain URLs',
+	'ACP_MEDIA_PARSE_URLS_EXPLAIN'		=> 'Enable this to convert plain URLs (not wrapped in <samp>[media]</samp> or <samp>[url]</samp> tags) to embedded media content. Note that changing this setting will only affect new posts, as exisiting posts have already been parsed.',
 	'ACP_MEDIA_SITE_TITLE'				=> 'Id сайта: %s',
 	'ACP_MEDIA_SITE_DISABLED'			=> 'Этот сайт не подключен у существующему бб-коду: [%s]',
 
