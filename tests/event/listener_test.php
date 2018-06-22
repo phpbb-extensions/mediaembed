@@ -262,7 +262,7 @@ class listener_test extends \phpbb_database_test_case
 		// Get the listener and call the signature methods
 		$listener = $this->get_listener();
 		$listener->check_signature($event);
-		$listener->disable_mediaembed($event);
+		$listener->disable_media_embed($event);
 	}
 
 	/**
@@ -319,7 +319,7 @@ class listener_test extends \phpbb_database_test_case
 		// Get the listener and call the methods
 		$listener = $this->get_listener();
 		$listener->check_magic_urls($event);
-		$listener->disable_mediaembed($event);
+		$listener->disable_media_embed($event);
 	}
 
 	/**
@@ -384,7 +384,7 @@ class listener_test extends \phpbb_database_test_case
 				$listener->check_pm_permission();
 			break;
 		}
-		$listener->disable_mediaembed(new \phpbb\event\data(['parser' => $parser]));
+		$listener->disable_media_embed(new \phpbb\event\data(['parser' => $parser]));
 	}
 
 	/**

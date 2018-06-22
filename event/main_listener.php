@@ -48,7 +48,7 @@ class main_listener implements EventSubscriberInterface
 			'core.posting_modify_message_text'			=> 'check_forum_permission',
 			'core.ucp_pm_compose_modify_parse_before'	=> 'check_pm_permission',
 			'core.message_parser_check_message'			=> [['check_signature'], ['check_magic_urls']],
-			'core.text_formatter_s9e_parser_setup'		=> 'disable_mediaembed',
+			'core.text_formatter_s9e_parser_setup'		=> 'disable_media_embed',
 		];
 	}
 
@@ -152,7 +152,7 @@ class main_listener implements EventSubscriberInterface
 	 *
 	 * @param \phpbb\event\data $event The event object
 	 */
-	public function disable_mediaembed($event)
+	public function disable_media_embed($event)
 	{
 		/** @var \phpbb\textformatter\s9e\parser $service  */
 		$service = $event['parser'];
