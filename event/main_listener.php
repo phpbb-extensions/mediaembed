@@ -176,7 +176,7 @@ class main_listener implements EventSubscriberInterface
 	 */
 	public function check_forum_permission($event)
 	{
-		if (!$this->auth->acl_get('f_mediaembed', $event['forum_id']))
+		if (!$this->auth->acl_get('f_mediaembed', $event['forum_id']) || !$this->auth->acl_get('f_bbcode', $event['forum_id']))
 		{
 			$this->disable_plugin = true;
 			$this->disable_tag = true;
