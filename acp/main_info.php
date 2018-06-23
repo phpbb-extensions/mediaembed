@@ -17,13 +17,13 @@ class main_info
 {
 	public function module()
 	{
-		return array(
+		return [
 			'filename'	=> '\phpbb\mediaembed\acp\main_module',
 			'title'		=> 'ACP_PHPBB_MEDIA_EMBED',
 			'modes'		=> [
 				'settings'	=> ['title' => 'ACP_PHPBB_MEDIA_EMBED_SETTINGS', 'auth' => 'ext_phpbb/mediaembed && acl_a_bbcode', 'cat' => ['ACP_PHPBB_MEDIA_EMBED']],
 				'manage'	=> ['title' => 'ACP_PHPBB_MEDIA_EMBED_MANAGE', 'auth' => 'ext_phpbb/mediaembed && acl_a_bbcode', 'cat' => ['ACP_PHPBB_MEDIA_EMBED']],
 			],
-		);
+		];
 	}
 }
