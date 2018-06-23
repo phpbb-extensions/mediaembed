@@ -47,7 +47,7 @@ class main_listener implements EventSubscriberInterface
 			'core.help_manager_add_block_before'		=> 'media_embed_help',
 			'core.posting_modify_message_text'			=> 'check_forum_permission',
 			'core.ucp_pm_compose_modify_parse_before'	=> 'check_pm_permission',
-			'core.message_parser_check_message'			=> [['check_signature'], ['check_magic_urls']],
+			'core.message_parser_check_message'			=> [['check_signature'], ['check_magic_urls'], ['check_bbcode_enabled']],
 			'core.text_formatter_s9e_parser_setup'		=> 'disable_media_embed',
 		];
 	}
@@ -220,6 +220,22 @@ class main_listener implements EventSubscriberInterface
 		if (!$event['allow_magic_url'] || !$this->config->offsetGet('media_embed_parse_urls'))
 		{
 			$this->disable_plugin = true;
+		}
+	}
+
+	/**
+	 * Check if bbcodes are allowed.
+	 *
+	 * @param \phpbb\event\data $event The event object
+	 */
+	public function check_bbcode_enabled($event)
+	{
+		if (!$event['allow_bbcode'])
+		{
+			// Want to leave plugin enabled but it seems plugin won't work
+			// when tag is disabled, so we have to disable both it seems.
+			$this->disable_plugin = true;
+			$this->disable_tag = true;
 		}
 	}
 
