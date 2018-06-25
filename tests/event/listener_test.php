@@ -159,6 +159,12 @@ class listener_test extends \phpbb_database_test_case
 	 * Test the configure_media_embed method
 	 *
 	 * @dataProvider configure_media_embed_data
+	 * @param string $tag        The media tag name
+	 * @param string $code       The media code to parse
+	 * @param string $id         The media identifier
+	 * @param bool   $exists     Does the tag exist?
+	 * @param bool   $parse_urls Can URLs be parsed?
+	 * @param bool   $expected   Expected to be parsed
 	 */
 	public function test_configure_media_embed($tag, $code, $id, $exists, $parse_urls, $expected)
 	{
@@ -201,47 +207,52 @@ class listener_test extends \phpbb_database_test_case
 		$this->{$assertion}($id, $parser->parse($code));
 	}
 
-	/**
-	 * Data for test_check_signature
-	 *
-	 * @return array
-	 */
-	public function check_signature_data()
+	public function check_methods_data()
 	{
 		return [
-			['sig', false, 1],
-			['text_reparser.user_signature', false, 1],
-			['sig', true, 0],
-			['text_reparser.user_signature', true, 0],
-			['post', false, 0],
-			['post', true, 0],
+			['check_signature', ['mode' => 'sig'], ['media_embed_allow_sig' => false], 1, 1],
+			['check_signature', ['mode' => 'text_reparser.user_signature'], ['media_embed_allow_sig' => false], 1, 1],
+			['check_signature', ['mode' => 'sig'], ['media_embed_allow_sig' => true], 0, 0],
+			['check_signature', ['mode' => 'text_reparser.user_signature'], ['media_embed_allow_sig' => true], 0, 0],
+			['check_signature', ['mode' => 'post'], ['media_embed_allow_sig' => false], 0, 0],
+			['check_signature', ['mode' => 'post'], ['media_embed_allow_sig' => true], 0, 0],
+			['check_magic_urls', ['allow_magic_url' => false], ['media_embed_parse_urls' => false], 1, 0],
+			['check_magic_urls', ['allow_magic_url' => false], ['media_embed_parse_urls' => true], 1, 0],
+			['check_magic_urls', ['allow_magic_url' => true], ['media_embed_parse_urls' => false], 1, 0],
+			['check_magic_urls', ['allow_magic_url' => true], ['media_embed_parse_urls' => true], 0, 0],
+			['check_bbcode_enabled', ['allow_bbcode' => true], [], 0, 0],
+			['check_bbcode_enabled', ['allow_bbcode' => false], [], 1, 1],
 		];
 	}
 
 	/**
 	 * Test the check_signature method
 	 *
-	 * @param string $mode     The post mode
-	 * @param bool   $allowed  Config value for media_embed_allow_sig
-	 * @param int    $expected The expected times parser plugin methods are called
-	 *
-	 * @dataProvider check_signature_data
+	 * @dataProvider check_methods_data
+	 * @param string $method         Name of event method being tested
+	 * @param array  $data           Array of event data for testing
+	 * @param array  $configs        Array of config data for testing
+	 * @param int    $disable_plugin Expected times disable_plugin is called
+	 * @param int    $disable_tag    Expected times disable_tag is called
 	 */
-	public function test_check_signature($mode, $allowed, $expected)
+	public function test_check_methods($method, $data, $configs, $disable_plugin, $disable_tag)
 	{
-		// Set the allow sigs config value with test data
-		$this->config['media_embed_allow_sig'] = $allowed;
+		// Set config values with test data
+		foreach ($configs as $key => $config)
+		{
+			$this->config[$key] = $config;
+		}
 
 		// Must use a mock of the s9e parser
 		$mock = $this->mock_s9e_parser();
 
-		// Test the expected parser method is called
-		$mock->expects($this->exactly($expected))
+		// Test disablePlugin is called if expected
+		$mock->expects($this->exactly($disable_plugin))
 			->method('disablePlugin')
 			->with('MediaEmbed');
 
-		// Test the expected parser method is called
-		$mock->expects($this->exactly($expected))
+		// Test disableTag is called if expected
+		$mock->expects($this->exactly($disable_tag))
 			->method('disableTag')
 			->with('MEDIA');
 
@@ -254,71 +265,11 @@ class listener_test extends \phpbb_database_test_case
 			->will($this->returnValue($mock));
 
 		// Assign $event data
-		$event = new \phpbb\event\data([
-			'mode'		=> $mode,
-			'parser'	=> $parser,
-		]);
+		$event = new \phpbb\event\data(array_merge($data, ['parser' => $parser]));
 
 		// Get the listener and call the signature methods
 		$listener = $this->get_listener();
-		$listener->check_signature($event);
-		$listener->disable_media_embed($event);
-	}
-
-	/**
-	 * Data for test_check_magic_urls
-	 *
-	 * @return array
-	 */
-	public function check_magic_urls_data()
-	{
-		return [
-			[false, false, 1],
-			[false, true, 1],
-			[true, false, 1],
-			[true, true, 0],
-		];
-	}
-
-	/**
-	 * Test the check_magic_urls method
-	 *
-	 * @param bool   $u_allowed  Are magic urls allowed by the user during posting?
-	 * @param bool   $g_allowed  Are magic urls allowed globally by the ACP settings?
-	 * @param int    $expected The expected times parser plugin methods are called
-	 *
-	 * @dataProvider check_magic_urls_data
-	 */
-	public function test_check_magic_urls($u_allowed, $g_allowed, $expected)
-	{
-		// Set the allow sigs config value with test data
-		$this->config['media_embed_parse_urls'] = $g_allowed;
-
-		// Must use a mock of the s9e parser
-		$mock = $this->mock_s9e_parser();
-
-		// Test the expected parser method is called
-		$mock->expects($this->exactly($expected))
-			->method('disablePlugin')
-			->with('MediaEmbed');
-
-		// Must use a mock of the phpbb parser to pass to the event
-		$parser = $this->mock_phpbb_parser();
-
-		// The phpbb parser must get the mocked s9e parser
-		$parser->expects($this->once())
-			->method('get_parser')
-			->will($this->returnValue($mock));
-
-		// Assign $event data
-		$event = new \phpbb\event\data([
-			'allow_magic_url'	=> $u_allowed,
-			'parser'			=> $parser,
-		]);
-
-		// Get the listener and call the methods
-		$listener = $this->get_listener();
-		$listener->check_magic_urls($event);
+		$listener->$method($event);
 		$listener->disable_media_embed($event);
 	}
 
@@ -332,6 +283,8 @@ class listener_test extends \phpbb_database_test_case
 		return [
 			[2, 'f_mediaembed', false, 1],
 			[3, 'f_mediaembed', true, 0],
+			[2, 'f_bbcode', false, 1],
+			[3, 'f_bbcode', true, 0],
 			[0, 'u_pm_mediaembed', false, 1],
 			[0, 'u_pm_mediaembed', true, 0],
 		];
@@ -349,9 +302,23 @@ class listener_test extends \phpbb_database_test_case
 	 */
 	public function test_check_permissions($forum_id, $permission, $allowed, $expected)
 	{
-		$acl_map = [[$permission, $forum_id, $allowed]];
+		// Set default permissions map
+		$acl_map = [
+			['f_mediaembed', $forum_id, true],
+			['f_bbcode', $forum_id, true],
+			['u_pm_mediaembed', $forum_id, true],
+		];
 
-		$this->auth->expects($this->once())
+		// update permissions map with test values
+		$acl_map = array_map(function ($arr) use ($permission, $forum_id, $allowed) {
+			if ($arr[0] === $permission)
+			{
+				$arr = [$permission, $forum_id, $allowed];
+			}
+			return $arr;
+		}, $acl_map);
+
+		$this->auth->expects($this->any())
 			->method('acl_get')
 			->with($this->stringContains('_'), $this->anything())
 			->will($this->returnValueMap($acl_map));
@@ -377,6 +344,7 @@ class listener_test extends \phpbb_database_test_case
 		switch ($permission)
 		{
 			case 'f_mediaembed':
+			case 'f_bbcode':
 				$listener->check_forum_permission(new \phpbb\event\data(['forum_id' => $forum_id]));
 			break;
 
