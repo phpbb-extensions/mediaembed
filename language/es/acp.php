@@ -26,6 +26,8 @@ $lang = array_merge($lang, array(
 	'ACP_MEDIA_DISPLAY_BBCODE_EXPLAIN'	=> 'Si se deshabilita, el botón BBCode no será mostrado, pero los usuarios aún podrán seguir usando la etiqueta <samp>[media]</samp> en sus mensajes',
 	'ACP_MEDIA_ALLOW_SIG'				=> 'Permitir en firmas de usuario',
 	'ACP_MEDIA_ALLOW_SIG_EXPLAIN'		=> 'Permitir que las firmas de usuario muestren contenido multimedia incorporado.',
+	'ACP_MEDIA_PARSE_URLS'				=> 'Convert plain URLs',
+	'ACP_MEDIA_PARSE_URLS_EXPLAIN'		=> 'Enable this to convert plain URLs (not wrapped in <samp>[media]</samp> or <samp>[url]</samp> tags) to embedded media content. Note that changing this setting will only affect new posts, as exisiting posts have already been parsed.',
 	'ACP_MEDIA_SITE_TITLE'				=> 'ID del sitio: %s',
 	'ACP_MEDIA_SITE_DISABLED'			=> 'Este sitio está en conflicto con un BBCode existente: [%s]',
 
