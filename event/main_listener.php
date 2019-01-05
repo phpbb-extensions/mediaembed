@@ -87,7 +87,14 @@ class main_listener implements EventSubscriberInterface
 				continue;
 			}
 
-			$configurator->MediaEmbed->add($siteId);
+			try
+			{
+				$configurator->MediaEmbed->add($siteId);
+			}
+			catch (\RuntimeException $e)
+			{
+				continue;
+			}
 		}
 
 		// Disable plain url parsing
