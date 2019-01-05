@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.0.3 - 2019-01-03
+
+- Fixed an issue that could break future versions of phpBB (3.2.6 or newer)
+
 ### 1.0.2 - 2018-06-25
 
 - Added a global setting to enable or disable the conversion of plain URLs into embedded content.
