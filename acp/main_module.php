@@ -56,6 +56,8 @@ class main_module
 
 	/**
 	 * Constructor
+	 *
+	 * @throws \Exception
 	 */
 	public function __construct()
 	{
@@ -79,6 +81,7 @@ class main_module
 	 *
 	 * @param int    $id   The module ID (not used)
 	 * @param string $mode The module mode (manage|settings)
+	 * @throws \Exception
 	 */
 	public function main($id, $mode)
 	{
@@ -118,6 +121,8 @@ class main_module
 
 	/**
 	 * Add manage sites template vars to the form
+	 *
+	 * @throws \Exception
 	 */
 	protected function display_manage()
 	{
@@ -131,6 +136,7 @@ class main_module
 	 * Get a list of available sites
 	 *
 	 * @return array An array of available sites
+	 * @throws \Exception
 	 */
 	protected function get_sites()
 	{
