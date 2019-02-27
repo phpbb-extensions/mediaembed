@@ -27,7 +27,7 @@ $lang = array_merge($lang, array(
 	'ACP_MEDIA_ALLOW_SIG'				=> 'Toestaan in onderschriften',
 	'ACP_MEDIA_ALLOW_SIG_EXPLAIN'		=> 'Toestaan dat onderschriften ook ingevoegde media inhoud (Embed Media Content) bevatten.',
 	'ACP_MEDIA_PARSE_URLS'				=> 'Convert plain URLs',
-	'ACP_MEDIA_PARSE_URLS_EXPLAIN'		=> 'Enable this to convert plain URLs (not wrapped in <samp>[media]</samp> or <samp>[url]</samp> tags) to embedded media content. Note that changing this setting will only affect new posts, as exisiting posts have already been parsed.',
+	'ACP_MEDIA_PARSE_URLS_EXPLAIN'		=> 'Enable this to convert plain URLs (not wrapped in <samp>[media]</samp> or <samp>[url]</samp> tags) to embedded media content. Note that changing this setting will only affect new posts, as existing posts have already been parsed.',
 	'ACP_MEDIA_SITE_TITLE'				=> 'Site id: %s',
 	'ACP_MEDIA_SITE_DISABLED'			=> 'Deze website heeft een conflict met een bestaande BBCode: [%s]',
 

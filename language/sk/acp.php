@@ -28,7 +28,7 @@ $lang = array_merge($lang, array(
 	'ACP_MEDIA_ALLOW_SIG'				=> 'Povoliť v podpisoch',
 	'ACP_MEDIA_ALLOW_SIG_EXPLAIN'		=> 'Povolí v podpisoch používateľov vložiť obsah médií.',
 	'ACP_MEDIA_PARSE_URLS'				=> 'Convert plain URLs',
-	'ACP_MEDIA_PARSE_URLS_EXPLAIN'		=> 'Enable this to convert plain URLs (not wrapped in <samp>[media]</samp> or <samp>[url]</samp> tags) to embedded media content. Note that changing this setting will only affect new posts, as exisiting posts have already been parsed.',
+	'ACP_MEDIA_PARSE_URLS_EXPLAIN'		=> 'Enable this to convert plain URLs (not wrapped in <samp>[media]</samp> or <samp>[url]</samp> tags) to embedded media content. Note that changing this setting will only affect new posts, as existing posts have already been parsed.',
 	'ACP_MEDIA_SITE_TITLE'				=> 'ID stránky: %s',
 	'ACP_MEDIA_SITE_DISABLED'			=> 'Táto stránka má konflikt s existujúcim BB kódom: [%s]',
 
