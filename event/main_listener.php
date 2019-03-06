@@ -100,6 +100,7 @@ class main_listener implements EventSubscriberInterface
 		// Disable plain url parsing
 		if (!$this->config->offsetGet('media_embed_parse_urls'))
 		{
+			$configurator->MediaEmbed->finalize();
 			unset($configurator->MediaEmbed);
 		}
 	}
