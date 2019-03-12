@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.0.4 - 2019-03-12
+
+- Fixed another issue that could break future versions of phpBB (3.2.6 or newer)
+
 ### 1.0.3 - 2019-01-03
 
 - Fixed an issue that could break future versions of phpBB (3.2.6 or newer)
