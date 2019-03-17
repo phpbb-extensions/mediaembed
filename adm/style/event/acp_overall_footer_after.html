@@ -5,7 +5,9 @@
 		$(function() {
 			$('#mediaembed_manage').on('click', 'label', function() {
 				if ($(this).children('input').prop('disabled')) {
-					phpbb.alert('{{ lang('GENERAL_ERROR')|escape('js') }}', $(this).attr('title'));
+					// Create a phantom <div> element and set the HTML content for it, then return it as text
+					var title = $('<div>').html($(this).attr('title')).text();
+					phpbb.alert('{{ lang('GENERAL_ERROR')|escape('js') }}', title);
 				}
 			});
 		});
