@@ -11,6 +11,7 @@
 namespace phpbb\mediaembed\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use phpbb\mediaembed\collection\customsitescollection;
 
 /**
  * Event listener
@@ -80,6 +81,10 @@ class main_listener implements EventSubscriberInterface
 		/** @var \s9e\TextFormatter\Configurator $configurator */
 		$configurator = $event['configurator'];
 
+		/** @var \phpbb\mediaembed\collection\CustomSitesCollection $customSites */
+		$customSites = new CustomSitesCollection;
+		$custom_sites_collection = $customSites->get_custom_sites_collection();
+
 		foreach ($this->get_siteIds() as $siteId)
 		{
 			if (isset($configurator->BBCodes[$siteId]))
@@ -89,7 +94,8 @@ class main_listener implements EventSubscriberInterface
 
 			try
 			{
-				$configurator->MediaEmbed->add($siteId);
+				$siteConfig = (isset($custom_sites_collection[$siteId])) ? $custom_sites_collection[$siteId] : null;
+				$configurator->MediaEmbed->add($siteId, $siteConfig);
 			}
 			catch (\RuntimeException $e)
 			{

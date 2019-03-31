@@ -10,6 +10,8 @@
 
 namespace phpbb\mediaembed\acp;
 
+use phpbb\mediaembed\collection\customsitescollection;
+
 /**
  * phpBB Media Embed Plugin ACP module.
  */
@@ -144,6 +146,20 @@ class main_module
 
 		$configurator = $this->container->get('text_formatter.s9e.factory')->get_configurator();
 		foreach ($configurator->MediaEmbed->defaultSites as $siteId => $siteConfig)
+		{
+			$disabled = isset($configurator->BBCodes[$siteId]);
+			$sites[] = [
+				'id'		=> $siteId,
+				'name'		=> $siteConfig['name'],
+				'title'		=> $this->language->lang($disabled ? 'ACP_MEDIA_SITE_DISABLED' : 'ACP_MEDIA_SITE_TITLE', $siteId),
+				'enabled'	=> in_array($siteId, $this->get_enabled_sites()),
+				'disabled'	=> $disabled,
+			];
+		}
+
+		$customSites = new CustomSitesCollection;
+		$custom_sites_collection = $customSites->get_custom_sites_collection();
+		foreach ($custom_sites_collection as $siteId => $siteConfig)
 		{
 			$disabled = isset($configurator->BBCodes[$siteId]);
 			$sites[] = [
