@@ -11,7 +11,6 @@
 namespace phpbb\mediaembed\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use phpbb\mediaembed\collection\customsitescollection;
 
 /**
  * Event listener

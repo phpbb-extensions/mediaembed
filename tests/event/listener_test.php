@@ -75,6 +75,8 @@ class listener_test extends \phpbb_database_test_case
 		$this->template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
 
+		$this->customSites = new \phpbb\mediaembed\collection\customsitescollection($phpbb_root_path);
+
 		$this->container = $this->get_test_case_helpers()->set_s9e_services();
 	}
 
@@ -90,7 +92,8 @@ class listener_test extends \phpbb_database_test_case
 			$this->config,
 			$this->config_text,
 			$this->language,
-			$this->template
+			$this->template,
+			$this->customSites
 		);
 	}
 
