@@ -44,6 +44,9 @@ class listener_test extends \phpbb_database_test_case
 	/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\template\template */
 	protected $template;
 
+	/** @var \phpbb\mediaembed\collection\customsitescollection $custom_sites */
+	protected $custom_sites;
+
 	/**
 	 * Setup test environment
 	 */
@@ -75,7 +78,7 @@ class listener_test extends \phpbb_database_test_case
 		$this->template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
 
-		$this->customSites = new \phpbb\mediaembed\collection\customsitescollection($phpbb_root_path);
+		$this->custom_sites = new \phpbb\mediaembed\collection\customsitescollection($phpbb_root_path . 'ext/phpbb/mediaembed/collection/sites');
 
 		$this->container = $this->get_test_case_helpers()->set_s9e_services();
 	}
@@ -93,7 +96,7 @@ class listener_test extends \phpbb_database_test_case
 			$this->config_text,
 			$this->language,
 			$this->template,
-			$this->customSites
+			$this->custom_sites
 		);
 	}
 

@@ -32,6 +32,9 @@ class main_listener implements EventSubscriberInterface
 	/** @var \phpbb\template\template $template */
 	protected $template;
 
+	/** @var \phpbb\mediaembed\collection\customsitescollection $custom_sites */
+	protected $custom_sites;
+
 	/** @var bool Disable the media embed plugin (plain url parsing) */
 	protected $disable_plugin = false;
 
@@ -60,16 +63,16 @@ class main_listener implements EventSubscriberInterface
 	 * @param \phpbb\config\db_text    $config_text
 	 * @param \phpbb\language\language $language
 	 * @param \phpbb\template\template $template
-	 * @param \phpbb\mediaembed\collection\customsitescollection $customSites
+	 * @param \phpbb\mediaembed\collection\customsitescollection $custom_sites
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\config\db_text $config_text, \phpbb\language\language $language, \phpbb\template\template $template, \phpbb\mediaembed\collection\customsitescollection $customSites)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\config\db_text $config_text, \phpbb\language\language $language, \phpbb\template\template $template, \phpbb\mediaembed\collection\customsitescollection $custom_sites)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
 		$this->language = $language;
 		$this->template = $template;
 		$this->config_text = $config_text;
-		$this->customSites = $customSites;
+		$this->custom_sites = $custom_sites;
 	}
 
 	/**
@@ -82,7 +85,8 @@ class main_listener implements EventSubscriberInterface
 		/** @var \s9e\TextFormatter\Configurator $configurator */
 		$configurator = $event['configurator'];
 
-		$custom_sites_collection = $this->customSites->get_custom_sites_collection();
+		// Add all custom site XML definitions to the default MediaEmbed sites object
+		$custom_sites_collection = $this->custom_sites->get_custom_sites_collection();
 		foreach ($custom_sites_collection as $siteId => $siteConfig)
 		{
 			$configurator->MediaEmbed->defaultSites->add($siteId, $siteConfig);

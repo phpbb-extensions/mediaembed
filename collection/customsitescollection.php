@@ -14,17 +14,17 @@ use s9e\TextFormatter\Plugins\MediaEmbed\Configurator\Collections\XmlFileDefinit
 
 class customsitescollection
 {
-	/** @var string $root_path */
-	protected $root_path;
+	/** @var string $sites_dir */
+	protected $sites_dir;
 
 	/**
 	 * Constructor
 	 *
-	 * @param string $phpbb_root_path
+	 * @param string $sites_dir
 	 */
-	public function __construct($phpbb_root_path)
+	public function __construct($sites_dir)
 	{
-		$this->root_path = $phpbb_root_path;
+		$this->sites_dir = $sites_dir;
 	}
 
 	/**
@@ -34,6 +34,6 @@ class customsitescollection
 	 */
 	public function get_custom_sites_collection()
 	{
-		return new XmlFileDefinitionCollection($this->root_path . 'ext/phpbb/mediaembed/collection/xml');
+		return new XmlFileDefinitionCollection($this->sites_dir);
 	}
 }
