@@ -10,34 +10,30 @@
 
 namespace phpbb\mediaembed\collection;
 
-/**
- * Collection of custom site definitions
- *
- * See https://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Add_custom/
- */
-class CustomSitesCollection
+use s9e\TextFormatter\Plugins\MediaEmbed\Configurator\Collections\XmlFileDefinitionCollection;
+
+class customsitescollection
 {
-	/** @var array $custom_sites_collection Custom site definitions */
-	protected $custom_sites_collection = [
-		'ok' =>
-		[
-			'host'    => 'ok.ru',
-			'name'    => 'Odnoklassniki',
-			'extract' => [
-				'!ok.ru/video/(?<id>\\d+)!',
-				'!ok.ru/live/(?<id>\\d+)!',
-			],
-			'iframe'  => ['src' => 'https://ok.ru/videoembed/{@id}']
-		],
-	];
+	/** @var string $root_path */
+	protected $root_path;
 
 	/**
-	 * Get custom site definitions array for media embedding
+	 * Constructor
 	 *
-	 * @return array An array of custom site definitions
+	 * @param string $phpbb_root_path
+	 */
+	public function __construct($phpbb_root_path)
+	{
+		$this->root_path = $phpbb_root_path;
+	}
+
+	/**
+	 * Get custom XML site definitions collection object
+	 *
+	 * @return object XmlFileDefinitionCollection
 	 */
 	public function get_custom_sites_collection()
 	{
-		return $this->custom_sites_collection;
+		return new XmlFileDefinitionCollection($this->root_path . 'ext/phpbb/mediaembed/collection/xml');
 	}
 }

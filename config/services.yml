@@ -9,3 +9,8 @@ services:
             - '@template'
         tags:
             - { name: event.listener }
+
+    phpbb.mediaembed.customsitescollection:
+        class: phpbb\mediaembed\collection\customsitescollection
+        arguments:
+            - '%core.root_path%'
