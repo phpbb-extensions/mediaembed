@@ -143,15 +143,6 @@ class main_module
 		$sites = [];
 
 		$configurator = $this->container->get('text_formatter.s9e.factory')->get_configurator();
-
-		// First let's add any custom sites to the default MediaEmbed sites object
-		$customSites = $this->container->get('phpbb.mediaembed.customsitescollection')->get_custom_sites_collection();
-		foreach ($customSites as $siteId => $siteConfig)
-		{
-			$configurator->MediaEmbed->defaultSites->add($siteId, $siteConfig);
-		}
-
-		// Next let's gather up all the default MediaEmbed sites
 		foreach ($configurator->MediaEmbed->defaultSites as $siteId => $siteConfig)
 		{
 			$disabled = isset($configurator->BBCodes[$siteId]);

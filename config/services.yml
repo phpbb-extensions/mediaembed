@@ -7,6 +7,7 @@ services:
             - '@config_text'
             - '@language'
             - '@template'
+            - '@phpbb.mediaembed.customsitescollection'
         tags:
             - { name: event.listener }
 

@@ -61,14 +61,16 @@ class main_listener implements EventSubscriberInterface
 	 * @param \phpbb\config\db_text    $config_text
 	 * @param \phpbb\language\language $language
 	 * @param \phpbb\template\template $template
+	 * @param \phpbb\mediaembed\collection\customsitescollection $customSites
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\config\db_text $config_text, \phpbb\language\language $language, \phpbb\template\template $template)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\config\db_text $config_text, \phpbb\language\language $language, \phpbb\template\template $template, \phpbb\mediaembed\collection\customsitescollection $customSites)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
 		$this->language = $language;
 		$this->template = $template;
 		$this->config_text = $config_text;
+		$this->customSites = $customSites;
 	}
 
 	/**
@@ -81,10 +83,11 @@ class main_listener implements EventSubscriberInterface
 		/** @var \s9e\TextFormatter\Configurator $configurator */
 		$configurator = $event['configurator'];
 
-		/** @var \phpbb\mediaembed\collection\customsitescollection $customSites */
-		global $phpbb_root_path;
-		$customSites = new customsitescollection($phpbb_root_path);
-		$custom_sites_collection = $customSites->get_custom_sites_collection();
+		$custom_sites_collection = $this->customSites->get_custom_sites_collection();
+		foreach ($custom_sites_collection as $siteId => $siteConfig)
+		{
+			$configurator->MediaEmbed->defaultSites->add($siteId, $siteConfig);
+		}
 
 		foreach ($this->get_siteIds() as $siteId)
 		{
@@ -95,8 +98,7 @@ class main_listener implements EventSubscriberInterface
 
 			try
 			{
-				$siteConfig = isset($custom_sites_collection[$siteId]) ? $custom_sites_collection[$siteId] : null;
-				$configurator->MediaEmbed->add($siteId, $siteConfig);
+				$configurator->MediaEmbed->add($siteId);
 			}
 			catch (\RuntimeException $e)
 			{
