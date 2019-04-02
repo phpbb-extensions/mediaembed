@@ -81,8 +81,9 @@ class main_listener implements EventSubscriberInterface
 		/** @var \s9e\TextFormatter\Configurator $configurator */
 		$configurator = $event['configurator'];
 
-		/** @var \phpbb\mediaembed\collection\CustomSitesCollection $customSites */
-		$customSites = new CustomSitesCollection;
+		/** @var \phpbb\mediaembed\collection\customsitescollection $customSites */
+		global $phpbb_root_path;
+		$customSites = new customsitescollection($phpbb_root_path);
 		$custom_sites_collection = $customSites->get_custom_sites_collection();
 
 		foreach ($this->get_siteIds() as $siteId)
@@ -94,7 +95,7 @@ class main_listener implements EventSubscriberInterface
 
 			try
 			{
-				$siteConfig = (isset($custom_sites_collection[$siteId])) ? $custom_sites_collection[$siteId] : null;
+				$siteConfig = isset($custom_sites_collection[$siteId]) ? $custom_sites_collection[$siteId] : null;
 				$configurator->MediaEmbed->add($siteId, $siteConfig);
 			}
 			catch (\RuntimeException $e)
