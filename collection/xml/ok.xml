@@ -1,10 +1,10 @@
 <site name="Odnoklassniki" homepage="https://ok.ru/">
-	<example>https://ok.ru/video/549000643961?st._aid=login_openPopularVideo_1</example>
+	<example>https://ok.ru/video/549000643961</example>
 
 	<tags><tag>videos</tag></tags>
 
 	<host>ok.ru</host>
-	<extract>!ok.ru/video/(?'id'\\d+)!</extract>
-	<extract>!ok.ru/live/(?'id'\\d+)!</extract>
+	<extract>!//ok.ru/video/(?'id'\d+)!</extract>
+	<extract>!//ok.ru/live/(?'id'\d+)!</extract>
 	<iframe src="https://ok.ru/videoembed/{@id}"/>
 </site>
