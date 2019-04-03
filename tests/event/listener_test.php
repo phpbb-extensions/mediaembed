@@ -83,7 +83,7 @@ class listener_test extends \phpbb_database_test_case
 			->getMock();
 		$this->custom_sites->expects($this->any())
 			->method('get_custom_sites_collection')
-			->will($this->returnValue([$phpbb_root_path . 'ext/phpbb/mediaembed/collection/sites/ok.json']));
+			->will($this->returnValue([$phpbb_root_path . 'ext/phpbb/mediaembed/collection/sites/ok.yml']));
 
 		$this->container = $this->get_test_case_helpers()->set_s9e_services();
 	}
