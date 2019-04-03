@@ -26,7 +26,7 @@ class customsitescollection
 	}
 
 	/**
-	 * Get custom site definitions collection object
+	 * Get a collection of custom JSON site definition files
 	 *
 	 * @return array Collection of JSON site definition files
 	 */
