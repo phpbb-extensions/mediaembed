@@ -15,4 +15,3 @@ services:
         class: phpbb\mediaembed\collection\customsitescollection
         arguments:
             - '@ext.manager'
-            - '%core.root_path%ext/phpbb/mediaembed/'

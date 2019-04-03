@@ -15,19 +15,14 @@ class customsitescollection
 	/** @var \phpbb\extension\manager */
 	protected $extension_manager;
 
-	/** @var string $ext_root_path */
-	protected $ext_root_path;
-
 	/**
 	 * Constructor
 	 *
 	 * @param \phpbb\extension\manager $extension_manager
-	 * @param string                   $ext_root_path
 	 */
-	public function __construct($extension_manager, $ext_root_path)
+	public function __construct($extension_manager)
 	{
 		$this->extension_manager = $extension_manager;
-		$this->ext_root_path = $ext_root_path;
 	}
 
 	/**
