@@ -1,5 +1,5 @@
 {
-	"name": "clyp",
+	"name": "Clyp audio share",
 	"host": "clyp.it",
 	"example": "https://clyp.it/0r0qbxx2",
 	"extract": "!//clyp.it/(?'id'[\\w]+)!",

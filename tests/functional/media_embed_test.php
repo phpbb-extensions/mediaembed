@@ -32,34 +32,6 @@ class media_embed_test extends \phpbb_functional_test_case
 		$this->assertContains("//www.youtube.com/embed/{$this->youtubeId}", $crawler->filter("#post_content{$post['topic_id']} iframe")->attr('src'));
 	}
 
-	public function test_posting_custom_site()
-	{
-		$this->login();
-		$this->admin_login();
-
-		$crawler = self::request('GET', "adm/index.php?i=\\phpbb\\mediaembed\\acp\\main_module&mode=manage&sid={$this->sid}");
-		$this->assert_checkbox_is_unchecked($crawler, 'ok');
-		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
-		$fields = $form->all();
-		$name = false;
-		foreach ($fields as $fieldname => $fieldobject)
-		{
-			if ($fieldobject->getValue() == 'ok')
-			{
-				$name = $fieldobject->getName();
-				break;
-			}
-		}
-		$form[$name]->tick();
-		self::submit($form);
-		$crawler = self::request('GET', "adm/index.php?i=\\phpbb\\mediaembed\\acp\\main_module&mode=manage&sid={$this->sid}");
-		$this->assert_checkbox_is_checked($crawler, 'ok');
-
-		$post = $this->create_topic(2, 'Media Embed Custom Site Test Topic 1', "[media]https://ok.ru/video/{$this->ok_ru_Id}[/media]");
-		$crawler = self::request('GET', "viewtopic.php?t={$post['topic_id']}&sid={$this->sid}");
-		$this->assertContains("//ok.ru/videoembed/{$this->ok_ru_Id}", $crawler->filter("#post_content{$post['topic_id']} iframe")->attr('src'));
-	}
-
 	public function signatures_data()
 	{
 		return [
