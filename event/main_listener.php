@@ -91,7 +91,7 @@ class main_listener implements EventSubscriberInterface
 		{
 			$configurator->MediaEmbed->defaultSites->add(
 				basename($path, '.json'),
-				json_decode(file_get_contents($path, true), true)
+				json_decode(file_get_contents($path), true)
 			);
 		}
 
