@@ -1,0 +1,13 @@
+{
+	"name": "ok",
+	"host": "ok.ru",
+	"extract":
+	[
+		"!//ok.ru/video/(?'id'\\d+)!",
+		"!//ok.ru/live/(?'id'\\d+)!"
+	],
+	"iframe":
+	{
+		"src": "https://ok.ru/videoembed/{@id}"
+	}
+}

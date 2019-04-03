@@ -1,0 +1,12 @@
+{
+	"name": "clyp",
+	"host": "clyp.it",
+	"extract": "!//clyp.it/(?'id'[\\w]+)!",
+	"iframe":
+	{
+		"width": "100%",
+		"height": "265",
+		"src": "https://clyp.it/{@id}/widget",
+		"frameborder": "0"
+	}
+}
