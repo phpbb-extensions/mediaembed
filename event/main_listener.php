@@ -87,9 +87,12 @@ class main_listener implements EventSubscriberInterface
 
 		// Add all custom site XML definitions to the default MediaEmbed sites object
 		$custom_sites_collection = $this->custom_sites->get_custom_sites_collection();
-		foreach ($custom_sites_collection as $siteId => $siteConfig)
+		foreach ($custom_sites_collection as $path)
 		{
-			$configurator->MediaEmbed->defaultSites->add($siteId, $siteConfig);
+			$configurator->MediaEmbed->defaultSites->add(
+				basename($path, '.json'),
+				json_decode(file_get_contents($path, true), true)
+			);
 		}
 
 		foreach ($this->get_siteIds() as $siteId)

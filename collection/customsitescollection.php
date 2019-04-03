@@ -10,30 +10,39 @@
 
 namespace phpbb\mediaembed\collection;
 
-use s9e\TextFormatter\Plugins\MediaEmbed\Configurator\Collections\XmlFileDefinitionCollection;
-
 class customsitescollection
 {
-	/** @var string $sites_dir */
-	protected $sites_dir;
+	/** @var \phpbb\extension\manager */
+	protected $extension_manager;
+
+	/** @var string $ext_root_path */
+	protected $ext_root_path;
 
 	/**
 	 * Constructor
 	 *
-	 * @param string $sites_dir
+	 * @param \phpbb\extension\manager $extension_manager
+	 * @param string                   $ext_root_path
 	 */
-	public function __construct($sites_dir)
+	public function __construct($extension_manager, $ext_root_path)
 	{
-		$this->sites_dir = $sites_dir;
+		$this->extension_manager = $extension_manager;
+		$this->ext_root_path = $ext_root_path;
 	}
 
 	/**
-	 * Get custom XML site definitions collection object
+	 * Get custom site definitions collection object
 	 *
-	 * @return object XmlFileDefinitionCollection
+	 * @return array Collection of JSON site definition files
 	 */
 	public function get_custom_sites_collection()
 	{
-		return new XmlFileDefinitionCollection($this->sites_dir);
+		$finder = $this->extension_manager->get_finder();
+
+		return $finder
+			->set_extensions(array('phpbb/mediaembed'))
+			->suffix('.json')
+			->extension_directory('collection/sites')
+			->get_files();
 	}
 }
