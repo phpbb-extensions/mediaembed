@@ -40,8 +40,16 @@ class media_embed_test extends \phpbb_functional_test_case
 		$crawler = self::request('GET', "adm/index.php?i=\\phpbb\\mediaembed\\acp\\main_module&mode=manage&sid={$this->sid}");
 		$this->assert_checkbox_is_unchecked($crawler, 'ok');
 		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
-		$values = $form->getValues();
-		$name = array_search('ok', $values);
+		$fields = $form->all();
+		$name = false;
+		foreach ($fields as $fieldname => $fieldobject)
+		{
+			if ($fieldobject->getValue() == 'ok')
+			{
+				$name = $fieldobject->getName();
+				break;
+			}
+		}
 		$form[$name]->tick();
 		self::submit($form);
 		$crawler = self::request('GET', "adm/index.php?i=\\phpbb\\mediaembed\\acp\\main_module&mode=manage&sid={$this->sid}");
