@@ -85,7 +85,7 @@ class main_listener implements EventSubscriberInterface
 		/** @var \s9e\TextFormatter\Configurator $configurator */
 		$configurator = $event['configurator'];
 
-		// Add all custom site XML definitions to the default MediaEmbed sites object
+		// Add all custom site definitions to the default MediaEmbed sites object
 		$custom_sites_collection = $this->custom_sites->get_custom_sites_collection();
 		foreach ($custom_sites_collection as $path)
 		{

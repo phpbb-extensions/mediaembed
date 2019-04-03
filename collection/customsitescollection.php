@@ -20,7 +20,7 @@ class customsitescollection
 	 *
 	 * @param \phpbb\extension\manager $extension_manager
 	 */
-	public function __construct($extension_manager)
+	public function __construct(\phpbb\extension\manager $extension_manager)
 	{
 		$this->extension_manager = $extension_manager;
 	}
