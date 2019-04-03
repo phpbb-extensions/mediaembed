@@ -1,6 +1,7 @@
 {
 	"name": "ok",
 	"host": "ok.ru",
+	"example": "https://ok.ru/video/549000643961",
 	"extract":
 	[
 		"!//ok.ru/video/(?'id'\\d+)!",
