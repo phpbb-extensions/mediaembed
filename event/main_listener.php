@@ -32,6 +32,9 @@ class main_listener implements EventSubscriberInterface
 	/** @var \phpbb\template\template $template */
 	protected $template;
 
+	/** @var \phpbb\mediaembed\collection\customsitescollection $custom_sites */
+	protected $custom_sites;
+
 	/** @var bool Disable the media embed plugin (plain url parsing) */
 	protected $disable_plugin = false;
 
@@ -60,14 +63,16 @@ class main_listener implements EventSubscriberInterface
 	 * @param \phpbb\config\db_text    $config_text
 	 * @param \phpbb\language\language $language
 	 * @param \phpbb\template\template $template
+	 * @param \phpbb\mediaembed\collection\customsitescollection $custom_sites
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\config\db_text $config_text, \phpbb\language\language $language, \phpbb\template\template $template)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\config\db_text $config_text, \phpbb\language\language $language, \phpbb\template\template $template, \phpbb\mediaembed\collection\customsitescollection $custom_sites)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
 		$this->language = $language;
 		$this->template = $template;
 		$this->config_text = $config_text;
+		$this->custom_sites = $custom_sites;
 	}
 
 	/**
@@ -79,6 +84,16 @@ class main_listener implements EventSubscriberInterface
 	{
 		/** @var \s9e\TextFormatter\Configurator $configurator */
 		$configurator = $event['configurator'];
+
+		// Add all custom site definitions to the default MediaEmbed sites object
+		$custom_sites_collection = $this->custom_sites->get_custom_sites_collection();
+		foreach ($custom_sites_collection as $path)
+		{
+			$configurator->MediaEmbed->defaultSites->add(
+				basename($path, '.json'),
+				json_decode(file_get_contents($path), true)
+			);
+		}
 
 		foreach ($this->get_siteIds() as $siteId)
 		{
