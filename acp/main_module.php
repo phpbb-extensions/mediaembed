@@ -155,6 +155,10 @@ class main_module
 			];
 		}
 
+		usort($sites, function ($site1, $site2) {
+			return strcasecmp($site1['id'], $site2['id']);
+		});
+
 		return $sites;
 	}
 
