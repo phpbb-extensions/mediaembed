@@ -10,6 +10,12 @@
 
 namespace phpbb\mediaembed\event;
 
+use phpbb\auth\auth;
+use phpbb\config\config;
+use phpbb\config\db_text;
+use phpbb\language\language;
+use phpbb\mediaembed\collection\customsitescollection;
+use phpbb\template\template;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Yaml\Yaml;
 
@@ -18,22 +24,22 @@ use Symfony\Component\Yaml\Yaml;
  */
 class main_listener implements EventSubscriberInterface
 {
-	/** @var \phpbb\auth\auth */
+	/** @var auth */
 	protected $auth;
 
-	/** @var \phpbb\config\config $config */
+	/** @var config $config */
 	protected $config;
 
-	/** @var \phpbb\config\db_text $config_text */
+	/** @var db_text $config_text */
 	protected $config_text;
 
-	/** @var \phpbb\language\language $language */
+	/** @var language $language */
 	protected $language;
 
-	/** @var \phpbb\template\template $template */
+	/** @var template $template */
 	protected $template;
 
-	/** @var \phpbb\mediaembed\collection\customsitescollection $custom_sites */
+	/** @var customsitescollection $custom_sites */
 	protected $custom_sites;
 
 	/** @var bool Disable the media embed plugin (plain url parsing) */
@@ -42,6 +48,9 @@ class main_listener implements EventSubscriberInterface
 	/** @var bool Disable the media tag (bbcode parsing) */
 	protected $disable_tag = false;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public static function getSubscribedEvents()
 	{
 		return [
@@ -59,14 +68,14 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\auth\auth         $auth
-	 * @param \phpbb\config\config     $config
-	 * @param \phpbb\config\db_text    $config_text
-	 * @param \phpbb\language\language $language
-	 * @param \phpbb\template\template $template
-	 * @param \phpbb\mediaembed\collection\customsitescollection $custom_sites
+	 * @param auth                  $auth
+	 * @param config                $config
+	 * @param db_text               $config_text
+	 * @param language              $language
+	 * @param template              $template
+	 * @param customsitescollection $custom_sites
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\config\db_text $config_text, \phpbb\language\language $language, \phpbb\template\template $template, \phpbb\mediaembed\collection\customsitescollection $custom_sites)
+	public function __construct(auth $auth, config $config, db_text $config_text, language $language, template $template, customsitescollection $custom_sites)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
@@ -87,11 +96,11 @@ class main_listener implements EventSubscriberInterface
 		$configurator = $event['configurator'];
 
 		// Add any custom site definitions to the default MediaEmbed sites object
-		foreach ($this->custom_sites->get_custom_sites_collection() as $path)
+		foreach ($this->custom_sites->get_collection() as $site)
 		{
 			$configurator->MediaEmbed->defaultSites->add(
-				basename($path, '.yml'),
-				Yaml::parse($path)
+				basename($site, '.yml'),
+				Yaml::parse($site)
 			);
 		}
 
@@ -112,7 +121,7 @@ class main_listener implements EventSubscriberInterface
 			}
 		}
 
-		// Disable plain url parsing
+		// Disable plain url parsing?
 		if (!$this->config->offsetGet('media_embed_parse_urls'))
 		{
 			$configurator->MediaEmbed->finalize();

@@ -10,17 +10,19 @@
 
 namespace phpbb\mediaembed\collection;
 
+use phpbb\extension\manager;
+
 class customsitescollection
 {
-	/** @var \phpbb\extension\manager */
+	/** @var manager */
 	protected $extension_manager;
 
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\extension\manager $extension_manager
+	 * @param manager $extension_manager
 	 */
-	public function __construct(\phpbb\extension\manager $extension_manager)
+	public function __construct(manager $extension_manager)
 	{
 		$this->extension_manager = $extension_manager;
 	}
@@ -30,7 +32,7 @@ class customsitescollection
 	 *
 	 * @return array Collection of YAML site definition files
 	 */
-	public function get_custom_sites_collection()
+	public function get_collection()
 	{
 		$finder = $this->extension_manager->get_finder();
 
