@@ -26,9 +26,9 @@ class customsitescollection
 	}
 
 	/**
-	 * Get a collection of custom JSON site definition files
+	 * Get a collection of custom YAML site definition files
 	 *
-	 * @return array Collection of JSON site definition files
+	 * @return array Collection of YAML site definition files
 	 */
 	public function get_custom_sites_collection()
 	{
@@ -36,7 +36,7 @@ class customsitescollection
 
 		return $finder
 			->set_extensions(array('phpbb/mediaembed'))
-			->suffix('.json')
+			->extension_suffix('.yml')
 			->extension_directory('collection/sites')
 			->get_files();
 	}

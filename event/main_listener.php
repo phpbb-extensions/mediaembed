@@ -11,6 +11,7 @@
 namespace phpbb\mediaembed\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Event listener
@@ -85,13 +86,12 @@ class main_listener implements EventSubscriberInterface
 		/** @var \s9e\TextFormatter\Configurator $configurator */
 		$configurator = $event['configurator'];
 
-		// Add all custom site definitions to the default MediaEmbed sites object
-		$custom_sites_collection = $this->custom_sites->get_custom_sites_collection();
-		foreach ($custom_sites_collection as $path)
+		// Add any custom site definitions to the default MediaEmbed sites object
+		foreach ($this->custom_sites->get_custom_sites_collection() as $path)
 		{
 			$configurator->MediaEmbed->defaultSites->add(
-				basename($path, '.json'),
-				json_decode(file_get_contents($path), true)
+				basename($path, '.yml'),
+				Yaml::parse($path)
 			);
 		}
 
