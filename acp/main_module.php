@@ -146,7 +146,7 @@ class main_module
 		foreach ($configurator->MediaEmbed->defaultSites as $siteId => $siteConfig)
 		{
 			$disabled = isset($configurator->BBCodes[$siteId]);
-			$sites[] = [
+			$sites[$siteId] = [
 				'id'		=> $siteId,
 				'name'		=> $siteConfig['name'],
 				'title'		=> $this->language->lang($disabled ? 'ACP_MEDIA_SITE_DISABLED' : 'ACP_MEDIA_SITE_TITLE', $siteId),
@@ -155,9 +155,7 @@ class main_module
 			];
 		}
 
-		usort($sites, function ($site1, $site2) {
-			return strcasecmp($site1['id'], $site2['id']);
-		});
+		ksort($sites);
 
 		return $sites;
 	}
