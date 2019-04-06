@@ -98,10 +98,17 @@ class main_listener implements EventSubscriberInterface
 		// Add any custom site definitions to the default MediaEmbed sites object
 		foreach ($this->custom_sites->get_collection() as $site)
 		{
-			$configurator->MediaEmbed->defaultSites->add(
-				basename($site, '.yml'),
-				Yaml::parse($site)
-			);
+			try
+			{
+				$configurator->MediaEmbed->defaultSites->add(
+					basename($site, '.yml'),
+					Yaml::parse($site)
+				);
+			}
+			catch (\RuntimeException $e)
+			{
+				continue;
+			}
 		}
 
 		foreach ($this->get_siteIds() as $siteId)
