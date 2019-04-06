@@ -54,6 +54,9 @@ class main_module
 	/** @var string $u_action */
 	public $u_action;
 
+	/** @var array An array of errors */
+	protected $errors = [];
+
 	/**
 	 * Constructor
 	 *
@@ -129,6 +132,7 @@ class main_module
 		$this->template->assign_vars([
 			'MEDIA_SITES'	=> $this->get_sites(),
 			'U_ACTION'		=> $this->u_action,
+			'ERRORS'		=> $this->errors,
 		]);
 	}
 
@@ -156,6 +160,8 @@ class main_module
 		}
 
 		ksort($sites);
+
+		$this->errors = array_diff($this->get_enabled_sites(), array_keys($sites));
 
 		return $sites;
 	}
