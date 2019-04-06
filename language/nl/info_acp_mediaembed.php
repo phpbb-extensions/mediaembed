@@ -26,4 +26,6 @@ $lang = array_merge($lang, array(
 	// Log keys
 	'LOG_PHPBB_MEDIA_EMBED_MANAGE'		=> '<strong>Media Embed websites aangepast</strong>',
 	'LOG_PHPBB_MEDIA_EMBED_SETTINGS'	=> '<strong>Media Embed instellingen aangepast</strong>',
+	'LOG_PHPBB_MEDIA_EMBED_SITE_ERROR'	=> '<strong>Media Embed failed to register a site</strong><br />» %s',
+	'LOG_PHPBB_MEDIA_EMBED_CUSTOM_ERROR'=> '<strong>Media Embed failed to register a custom site definition</strong><br />» %s',
 ));

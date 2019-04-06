@@ -37,7 +37,7 @@ class customsitescollection
 		$finder = $this->extension_manager->get_finder();
 
 		return $finder
-			->set_extensions(array('phpbb/mediaembed'))
+			->set_extensions(['phpbb/mediaembed'])
 			->extension_suffix('.yml')
 			->extension_directory('collection/sites')
 			->get_files();
