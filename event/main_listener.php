@@ -14,10 +14,8 @@ use phpbb\auth\auth;
 use phpbb\config\config;
 use phpbb\config\db_text;
 use phpbb\language\language;
-use phpbb\log\log_interface;
 use phpbb\mediaembed\collection\customsitescollection;
 use phpbb\template\template;
-use phpbb\user;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Yaml\Yaml;
 
@@ -38,14 +36,8 @@ class main_listener implements EventSubscriberInterface
 	/** @var language $language */
 	protected $language;
 
-	/** @var log_interface $log */
-	protected $log;
-
 	/** @var template $template */
 	protected $template;
-
-	/** @var user $user */
-	protected $user;
 
 	/** @var customsitescollection $custom_sites */
 	protected $custom_sites;
@@ -80,19 +72,15 @@ class main_listener implements EventSubscriberInterface
 	 * @param config                $config
 	 * @param db_text               $config_text
 	 * @param language              $language
-	 * @param log_interface         $log
 	 * @param template              $template
-	 * @param user                  $user
 	 * @param customsitescollection $custom_sites
 	 */
-	public function __construct(auth $auth, config $config, db_text $config_text, language $language, log_interface $log, template $template, user $user, customsitescollection $custom_sites)
+	public function __construct(auth $auth, config $config, db_text $config_text, language $language, template $template, customsitescollection $custom_sites)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
 		$this->language = $language;
-		$this->log = $log;
 		$this->template = $template;
-		$this->user = $user;
 		$this->config_text = $config_text;
 		$this->custom_sites = $custom_sites;
 	}
@@ -110,17 +98,10 @@ class main_listener implements EventSubscriberInterface
 		// Add any custom site definitions to the default MediaEmbed sites object
 		foreach ($this->custom_sites->get_collection() as $site)
 		{
-			try
-			{
-				$configurator->MediaEmbed->defaultSites->add(
-					basename($site, '.yml'),
-					Yaml::parse($site)
-				);
-			}
-			catch (\Exception $e)
-			{
-				$this->log_error('LOG_PHPBB_MEDIA_EMBED_CUSTOM_ERROR', [$e->getMessage()]);
-			}
+			$configurator->MediaEmbed->defaultSites->add(
+				basename($site, '.yml'),
+				Yaml::parse($site)
+			);
 		}
 
 		foreach ($this->get_siteIds() as $siteId)
@@ -134,9 +115,9 @@ class main_listener implements EventSubscriberInterface
 			{
 				$configurator->MediaEmbed->add($siteId);
 			}
-			catch (\Exception $e)
+			catch (\RuntimeException $e)
 			{
-				$this->log_error('LOG_PHPBB_MEDIA_EMBED_SITE_ERROR', [$e->getMessage()]);
+				continue;
 			}
 		}
 
@@ -300,16 +281,5 @@ class main_listener implements EventSubscriberInterface
 		$siteIds = $this->config_text->get('media_embed_sites');
 
 		return $siteIds ? json_decode($siteIds, true) : [];
-	}
-
-	/**
-	 * Log a critical error
-	 *
-	 * @param string $message The language string key for the error message
-	 * @param array  $params  Optional params for the message
-	 */
-	protected function log_error($message, $params = [])
-	{
-		$this->log->add('critical', $this->user->data['user_id'], $this->user->ip, $message, time(), $params);
 	}
 }
