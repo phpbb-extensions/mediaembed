@@ -1,6 +1,6 @@
 name: invalid
 host: invalid.com
-example: https://www.invalid.com/video/20629/ACE_-_Sleight_of_Hand_by_Noel_Heath
-extract: "!//ww&^(^&(*^&*(%*%^%$&^$&^*w.snotr.com/video/(?'id'[\\d]+)!"
+example: https://www.invalid.com/video/20629/
+extract: "!//ww&^(^&(*^&*(%*%^%$&^$&^*w.invalid.com/video/(?'id'[\\d]+)!"
 iframe:
     src: https://www.invalid.com/embed/{@id}
