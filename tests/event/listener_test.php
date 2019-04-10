@@ -81,9 +81,6 @@ class listener_test extends \phpbb_database_test_case
 		$this->custom_sites = $this->getMockBuilder('\phpbb\mediaembed\collection\customsitescollection')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->custom_sites->expects($this->any())
-			->method('get_collection')
-			->will($this->returnValue([$phpbb_root_path . 'ext/phpbb/mediaembed/collection/sites/ok.yml']));
 
 		$this->container = $this->get_test_case_helpers()->set_s9e_services();
 	}
@@ -180,6 +177,10 @@ class listener_test extends \phpbb_database_test_case
 	 */
 	public function test_configure_media_embed($tag, $code, $id, $exists, $parse_urls, $expected)
 	{
+		$this->custom_sites->expects($this->any())
+			->method('get_collection')
+			->will($this->returnValue([__DIR__ . '/../fixtures/sites/ok.yml']));
+
 		// Update configs with test values
 		$this->config['media_embed_parse_urls'] = $parse_urls;
 
@@ -219,6 +220,55 @@ class listener_test extends \phpbb_database_test_case
 		$assertion = $expected ? 'assertContains' : 'assertNotContains';
 
 		$this->{$assertion}($id, $parser->parse($code));
+	}
+
+	/**
+	 * Data for test_exception_errors
+	 *
+	 * @return array
+	 */
+	public function exception_errors_data()
+	{
+		return array(
+			array('notok', '\Symfony\Component\Yaml\Exception\ParseException'), // Exception when custom site YAML is invalid
+			array('invalid', '\InvalidArgumentException'), // Exception when MediaEmbed can't process the site definition
+		);
+	}
+
+	/**
+	 * Test expected exceptions are being thrown when errors are
+	 * encountered with custom site definitions.
+	 *
+	 * @dataProvider exception_errors_data
+	 * @param string $site
+	 * @param string $exception
+	 */
+	public function test_exception_errors($site, $exception)
+	{
+		$this->setExpectedException($exception);
+
+		$this->custom_sites->expects($this->any())
+			->method('get_collection')
+			->will($this->returnValue([__DIR__ . "/../fixtures/sites/$site.yml"]));
+
+		$this->config_text->expects($this->any())
+			->method('get')
+			->with('media_embed_sites')
+			->will($this->returnValue(json_encode([$site])));
+
+		// Get the s9e configurator
+		$configurator = $this->container
+			->get('text_formatter.s9e.factory')
+			->get_configurator();
+
+		// Assign $event['configurator']
+		$event = new \phpbb\event\data([
+			'configurator'	=> $configurator,
+		]);
+
+		// Setup the listener and call the configure_media_embed method
+		$listener = $this->get_listener();
+		$listener->configure_media_embed($event);
 	}
 
 	public function check_methods_data()

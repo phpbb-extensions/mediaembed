@@ -4,6 +4,16 @@
 
 <p>{{ lang('ACP_MEDIA_MANAGE_EXPLAIN') }}</p>
 
+{% if ERRORS %}
+	<div class="errorbox">
+		<h3>{{ lang('WARNING') }}</h3>
+		<p>{{ lang('ACP_MEDIA_SITES_MISSING') }}</p>
+		{% for error in ERRORS %}
+			<p>{{ error }}</p>
+		{% endfor %}
+	</div>
+{% endif %}
+
 <form id="mediaembed_manage" method="post" action="{{ U_ACTION }}">
 	<table class="table1 zebra-table">
 		{% for sites in MEDIA_SITES|batch(4, '') %}

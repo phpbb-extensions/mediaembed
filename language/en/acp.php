@@ -35,4 +35,5 @@ $lang = array_merge($lang, array(
 	'ACP_MEDIA_MANAGE'					=> 'Manage Media Embed Sites',
 	'ACP_MEDIA_MANAGE_EXPLAIN'			=> 'Here you can manage the sites you want to allow the Media Embed PlugIn to display content from.',
 	'ACP_MEDIA_SITES_ERROR'				=> 'There are no media sites to display.',
+	'ACP_MEDIA_SITES_MISSING'			=> 'The following sites are no longer supported or working. Please re-submit this page to remove them.',
 ));
