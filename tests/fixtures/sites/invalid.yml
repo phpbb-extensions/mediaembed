@@ -1,0 +1,6 @@
+name: invalid
+host: invalid.com
+example: https://www.invalid.com/video/20629/
+extract: "!//ww&^(^&(*^&*(%*%^%$&^$&^*w.invalid.com/video/(?'id'[\\d]+)!"
+iframe:
+    src: https://www.invalid.com/embed/{@id}

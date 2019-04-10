@@ -35,4 +35,5 @@ $lang = array_merge($lang, array(
 	'ACP_MEDIA_MANAGE'					=> 'Beheer Media Embed Websites',
 	'ACP_MEDIA_MANAGE_EXPLAIN'			=> 'Hier kunt u de websites beheren van welke u de de Media Embed PlugIn wilt toestaan inhoud te tonen.',
 	'ACP_MEDIA_SITES_ERROR'				=> 'Er zijn geen media websites om te tonen.',
+	'ACP_MEDIA_SITES_MISSING'			=> 'The following sites are no longer supported or working. Please re-submit this page to remove them.',
 ));

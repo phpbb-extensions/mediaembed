@@ -35,4 +35,5 @@ $lang = array_merge($lang, array(
 	'ACP_MEDIA_MANAGE'					=> 'Управление сайтами для Media Embed',
 	'ACP_MEDIA_MANAGE_EXPLAIN'			=> 'Здесь, вы можете управлять сайтами, которые вы хотите подключать к Media Embed.',
 	'ACP_MEDIA_SITES_ERROR'				=> 'Нет сайтов для отображения.',
+	'ACP_MEDIA_SITES_MISSING'			=> 'The following sites are no longer supported or working. Please re-submit this page to remove them.',
 ));
