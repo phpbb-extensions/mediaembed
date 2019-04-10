@@ -39,7 +39,7 @@ Note that by deleting the old BBCode your old posts may no longer render the vid
 and will display the deleted BBCode tags as text. Experiment with this on a local 
 offline backup of your board first.
 
-A full list of supported media sites can be found [here](http://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/).
+A full list of supported media sites can be found [here](https://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/).
 
 ## Support
 
