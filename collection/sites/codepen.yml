@@ -1,0 +1,8 @@
+name: CodePen
+host: codepen.io
+example: https://codepen.io/farmok/pen/OqqYYy
+extract: "!//codepen.io/(?'user'\\w+)/pen/(?'id'\\w+)!"
+iframe:
+    height: "265"
+    width: "100%"
+    src: //codepen.io/{@user}/embed/{@id}
