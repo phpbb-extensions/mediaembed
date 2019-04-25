@@ -2,7 +2,7 @@
 /**
  *
  * phpBB Media Embed PlugIn extension for the phpBB Forum Software package.
- * Turkish translation by ESQARE (https://www.phpbbturkey.com)  
+ * Turkish translation by ESQARE (https://www.phpbbturkey.com)
  *
  * @copyright (c) 2016 phpBB Limited <https://www.phpbb.com>
  * @license GNU General Public License, version 2 (GPL-2.0)
