@@ -31,6 +31,6 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 
 $lang = array_merge($lang, array(
-	'ACL_F_MEDIAEMBED'		=> 'Can use [media] BBCode tag',
-	'ACL_U_PM_MEDIAEMBED'	=> 'Can use [media] BBCode tag in private messages',
+	'ACL_F_MEDIAEMBED'		=> '[media] BBCode etiketi kullanabilir',
+	'ACL_U_PM_MEDIAEMBED'	=> 'Özel mesajlarda [media] BBCode etiketi kullanabilir',
 ));
