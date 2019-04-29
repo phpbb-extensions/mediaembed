@@ -1,5 +1,35 @@
 # Changelog
 
+## 1.1.0 - 2019-04-29
+
+- Implemented a new feature allowing users to add new media sites or update 
+existing site definitions by dropping simple YAML files into the extension. 
+These will be available through our support forum, as well as documentation 
+on adding and creating new site YAML files for MediaEmbed.
+- Added new media sites using the new YAML implementation:
+  - Clyp.it
+  - CodePen
+  - DotSub
+  - Ebaum's World
+  - ModDB
+  - OK.ru
+  - SchoolTube
+  - Snotr
+  - VideoPress
+- Added language packs:
+  - Arabic
+  - Brazilian Portuguese
+  - Chinese
+  - Czech
+  - Danish
+  - Estonian
+  - French
+  - German
+  - Italian
+  - Polish
+  - Spanish (casual)
+  - Turkish
+
 ### 1.0.4 - 2019-03-12
 
 - Fixed another issue that could break future versions of phpBB (3.2.6 or newer)
