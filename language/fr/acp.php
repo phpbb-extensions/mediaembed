@@ -47,7 +47,7 @@ $lang = array_merge($lang, array(
 	'ACP_MEDIA_ALLOW_SIG'				=> 'Autoriser dans la signature des membres',
 	'ACP_MEDIA_ALLOW_SIG_EXPLAIN'		=> 'Permet d’utiliser le BBCode <samp>[MEDIA]</samp> dans le contenu de la signature des membres.',
 	'ACP_MEDIA_PARSE_URLS'				=> 'Convertir les URL simples',
-	'ACP_MEDIA_PARSE_URLS_EXPLAIN'		=> 'Permet de convertirs les URL simples (non mises entre les balises des BBCodes <samp>[media]</samp> ou <samp>[url]</samp>) en contenu multimédia intégré. Merci de noter que cette fonctionnalité ne concerne que les nouveaux messages, car les messages déjà publiés ont déjà été analysés.',
+	'ACP_MEDIA_PARSE_URLS_EXPLAIN'		=> 'Permet de convertir les URL simples (non mises entre les balises des BBCodes <samp>[media]</samp> ou <samp>[url]</samp>) en contenu multimédia intégré. Merci de noter que cette fonctionnalité ne concerne que les nouveaux messages, car les messages déjà publiés ont déjà été analysés.',
 	'ACP_MEDIA_SITE_TITLE'				=> 'ID du service : %s',
 	'ACP_MEDIA_SITE_DISABLED'			=> 'Ce service entre en conflit avec un BBCode déjà installé sur le forum : [%s]',
 
@@ -55,5 +55,5 @@ $lang = array_merge($lang, array(
 	'ACP_MEDIA_MANAGE'					=> 'Gestion des services pour les médias intégrés aux messages',
 	'ACP_MEDIA_MANAGE_EXPLAIN'			=> 'Depuis cette page il est possible d’autoriser les sites Web des services qui seront pris en charge par l’extension « phpBB Media Embed PlugIn » pour afficher leur contenu dans les messages.',
 	'ACP_MEDIA_SITES_ERROR'				=> 'Il n’y aucun site de médias à afficher.',
-	'ACP_MEDIA_SITES_MISSING'			=> 'The following sites are no longer supported or working. Please re-submit this page to remove them.',
+	'ACP_MEDIA_SITES_MISSING'			=> 'Les sites Web suivants ne sont plus pris en charge ou ne fonctionnent plus. Merci de re-valider cette page pour les retirer.',
 ));
