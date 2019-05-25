@@ -100,7 +100,7 @@ class main_listener implements EventSubscriberInterface
 		{
 			$configurator->MediaEmbed->defaultSites->add(
 				basename($site, '.yml'),
-				Yaml::parse($site)
+				Yaml::parse(file_get_contents($site))
 			);
 		}
 
