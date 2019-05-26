@@ -12,6 +12,9 @@ namespace phpbb\mediaembed;
 
 class ext extends \phpbb\extension\base
 {
+	/** @var string YAML file extension */
+	const YML = '.yml';
+
 	/**
 	 * {@inheritDoc}
 	 */
