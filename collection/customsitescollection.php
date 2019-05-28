@@ -11,6 +11,7 @@
 namespace phpbb\mediaembed\collection;
 
 use phpbb\extension\manager;
+use phpbb\mediaembed\ext;
 
 class customsitescollection
 {
@@ -38,7 +39,7 @@ class customsitescollection
 
 		return $finder
 			->set_extensions(['phpbb/mediaembed'])
-			->extension_suffix('.yml')
+			->extension_suffix(ext::YML)
 			->extension_directory('collection/sites')
 			->get_files();
 	}
