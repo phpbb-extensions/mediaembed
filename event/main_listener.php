@@ -15,6 +15,7 @@ use phpbb\config\config;
 use phpbb\config\db_text;
 use phpbb\language\language;
 use phpbb\mediaembed\collection\customsitescollection;
+use phpbb\mediaembed\ext;
 use phpbb\template\template;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -99,7 +100,7 @@ class main_listener implements EventSubscriberInterface
 		foreach ($this->custom_sites->get_collection() as $site)
 		{
 			$configurator->MediaEmbed->defaultSites->add(
-				basename($site, '.yml'),
+				basename($site, ext::YML),
 				Yaml::parse(file_get_contents($site))
 			);
 		}
