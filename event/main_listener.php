@@ -55,7 +55,7 @@ class main_listener implements EventSubscriberInterface
 	public static function getSubscribedEvents()
 	{
 		return [
-			'core.text_formatter_s9e_configure_after'	=> [['add_custom_sites', 300], ['enable_media_sites', 200], ['configure_url_parsing', 100]],
+			'core.text_formatter_s9e_configure_after'	=> [['add_custom_sites', 3], ['enable_media_sites', 2], ['configure_url_parsing', 1]],
 			'core.display_custom_bbcodes'				=> 'setup_media_bbcode',
 			'core.permissions'							=> 'set_permissions',
 			'core.help_manager_add_block_before'		=> 'media_embed_help',

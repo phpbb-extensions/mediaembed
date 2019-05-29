@@ -165,7 +165,7 @@ class listener_test extends \phpbb_database_test_case
 	}
 
 	/**
-	 * Test the configure_media_embed method
+	 * Test the media embed configuration
 	 *
 	 * @dataProvider configure_media_embed_data
 	 * @param string $tag        The media tag name
@@ -209,9 +209,11 @@ class listener_test extends \phpbb_database_test_case
 			'configurator'	=> $configurator,
 		]);
 
-		// Setup the listener and call the configure_media_embed method
+		// Setup the listener and call the media embed configuration methods
 		$listener = $this->get_listener();
-		$listener->configure_media_embed($event);
+		$listener->add_custom_sites($event);
+		$listener->enable_media_sites($event);
+		$listener->configure_url_parsing($event);
 
 		// Get an instance of the parser
 		$parser = null;
@@ -266,9 +268,10 @@ class listener_test extends \phpbb_database_test_case
 			'configurator'	=> $configurator,
 		]);
 
-		// Setup the listener and call the configure_media_embed method
+		// Setup the listener and call the media embed configuration methods
 		$listener = $this->get_listener();
-		$listener->configure_media_embed($event);
+		$listener->add_custom_sites($event);
+		$listener->enable_media_sites($event);
 	}
 
 	public function check_methods_data()
