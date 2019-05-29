@@ -55,7 +55,7 @@ class main_listener implements EventSubscriberInterface
 	public static function getSubscribedEvents()
 	{
 		return [
-			'core.text_formatter_s9e_configure_after'	=> 'configure_media_embed',
+			'core.text_formatter_s9e_configure_after'	=> [['add_custom_sites', 300], ['enable_media_sites', 200], ['configure_url_parsing', 100]],
 			'core.display_custom_bbcodes'				=> 'setup_media_bbcode',
 			'core.permissions'							=> 'set_permissions',
 			'core.help_manager_add_block_before'		=> 'media_embed_help',
@@ -86,17 +86,16 @@ class main_listener implements EventSubscriberInterface
 		$this->custom_sites = $custom_sites;
 	}
 
+
 	/**
-	 * Configure Media Embed PlugIn
+	 * Add any custom site definitions to the default MediaEmbed sites object
 	 *
 	 * @param \phpbb\event\data $event The event object
 	 */
-	public function configure_media_embed($event)
+	public function add_custom_sites($event)
 	{
-		/** @var \s9e\TextFormatter\Configurator $configurator */
 		$configurator = $event['configurator'];
 
-		// Add any custom site definitions to the default MediaEmbed sites object
 		foreach ($this->custom_sites->get_collection() as $site)
 		{
 			$configurator->MediaEmbed->defaultSites->add(
@@ -104,9 +103,20 @@ class main_listener implements EventSubscriberInterface
 				Yaml::parse(file_get_contents($site))
 			);
 		}
+	}
+
+	/**
+	 * Enable media sites
+	 *
+	 * @param \phpbb\event\data $event The event object
+	 */
+	public function enable_media_sites($event)
+	{
+		$configurator = $event['configurator'];
 
 		foreach ($this->get_siteIds() as $siteId)
 		{
+			// skip media sites that already exist as a BBCode
 			if (isset($configurator->BBCodes[$siteId]))
 			{
 				continue;
@@ -121,6 +131,16 @@ class main_listener implements EventSubscriberInterface
 				continue;
 			}
 		}
+	}
+
+	/**
+	 * Configure plain URL parsing
+	 *
+	 * @param \phpbb\event\data $event The event object
+	 */
+	public function configure_url_parsing($event)
+	{
+		$configurator = $event['configurator'];
 
 		// Disable plain url parsing?
 		if (!$this->config->offsetGet('media_embed_parse_urls'))
