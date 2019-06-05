@@ -94,11 +94,9 @@ class main_listener implements EventSubscriberInterface
 	 */
 	public function add_custom_sites($event)
 	{
-		$configurator = $event['configurator'];
-
 		foreach ($this->custom_sites->get_collection() as $site)
 		{
-			$configurator->MediaEmbed->defaultSites->add(
+			$event['configurator']->MediaEmbed->defaultSites->add(
 				basename($site, ext::YML),
 				Yaml::parse(file_get_contents($site))
 			);
@@ -112,19 +110,17 @@ class main_listener implements EventSubscriberInterface
 	 */
 	public function enable_media_sites($event)
 	{
-		$configurator = $event['configurator'];
-
 		foreach ($this->get_siteIds() as $siteId)
 		{
 			// skip media sites that already exist as a BBCode
-			if (isset($configurator->BBCodes[$siteId]))
+			if (isset($event['configurator']->BBCodes[$siteId]))
 			{
 				continue;
 			}
 
 			try
 			{
-				$configurator->MediaEmbed->add($siteId);
+				$event['configurator']->MediaEmbed->add($siteId);
 			}
 			catch (\RuntimeException $e)
 			{
@@ -140,13 +136,11 @@ class main_listener implements EventSubscriberInterface
 	 */
 	public function configure_url_parsing($event)
 	{
-		$configurator = $event['configurator'];
-
 		// Disable plain url parsing?
 		if (!$this->config->offsetGet('media_embed_parse_urls'))
 		{
-			$configurator->MediaEmbed->finalize();
-			unset($configurator->MediaEmbed);
+			$event['configurator']->MediaEmbed->finalize();
+			unset($event['configurator']->MediaEmbed);
 		}
 	}
 
