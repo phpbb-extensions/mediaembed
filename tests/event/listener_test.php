@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class listener_test extends \phpbb_database_test_case
 {
-	static protected function setup_extensions()
+	protected static function setup_extensions()
 	{
 		return ['phpbb/mediaembed'];
 	}
@@ -177,9 +177,9 @@ class listener_test extends \phpbb_database_test_case
 	 */
 	public function test_configure_media_embed($tag, $code, $id, $exists, $parse_urls, $expected)
 	{
-		$this->custom_sites->expects($this->any())
+		$this->custom_sites->expects($this->once())
 			->method('get_collection')
-			->will($this->returnValue([__DIR__ . '/../fixtures/sites/ok.yml']));
+			->willReturn([__DIR__ . '/../fixtures/sites/ok.yml']);
 
 		// Update configs with test values
 		$this->config['media_embed_parse_urls'] = $parse_urls;
@@ -199,10 +199,10 @@ class listener_test extends \phpbb_database_test_case
 		// Force config_text to return all default and custom MediaEmbed sites
 		$default_sites = array_keys(iterator_to_array($configurator->MediaEmbed->defaultSites));
 		$custom_sites = ['ok'];
-		$this->config_text->expects($this->any())
+		$this->config_text->expects($this->once())
 			->method('get')
 			->with('media_embed_sites')
-			->will($this->returnValue(json_encode(array_merge($default_sites, $custom_sites))));
+			->willReturn(json_encode(array_merge($default_sites, $custom_sites)));
 
 		// Assign $event['configurator']
 		$event = new \phpbb\event\data([
@@ -251,12 +251,12 @@ class listener_test extends \phpbb_database_test_case
 
 		$this->custom_sites->expects($this->any())
 			->method('get_collection')
-			->will($this->returnValue([__DIR__ . "/../fixtures/sites/$site.yml"]));
+			->willReturn([__DIR__ . "/../fixtures/sites/$site.yml"]);
 
 		$this->config_text->expects($this->any())
 			->method('get')
 			->with('media_embed_sites')
-			->will($this->returnValue(json_encode([$site])));
+			->willReturn(json_encode([$site]));
 
 		// Get the s9e configurator
 		$configurator = $this->container
@@ -329,7 +329,7 @@ class listener_test extends \phpbb_database_test_case
 		// The phpbb parser must get the mocked s9e parser
 		$parser->expects($this->once())
 			->method('get_parser')
-			->will($this->returnValue($mock));
+			->willReturn($mock);
 
 		// Assign $event data
 		$event = new \phpbb\event\data(array_merge($data, ['parser' => $parser]));
@@ -388,7 +388,7 @@ class listener_test extends \phpbb_database_test_case
 		$this->auth->expects($this->any())
 			->method('acl_get')
 			->with($this->stringContains('_'), $this->anything())
-			->will($this->returnValueMap($acl_map));
+			->willReturnMap($acl_map);
 
 		// Must use a mock of the s9e parser
 		$mock = $this->mock_s9e_parser();
@@ -404,7 +404,7 @@ class listener_test extends \phpbb_database_test_case
 		// The phpbb parser must get the mocked s9e parser
 		$parser->expects($this->once())
 			->method('get_parser')
-			->will($this->returnValue($mock));
+			->willReturn($mock);
 
 		// Get the listener and call the methods
 		$listener = $this->get_listener();
