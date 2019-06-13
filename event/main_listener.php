@@ -86,7 +86,6 @@ class main_listener implements EventSubscriberInterface
 		$this->custom_sites = $custom_sites;
 	}
 
-
 	/**
 	 * Add any custom site definitions to the default MediaEmbed sites object
 	 *
