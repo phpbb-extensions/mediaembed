@@ -6,7 +6,7 @@
  * @copyright (c) 2016 phpBB Limited <https://www.phpbb.com>
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
- * Translated By : Bassel Taha Alhitary - www.alhitary.net
+ * Translated By : Bassel Taha Alhitary <http://alhitary.net>
  */
 
 /**
@@ -39,5 +39,5 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'BBCODE_MEDIA_HELP'	=> 'إدراج مُحتوى الوسائط : [media]الرابط[/media]',
+	'BBCODE_MEDIA_HELP'	=> 'إدراج مُحتوى الوسائط: [media]الرابط[/media]',
 ));

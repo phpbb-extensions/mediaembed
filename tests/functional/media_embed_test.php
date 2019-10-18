@@ -18,7 +18,7 @@ class media_embed_test extends \phpbb_functional_test_case
 	protected $youtubeId = 'PHzShhtkzEk';
 	protected $ok_ru_Id = '549000643961';
 
-	static protected function setup_extensions()
+	protected static function setup_extensions()
 	{
 		return ['phpbb/mediaembed'];
 	}
@@ -114,12 +114,12 @@ class media_embed_test extends \phpbb_functional_test_case
 		// Set f_mediaembed to never
 		$crawler = self::request('GET', "adm/index.php?i=acp_permissions&icat=16&mode=setting_forum_local&forum_id[0]=2&group_id[0]=2&sid={$this->sid}");
 		$form = $crawler->selectButton($this->lang('APPLY_PERMISSIONS'))->form();
-		$data = array("setting[2][2][f_mediaembed]" => ACL_NEVER);
+		$data = array('setting[2][2][f_mediaembed]' => ACL_NEVER);
 		$form->setValues($data);
 		self::submit($form);
 
 		// Now verify the media bbcode can't be used to post
-		$this->create_topic(2, 'Media Embed Test Topic 2', "[media]foo[/media]", [], $this->lang('UNAUTHORISED_BBCODE', '[media]'));
+		$this->create_topic(2, 'Media Embed Test Topic 2', '[media]foo[/media]', [], $this->lang('UNAUTHORISED_BBCODE', '[media]'));
 	}
 
 	public function test_media_embed_help()

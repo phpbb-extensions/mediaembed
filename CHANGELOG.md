@@ -1,6 +1,13 @@
 # Changelog
 
-## 1.1.0 - 2019-04-29
+### 1.1.1 - 2019-06-13
+
+- Fixed an issue that could cause some boards to have a fatal PHP error.
+- Internal code updates and language pack corrections (Arabic, French, Italian).
+- Updated site: clyp.it
+- Added site: allocine.fr
+
+### 1.1.0 - 2019-04-29
 
 - Implemented a new feature allowing users to add new media sites or update 
 existing site definitions by dropping simple YAML files into the extension. 

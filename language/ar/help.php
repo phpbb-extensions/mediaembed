@@ -6,7 +6,7 @@
  * @copyright (c) 2016 phpBB Limited <https://www.phpbb.com>
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
- * Translated By : Bassel Taha Alhitary - www.alhitary.net
+ * Translated By : Bassel Taha Alhitary <http://alhitary.net>
  */
 
 /**
@@ -40,15 +40,15 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'HELP_EMBEDDING_MEDIA'			=> 'إدراج مُحتوى الوسائط',
-	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'كيف أستطيع إدراج مُحتوى الوسائط من المواقع الأخرى في المُشاركات',
+	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'كيف أستطيع إدراج مُحتوى الوسائط من المواقع الأخرى في المُشاركات؟',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'يستطيع الأعضاء إدراج محتوى الوسائط مثل الفيديو والمقاطع الصوتية من المواقع المسموح بها بإستخدام 
-										الوسم <strong>[media][/media]</strong>, أو كتابة الرابط فقط للمواقع المدعومة 
-										بنص عادي. مثال :<br /><br />
+										الوسم <strong>[media][/media]</strong>, أو ببساطة كتابة الرابط لأحد المواقع المدعومة 
+										كما هو بدون الوسوم. مثال:<br /><br />
 										<strong>[media]</strong>%1$s<strong>[/media]</strong>
-										<br /><br />كما تلاحظ في المثال أعلاه , تستطيع أيضاً استخدام الرابط بدون الوسم 
+										<br /><br />كما تلاحظ في المثال أعلاه, تستطيع أيضاً استخدام الرابط بدون الوسم 
 										<strong>[media]</strong>.
-										<br /><br />ستكون النتيجة للمثال المذكور أعلاه كالآتي :<br /><br />%2$s
-										<br /><br />القائمة التالية تحتوي على المواقع المدعومة :<br /><samp>%3$s.</samp>
+										<br /><br />ستكون النتيجة للمثال المذكور أعلاه كالآتي:<br /><br />%2$s
+										<br /><br />القائمة التالية تحتوي على المواقع المدعومة:<br /><samp>%3$s.</samp>
 										<br /><br />للمزيد من المعلومات والأمثلة للمواقع المدعومة, 
 										انقر على هذا الرابط <a href="http://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										معلومات إدراج مُحتوى الوسائط</a>.',

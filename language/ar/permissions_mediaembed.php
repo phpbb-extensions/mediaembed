@@ -6,6 +6,7 @@
  * @copyright (c) 2016 phpBB Limited <https://www.phpbb.com>
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
+ * Translated By : Bassel Taha Alhitary <http://alhitary.net>
  */
 
 if (!defined('IN_PHPBB'))
@@ -31,6 +32,6 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 
 $lang = array_merge($lang, array(
-	'ACL_F_MEDIAEMBED'		=> 'يمكنه استخدام [media] BBCode',
-	'ACL_U_PM_MEDIAEMBED'	=> 'يمكنه استخدام[media] BBCode في الرسائل الخاصة',
+	'ACL_F_MEDIAEMBED'		=> 'يستطيع استخدام وسم الوسائط [media] لـ BBCode',
+	'ACL_U_PM_MEDIAEMBED'	=> 'يستطيع استخدام وسم الوسائط [media] لـ BBCode في الرسائل الخاصة',
 ));
