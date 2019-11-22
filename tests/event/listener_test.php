@@ -50,7 +50,7 @@ class listener_test extends \phpbb_database_test_case
 	/**
 	 * Setup test environment
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
 
@@ -247,13 +247,13 @@ class listener_test extends \phpbb_database_test_case
 	 */
 	public function test_exception_errors($site, $exception)
 	{
-		$this->setExpectedException($exception);
+		$this->expectException($exception);
 
-		$this->custom_sites->expects($this->any())
+		$this->custom_sites->expects($this->once())
 			->method('get_collection')
 			->willReturn([__DIR__ . "/../fixtures/sites/$site.yml"]);
 
-		$this->config_text->expects($this->any())
+		$this->config_text
 			->method('get')
 			->with('media_embed_sites')
 			->willReturn(json_encode([$site]));
@@ -385,7 +385,7 @@ class listener_test extends \phpbb_database_test_case
 			return $arr;
 		}, $acl_map);
 
-		$this->auth->expects($this->any())
+		$this->auth->expects($this->atMost(3))
 			->method('acl_get')
 			->with($this->stringContains('_'), $this->anything())
 			->willReturnMap($acl_map);
