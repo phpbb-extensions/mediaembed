@@ -8,6 +8,7 @@ services:
             - '@language'
             - '@template'
             - '@phpbb.mediaembed.customsitescollection'
+            - '%core.cache_dir%'
         tags:
             - { name: event.listener }
 
