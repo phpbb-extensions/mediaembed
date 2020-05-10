@@ -19,7 +19,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -38,7 +38,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,[
 	'HELP_EMBEDDING_MEDIA'			=> 'Vkladanie médií',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Ako vložiť obsah z inej stránky do príspevku',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Používatelia môžu vložiť obsah (napríklad video alebo zvuk z povolených stránok použítím 
@@ -53,4 +53,4 @@ $lang = array_merge($lang, array(
 										navštívte <a href="http://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										dokumentáciu pluginu vkladania médií</a> (v Angličtine).',
 	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
-));
+]);

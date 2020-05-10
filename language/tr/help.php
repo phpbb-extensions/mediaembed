@@ -19,7 +19,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -38,7 +38,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,[
 	'HELP_EMBEDDING_MEDIA'			=> 'Medya (Ortam) Yerleştirme',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Diğer sitelerden alınan medya(ortam) içerikleri mesajların içerisine nasıl yerleştirilir',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Kullanıcılar izin verilen sitelerden aldığı video ve ses gibi içerikleri 
@@ -53,4 +53,4 @@ $lang = array_merge($lang, array(
 										<a href="http://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										MediaEmbed Plugin Belgeleri</a> sayfasını ziyaret edin.',
 	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
-));
+]);

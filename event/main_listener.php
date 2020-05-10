@@ -221,7 +221,7 @@ class main_listener implements EventSubscriberInterface
 	}
 
 	/**
-	 * Setup a cache directory to improve scraping performance
+	 * setup a cache directory to improve scraping performance
 	 *
 	 * @param \phpbb\event\data $event The event object
 	 */
@@ -231,7 +231,7 @@ class main_listener implements EventSubscriberInterface
 		$service = $event['parser'];
 		$parser = $service->get_parser();
 
-		if (!$this->disable_plugin && $this->cache_dir)
+		if ($this->config->offsetGet('media_embed_enable_cache') && $this->cache_dir)
 		{
 			$parser->registeredVars['cacheDir'] = $this->cache_dir;
 		}

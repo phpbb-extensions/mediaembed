@@ -18,7 +18,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -37,7 +37,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,[
 	'HELP_EMBEDDING_MEDIA'			=> 'Встраивание мультимедиа',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Как вставлять медиа с других сайтов в сообщения?',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Пользователи могут вставлять контент, например, видео и аудио с разрешенных сайтов, используя бб-код
@@ -49,4 +49,4 @@ $lang = array_merge($lang, array(
 										<br /><br />Полную документацию о поддерживаемых сайтах и ​​URL-адресах смотрите на странице <a href="http://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										Документация MediaEmbed</a>.',
 	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
-));
+]);

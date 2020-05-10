@@ -1,3 +1,6 @@
+imports:
+    - { resource: cron.yml }
+
 services:
     phpbb.mediaembed.listener:
         class: phpbb\mediaembed\event\main_listener

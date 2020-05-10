@@ -15,10 +15,10 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,[
 	// Settings
 	'ACP_MEDIA_SETTINGS'				=> 'Media Embed Instellingen',
 	'ACP_MEDIA_SETTINGS_EXPLAIN'		=> 'Hier kunt u instellingen voor de Media Embed PlugIn configureren.',
@@ -26,8 +26,12 @@ $lang = array_merge($lang, array(
 	'ACP_MEDIA_DISPLAY_BBCODE_EXPLAIN'	=> 'Als dit is niet toegestaan zal de BBCode knop niet worden getoond maar gebruikers kunnen nog steeds de <samp>[media]</samp> tag in berichten gebruiken',
 	'ACP_MEDIA_ALLOW_SIG'				=> 'Toestaan in onderschriften',
 	'ACP_MEDIA_ALLOW_SIG_EXPLAIN'		=> 'Toestaan dat onderschriften ook ingevoegde media inhoud (Embed Media Content) bevatten.',
+	'ACP_MEDIA_ENABLE_CACHE'			=> 'Enable Media Embed cache',
+	'ACP_MEDIA_ENABLE_CACHE_EXPLAIN'	=> 'In some cases, a simple URL does not provide all the information needed to embed a resource and the external content has to be downloaded, inspected and the information extracted. This only happens once at parsing time, but if the same text is parsed multiple times (e.g. when editing a text) a local copy of the external content can be saved in the cache for performance.',
 	'ACP_MEDIA_PARSE_URLS'				=> 'Convert plain URLs',
 	'ACP_MEDIA_PARSE_URLS_EXPLAIN'		=> 'Enable this to convert plain URLs (not wrapped in <samp>[media]</samp> or <samp>[url]</samp> tags) to embedded media content. Note that changing this setting will only affect new posts, as existing posts have already been parsed.',
+	'ACP_MEDIA_PURGE_CACHE'				=> 'Purge Media Embed cache',
+	'ACP_MEDIA_PURGE_CACHE_EXPLAIN'		=> 'Media Embed cache is being purged by cron once per day (if enabled above). The cache can be manially purged here.',
 	'ACP_MEDIA_SITE_TITLE'				=> 'Site id: %s',
 	'ACP_MEDIA_SITE_DISABLED'			=> 'Deze website heeft een conflict met een bestaande BBCode: [%s]',
 
@@ -36,4 +40,4 @@ $lang = array_merge($lang, array(
 	'ACP_MEDIA_MANAGE_EXPLAIN'			=> 'Hier kunt u de websites beheren van welke u de de Media Embed PlugIn wilt toestaan inhoud te tonen.',
 	'ACP_MEDIA_SITES_ERROR'				=> 'Er zijn geen media websites om te tonen.',
 	'ACP_MEDIA_SITES_MISSING'			=> 'The following sites are no longer supported or working. Please re-submit this page to remove them.',
-));
+]);

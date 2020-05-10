@@ -67,7 +67,7 @@ class main_module
 		global $phpbb_container;
 
 		$this->container   = $phpbb_container;
-		$this->cache       = $this->container->get('cache');
+		$this->cache       = $this->container->get('cache.driver');
 		$this->config      = $this->container->get('config');
 		$this->config_text = $this->container->get('config_text');
 		$this->language    = $this->container->get('language');
@@ -96,6 +96,11 @@ class main_module
 		$form_key = 'phpbb/mediaembed';
 		add_form_key($form_key);
 
+		if ($this->request->is_set_post('action_purge_cache'))
+		{
+			$this->purge_mediaembed_cache();
+		}
+
 		if ($this->request->is_set_post('submit'))
 		{
 			if (!check_form_key($form_key))
@@ -118,6 +123,7 @@ class main_module
 			'S_MEDIA_EMBED_BBCODE'		=> $this->config['media_embed_bbcode'],
 			'S_MEDIA_EMBED_ALLOW_SIG'	=> $this->config['media_embed_allow_sig'],
 			'S_MEDIA_EMBED_PARSE_URLS'	=> $this->config['media_embed_parse_urls'],
+			'S_MEDIA_EMBED_ENABLE_CACHE'=> $this->config['media_embed_enable_cache'],
 			'U_ACTION'					=> $this->u_action,
 		]);
 	}
@@ -204,6 +210,7 @@ class main_module
 		$this->config->set('media_embed_bbcode', $this->request->variable('media_embed_bbcode', 0));
 		$this->config->set('media_embed_allow_sig', $this->request->variable('media_embed_allow_sig', 0));
 		$this->config->set('media_embed_parse_urls', $this->request->variable('media_embed_parse_urls', 0));
+		$this->config->set('media_embed_enable_cache', $this->request->variable('media_embed_enable_cache', 0));
 
 		$this->purge_textformatter_cache();
 
@@ -219,5 +226,37 @@ class main_module
 	{
 		$this->cache->destroy($this->container->getParameter('text_formatter.cache.parser.key'));
 		$this->cache->destroy($this->container->getParameter('text_formatter.cache.renderer.key'));
+	}
+
+	/**
+	 * Purge all MediaEmbed cache files
+	 */
+	protected function purge_mediaembed_cache()
+	{
+		try
+		{
+			$iterator = new \DirectoryIterator($this->cache->cache_dir);
+		}
+		catch (\Exception $e)
+		{
+			return;
+		}
+		foreach ($iterator as $fileInfo)
+		{
+			if ($fileInfo->isDot() || $fileInfo->isDir())
+			{
+				continue;
+			}
+
+			$filename = $fileInfo->getFilename();
+			if (strpos($filename, 'http.') === 0)
+			{
+				$this->cache->remove_file($fileInfo->getPathname());
+			}
+		}
+
+		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PHPBB_MEDIA_EMBED_CACHE_PURGED');
+
+		trigger_error($this->language->lang('PURGE_CACHE_SUCCESS') . adm_back_link($this->u_action));
 	}
 }

@@ -16,15 +16,16 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,[
 	'ACP_PHPBB_MEDIA_EMBED'				=> '嵌入的媒体',
 	'ACP_PHPBB_MEDIA_EMBED_MANAGE'		=> '管理网站',
 	'ACP_PHPBB_MEDIA_EMBED_SETTINGS'	=> '设置',
 
 	// Log keys
+	'LOG_PHPBB_MEDIA_EMBED_CACHE_PURGED'=> '<strong>Media Embed cache purged</strong>',
 	'LOG_PHPBB_MEDIA_EMBED_MANAGE'		=> '<strong>可嵌入媒体网站更新完毕</strong>',
 	'LOG_PHPBB_MEDIA_EMBED_SETTINGS'	=> '<strong>媒体嵌入设置更新完毕</strong>',
-));
+]);

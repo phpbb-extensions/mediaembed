@@ -19,7 +19,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -38,7 +38,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,[
 	'HELP_EMBEDDING_MEDIA'			=> 'إدراج مُحتوى الوسائط',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'كيف أستطيع إدراج مُحتوى الوسائط من المواقع الأخرى في المُشاركات؟',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'يستطيع الأعضاء إدراج محتوى الوسائط مثل الفيديو والمقاطع الصوتية من المواقع المسموح بها بإستخدام 
@@ -53,4 +53,4 @@ $lang = array_merge($lang, array(
 										انقر على هذا الرابط <a href="http://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										معلومات إدراج مُحتوى الوسائط</a>.',
 	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
-));
+]);

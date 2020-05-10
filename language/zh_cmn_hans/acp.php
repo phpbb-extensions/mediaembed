@@ -16,10 +16,10 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,[
 	// Settings
 	'ACP_MEDIA_SETTINGS'				=> 'Media Embed Settings',
 	'ACP_MEDIA_SETTINGS_EXPLAIN'		=> '这里可设置 Media Embed PlugIn 的相关参数。',
@@ -27,8 +27,12 @@ $lang = array_merge($lang, array(
 	'ACP_MEDIA_DISPLAY_BBCODE_EXPLAIN'	=> '若禁用， BBCode 按钮就不会显示，但用户还是可以在帖子中使用 <samp>[media]</samp> 标签。',
 	'ACP_MEDIA_ALLOW_SIG'				=> '允许使用在用户签名',
 	'ACP_MEDIA_ALLOW_SIG_EXPLAIN'		=> '允许在用户签名处显示嵌入媒体内容。',
+	'ACP_MEDIA_ENABLE_CACHE'			=> 'Enable Media Embed cache',
+	'ACP_MEDIA_ENABLE_CACHE_EXPLAIN'	=> 'In some cases, a simple URL does not provide all the information needed to embed a resource and the external content has to be downloaded, inspected and the information extracted. This only happens once at parsing time, but if the same text is parsed multiple times (e.g. when editing a text) a local copy of the external content can be saved in the cache for performance.',
 	'ACP_MEDIA_PARSE_URLS'				=> 'Convert plain URLs',
 	'ACP_MEDIA_PARSE_URLS_EXPLAIN'		=> 'Enable this to convert plain URLs (not wrapped in <samp>[media]</samp> or <samp>[url]</samp> tags) to embedded media content. Note that changing this setting will only affect new posts, as existing posts have already been parsed.',
+	'ACP_MEDIA_PURGE_CACHE'				=> 'Purge Media Embed cache',
+	'ACP_MEDIA_PURGE_CACHE_EXPLAIN'		=> 'Media Embed cache is being purged by cron once per day (if enabled above). The cache can be manially purged here.',
 	'ACP_MEDIA_SITE_TITLE'				=> '网站 id: %s',
 	'ACP_MEDIA_SITE_DISABLED'			=> '此网站与现有的 BBCode: [%s] 有冲突',
 
@@ -37,4 +41,4 @@ $lang = array_merge($lang, array(
 	'ACP_MEDIA_MANAGE_EXPLAIN'			=> '你可以管理你所允许 Media Embed PlugIn 在帖子中显示内容的网站。',
 	'ACP_MEDIA_SITES_ERROR'				=> '没有可用的媒体网站用于显示。.',
 	'ACP_MEDIA_SITES_MISSING'			=> 'The following sites are no longer supported or working. Please re-submit this page to remove them.',
-));
+]);
