@@ -21,20 +21,20 @@ class purge_cache extends \phpbb\cron\task\base
 	/** @var config $config */
 	protected $config;
 
-	/** @var purge $purge_cache */
-	protected $purge_cache;
+	/** @var purge $mediaembed_cache */
+	protected $mediaembed_cache;
 
 	/**
 	 * Constructor
 	 *
-	 * @param config       $config      Config object
-	 * @param purge        $purge_cache Purge cache object
+	 * @param config       $config           Config object
+	 * @param purge        $mediaembed_cache Purge cache object
 	 * @access public
 	 */
-	public function __construct(config $config, purge $purge_cache)
+	public function __construct(config $config, purge $mediaembed_cache)
 	{
 		$this->config = $config;
-		$this->purge_cache = $purge_cache;
+		$this->mediaembed_cache = $mediaembed_cache;
 	}
 
 	/**
@@ -44,7 +44,7 @@ class purge_cache extends \phpbb\cron\task\base
 	{
 		try
 		{
-			$this->purge_cache->mediaembed_purge_cache();
+			$this->mediaembed_cache->purge();
 			$this->config->set('mediaembed_last_gc', time(), false);
 		}
 		catch (\RuntimeException $e)

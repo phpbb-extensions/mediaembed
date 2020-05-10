@@ -35,7 +35,7 @@ class purge
 	/**
 	 * Purge all MediaEmbed cache files
 	 */
-	public function mediaembed_purge_cache()
+	public function purge()
 	{
 		$this->finder
 			->name('http.*')
