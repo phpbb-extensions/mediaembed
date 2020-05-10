@@ -11,7 +11,7 @@
 namespace phpbb\mediaembed\migrations;
 
 /**
- * Migration to install mediaembed cache and cron task data
+ * Migration to install MediaEmbed cache and cron task data
  */
 class m5_cache extends \phpbb\db\migration\migration
 {

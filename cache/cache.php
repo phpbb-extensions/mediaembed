@@ -10,7 +10,7 @@
 
 namespace phpbb\mediaembed\cache;
 
-use \Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\Finder;
 
 /**
  * Media Embed cache handling class.
@@ -32,7 +32,7 @@ class cache
 	}
 
 	/**
-	 * Purge all MediaEmbed cache files
+	 * Purge cached MediaEmbed files
 	 */
 	public function purge()
 	{

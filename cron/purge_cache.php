@@ -10,11 +10,11 @@
 
 namespace phpbb\mediaembed\cron;
 
-use \phpbb\config\config;
-use \phpbb\mediaembed\cache\cache;
+use phpbb\config\config;
+use phpbb\mediaembed\cache\cache;
 
 /**
- * Mediaembed cron task.
+ * Media Embed cron task.
  */
 class purge_cache extends \phpbb\cron\task\base
 {
