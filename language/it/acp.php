@@ -27,11 +27,11 @@ $lang = array_merge($lang,[
 	'ACP_MEDIA_ALLOW_SIG'				=> 'Consenti nelle firme utente',
 	'ACP_MEDIA_ALLOW_SIG_EXPLAIN'		=> 'Consenti nelle firme utente di visualizzare il contenuto multimediale incorporato.',
 	'ACP_MEDIA_ENABLE_CACHE'			=> 'Enable Media Embed cache',
-	'ACP_MEDIA_ENABLE_CACHE_EXPLAIN'	=> 'In some cases, a simple URL does not provide all the information needed to embed a resource and the external content has to be downloaded, inspected and the information extracted. This only happens once at parsing time, but if the same text is parsed multiple times (e.g. when editing a text) a local copy of the external content can be saved in the cache for performance.',
+	'ACP_MEDIA_ENABLE_CACHE_EXPLAIN'	=> 'In some case you may notice slower than normal performance when loading media from other sites, especially while loading the same content multiple times (e.g. when editing a post). Enabling this will cache the information Media Embed gathers from sites locally and should improve performance.',
 	'ACP_MEDIA_PARSE_URLS'				=> 'Converti URL semplici',
 	'ACP_MEDIA_PARSE_URLS_EXPLAIN'		=> 'Abilitare per convertire URL semplici (non racchiuso tra i tag <samp>[media]</samp> o <samp>[url]</samp> tags) ed incorporare i media. Tieni presente che la modifica di questa impostazione avrà effetto solo sui nuovi post, in quanto i post esistenti sono già stati analizzati.',
 	'ACP_MEDIA_PURGE_CACHE'				=> 'Purge Media Embed cache',
-	'ACP_MEDIA_PURGE_CACHE_EXPLAIN'		=> 'Media Embed cache is being purged by cron once per day (if enabled above). The cache can be manially purged here.',
+	'ACP_MEDIA_PURGE_CACHE_EXPLAIN'		=> 'Media Embed cache is automatically purged once per day, however this button can be used to manually purge its cache now.',
 	'ACP_MEDIA_SITE_TITLE'				=> 'ID sito: %s',
 	'ACP_MEDIA_SITE_DISABLED'			=> 'Questo sito è in conflitto con un BBCode esistente: [%s]',
 

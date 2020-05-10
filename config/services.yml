@@ -19,3 +19,8 @@ services:
         class: phpbb\mediaembed\collection\customsitescollection
         arguments:
             - '@ext.manager'
+
+    phpbb.mediaembed.purge_cache:
+        class: phpbb\mediaembed\cache\purge
+        arguments:
+            - '@cache.driver'

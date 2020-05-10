@@ -1,10 +1,10 @@
 services:
 # ----- Cron tasks -----
-    phpbb.mediaembed.cron.task.mediaembed:
-        class: phpbb\mediaembed\cron\mediaembed
+    phpbb.mediaembed.cron.task.purge_cache:
+        class: phpbb\mediaembed\cron\purge_cache
         arguments:
             - '@config'
-            - '@cache.driver'
+            - '@phpbb.mediaembed.purge_cache'
         calls:
             - [set_name, [cron.task.mediaembed]]
         tags:

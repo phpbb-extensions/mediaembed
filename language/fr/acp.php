@@ -47,11 +47,11 @@ $lang = array_merge($lang,[
 	'ACP_MEDIA_ALLOW_SIG'				=> 'Autoriser dans la signature des membres',
 	'ACP_MEDIA_ALLOW_SIG_EXPLAIN'		=> 'Permet d’utiliser le BBCode <samp>[MEDIA]</samp> dans le contenu de la signature des membres.',
 	'ACP_MEDIA_ENABLE_CACHE'			=> 'Enable Media Embed cache',
-	'ACP_MEDIA_ENABLE_CACHE_EXPLAIN'	=> 'In some cases, a simple URL does not provide all the information needed to embed a resource and the external content has to be downloaded, inspected and the information extracted. This only happens once at parsing time, but if the same text is parsed multiple times (e.g. when editing a text) a local copy of the external content can be saved in the cache for performance.',
+	'ACP_MEDIA_ENABLE_CACHE_EXPLAIN'	=> 'In some case you may notice slower than normal performance when loading media from other sites, especially while loading the same content multiple times (e.g. when editing a post). Enabling this will cache the information Media Embed gathers from sites locally and should improve performance.',
 	'ACP_MEDIA_PARSE_URLS'				=> 'Convertir les URL simples',
 	'ACP_MEDIA_PARSE_URLS_EXPLAIN'		=> 'Permet de convertir les URL simples (non mises entre les balises des BBCodes <samp>[media]</samp> ou <samp>[url]</samp>) en contenu multimédia intégré. Merci de noter que cette fonctionnalité ne concerne que les nouveaux messages, car les messages déjà publiés ont déjà été analysés.',
 	'ACP_MEDIA_PURGE_CACHE'				=> 'Purge Media Embed cache',
-	'ACP_MEDIA_PURGE_CACHE_EXPLAIN'		=> 'Media Embed cache is being purged by cron once per day (if enabled above). The cache can be manially purged here.',
+	'ACP_MEDIA_PURGE_CACHE_EXPLAIN'		=> 'Media Embed cache is automatically purged once per day, however this button can be used to manually purge its cache now.',
 	'ACP_MEDIA_SITE_TITLE'				=> 'ID du service : %s',
 	'ACP_MEDIA_SITE_DISABLED'			=> 'Ce service entre en conflit avec un BBCode déjà installé sur le forum : [%s]',
 
