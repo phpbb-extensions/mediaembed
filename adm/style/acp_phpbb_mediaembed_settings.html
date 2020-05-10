@@ -27,7 +27,7 @@
 				<label><input type="radio" class="radio" name="media_embed_enable_cache" value="0"{% if not S_MEDIA_EMBED_ENABLE_CACHE %} checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
 		</dl>
 		<dl>
-			<dt><label for="action_purge_cache">{{ lang('ACP_MEDIA_PURGE_CACHE') }}</label><br /><span>{{ lang('ACP_MEDIA_PURGE_CACHE_EXPLAIN') }}</span></dt>
+			<dt><label for="action_purge_cache">{{ lang('ACP_MEDIA_PURGE_CACHE') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_MEDIA_PURGE_CACHE_EXPLAIN') }}</span></dt>
 			<dd><input class="button2" type="submit" id="action_purge_cache" name="action_purge_cache" value="{{ lang('PURGE_CACHE') }}" /></dd>
 		</dl>
 	</fieldset>

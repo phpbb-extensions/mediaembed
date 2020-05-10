@@ -13,9 +13,9 @@ namespace phpbb\mediaembed\cache;
 use \Symfony\Component\Finder\Finder;
 
 /**
- * mediaembed cron task.
+ * Media Embed cache handling class.
  */
-class purge
+class cache
 {
 	/** @var \phpbb\cache\driver\driver_interface */
 	protected $cache;
@@ -23,13 +23,12 @@ class purge
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\cache\driver\driver_interface  $cache      Cache jbject
+	 * @param \phpbb\cache\driver\driver_interface  $cache   Cache driver object
 	 * @access public
 	 */
 	public function __construct(\phpbb\cache\driver\driver_interface $cache)
 	{
 		$this->cache = $cache;
-		$this->finder = new Finder();
 	}
 
 	/**
@@ -37,12 +36,13 @@ class purge
 	 */
 	public function purge()
 	{
-		$this->finder
+		$finder = new Finder();
+		$finder
 			->name('http.*')
 			->in($this->cache->cache_dir)
 			->files();
 
-		foreach ($this->finder as $file)
+		foreach ($finder as $file)
 		{
 			$this->cache->remove_file($file->getRealPath());
 		}

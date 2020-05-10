@@ -20,7 +20,7 @@ services:
         arguments:
             - '@ext.manager'
 
-    phpbb.mediaembed.purge_cache:
-        class: phpbb\mediaembed\cache\purge
+    phpbb.mediaembed.cache:
+        class: phpbb\mediaembed\cache\cache
         arguments:
             - '@cache.driver'

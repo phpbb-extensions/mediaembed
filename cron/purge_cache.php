@@ -11,7 +11,7 @@
 namespace phpbb\mediaembed\cron;
 
 use \phpbb\config\config;
-use \phpbb\mediaembed\cache\purge;
+use \phpbb\mediaembed\cache\cache;
 
 /**
  * Mediaembed cron task.
@@ -28,10 +28,10 @@ class purge_cache extends \phpbb\cron\task\base
 	 * Constructor
 	 *
 	 * @param config       $config           Config object
-	 * @param purge        $mediaembed_cache Purge cache object
+	 * @param purge        $mediaembed_cache Mediaembed cache object
 	 * @access public
 	 */
-	public function __construct(config $config, purge $mediaembed_cache)
+	public function __construct(config $config, cache $mediaembed_cache)
 	{
 		$this->config = $config;
 		$this->mediaembed_cache = $mediaembed_cache;

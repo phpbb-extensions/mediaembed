@@ -4,7 +4,7 @@ services:
         class: phpbb\mediaembed\cron\purge_cache
         arguments:
             - '@config'
-            - '@phpbb.mediaembed.purge_cache'
+            - '@phpbb.mediaembed.cache'
         calls:
             - [set_name, [cron.task.mediaembed]]
         tags:

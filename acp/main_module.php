@@ -33,7 +33,7 @@ class main_module
 	/** @var \phpbb\log\log $log */
 	protected $log;
 
-	/** @var \phpbb\mediaembed\cache\purge $mediaembed_cache */
+	/** @var \phpbb\mediaembed\cache\cache $mediaembed_cache */
 	protected $mediaembed_cache;
 
 	/** @var \phpbb\request\request $request */
@@ -75,7 +75,7 @@ class main_module
 		$this->config_text = $this->container->get('config_text');
 		$this->language    = $this->container->get('language');
 		$this->log         = $this->container->get('log');
-		$this->mediaembed_cache = $this->container->get('phpbb.mediaembed.purge_cache');
+		$this->mediaembed_cache = $this->container->get('phpbb.mediaembed.cache');
 		$this->request     = $this->container->get('request');
 		$this->template    = $this->container->get('template');
 		$this->user        = $this->container->get('user');
