@@ -34,7 +34,7 @@ class cache
 	/**
 	 * Purge cached MediaEmbed files
 	 */
-	public function purge()
+	public function purge_mediaembed_cache()
 	{
 		$finder = new Finder();
 		$finder
