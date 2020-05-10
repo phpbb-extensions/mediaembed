@@ -15,9 +15,6 @@ namespace phpbb\mediaembed\acp;
  */
 class main_module
 {
-	/** @var \phpbb\cache\driver\driver_interface $cache */
-	protected $cache;
-
 	/** @var \phpbb\config\config $config */
 	protected $config;
 
@@ -70,7 +67,6 @@ class main_module
 		global $phpbb_container;
 
 		$this->container   = $phpbb_container;
-		$this->cache       = $this->container->get('cache.driver');
 		$this->config      = $this->container->get('config');
 		$this->config_text = $this->container->get('config_text');
 		$this->language    = $this->container->get('language');
@@ -199,7 +195,7 @@ class main_module
 	{
 		$this->config_text->set('media_embed_sites', json_encode($this->request->variable('mark', [''])));
 
-		$this->purge_textformatter_cache();
+		$this->media_cache->purge_textformatter_cache();
 
 		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PHPBB_MEDIA_EMBED_MANAGE');
 
@@ -216,20 +212,11 @@ class main_module
 		$this->config->set('media_embed_parse_urls', $this->request->variable('media_embed_parse_urls', 0));
 		$this->config->set('media_embed_enable_cache', $this->request->variable('media_embed_enable_cache', 0));
 
-		$this->purge_textformatter_cache();
+		$this->media_cache->purge_textformatter_cache();
 
 		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PHPBB_MEDIA_EMBED_SETTINGS');
 
 		trigger_error($this->language->lang('CONFIG_UPDATED') . adm_back_link($this->u_action));
-	}
-
-	/**
-	 * Purge cached TextFormatter files
-	 */
-	protected function purge_textformatter_cache()
-	{
-		$this->cache->destroy($this->container->getParameter('text_formatter.cache.parser.key'));
-		$this->cache->destroy($this->container->getParameter('text_formatter.cache.renderer.key'));
 	}
 
 	/**

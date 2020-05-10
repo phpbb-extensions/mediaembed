@@ -10,6 +10,7 @@
 
 namespace phpbb\mediaembed\cache;
 
+use phpbb\cache\driver\driver_interface as cache_driver;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -17,18 +18,28 @@ use Symfony\Component\Finder\Finder;
  */
 class cache
 {
-	/** @var \phpbb\cache\driver\driver_interface */
+	/** @var cache_driver */
 	protected $cache;
+
+	/** @var string Cache key used for the parser */
+	protected $cache_key_parser;
+
+	/** @var string Cache key used for the renderer */
+	protected $cache_key_renderer;
 
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\cache\driver\driver_interface  $cache   Cache driver object
+	 * @param cache_driver $cache              Cache driver object
+	 * @param string       $cache_key_parser   Cache key used for the parser
+	 * @param string       $cache_key_renderer Cache key used for the renderer
 	 * @access public
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache)
+	public function __construct(cache_driver $cache, $cache_key_parser, $cache_key_renderer)
 	{
 		$this->cache = $cache;
+		$this->cache_key_parser = $cache_key_parser;
+		$this->cache_key_renderer = $cache_key_renderer;
 	}
 
 	/**
@@ -46,5 +57,14 @@ class cache
 		{
 			$this->cache->remove_file($file->getRealPath());
 		}
+	}
+
+	/**
+	 * Purge cached TextFormatter files
+	 */
+	public function purge_textformatter_cache()
+	{
+		$this->cache->destroy($this->cache_key_parser);
+		$this->cache->destroy($this->cache_key_renderer);
 	}
 }

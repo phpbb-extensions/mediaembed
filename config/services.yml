@@ -24,3 +24,5 @@ services:
         class: phpbb\mediaembed\cache\cache
         arguments:
             - '@cache.driver'
+            - '%text_formatter.cache.parser.key%'
+            - '%text_formatter.cache.renderer.key%'
