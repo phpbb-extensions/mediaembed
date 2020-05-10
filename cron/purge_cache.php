@@ -28,8 +28,7 @@ class purge_cache extends \phpbb\cron\task\base
 	 * Constructor
 	 *
 	 * @param config $config Config object
-	 * @param cache  $cache  Mediaembed cache object
-	 * @access public
+	 * @param cache  $cache  MediaEmbed cache object
 	 */
 	public function __construct(config $config, cache $cache)
 	{

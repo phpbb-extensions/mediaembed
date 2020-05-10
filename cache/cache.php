@@ -33,7 +33,6 @@ class cache
 	 * @param cache_driver $cache              Cache driver object
 	 * @param string       $cache_key_parser   Cache key used for the parser
 	 * @param string       $cache_key_renderer Cache key used for the renderer
-	 * @access public
 	 */
 	public function __construct(cache_driver $cache, $cache_key_parser, $cache_key_renderer)
 	{
@@ -44,6 +43,8 @@ class cache
 
 	/**
 	 * Purge cached MediaEmbed files
+	 *
+	 * @return void
 	 */
 	public function purge_mediaembed_cache()
 	{
@@ -61,6 +62,8 @@ class cache
 
 	/**
 	 * Purge cached TextFormatter files
+	 *
+	 * @return void
 	 */
 	public function purge_textformatter_cache()
 	{
