@@ -29,7 +29,7 @@ class media_embed_test extends \phpbb_functional_test_case
 
 		$post = $this->create_topic(2, 'Media Embed Test Topic 1', "[media]https://youtu.be/{$this->youtubeId}[/media]");
 		$crawler = self::request('GET', "viewtopic.php?t={$post['topic_id']}&sid={$this->sid}");
-		$this->assertContains("//www.youtube.com/embed/{$this->youtubeId}", $crawler->filter("#post_content{$post['topic_id']} iframe")->attr('src'));
+		$this->assertStringContainsString("//www.youtube.com/embed/{$this->youtubeId}", $crawler->filter("#post_content{$post['topic_id']} iframe")->attr('src'));
 	}
 
 	public function test_posting_custom_site()
@@ -55,7 +55,7 @@ class media_embed_test extends \phpbb_functional_test_case
 
 		$post = $this->create_topic(2, 'Media Embed Custom Site Test Topic 1', "[media]https://ok.ru/video/{$this->ok_ru_Id}[/media]");
 		$crawler = self::request('GET', "viewtopic.php?t={$post['topic_id']}&sid={$this->sid}");
-		$this->assertContains("//ok.ru/videoembed/{$this->ok_ru_Id}", $crawler->filter("#post_content{$post['topic_id']} iframe")->attr('src'));
+		$this->assertStringContainsString("//ok.ru/videoembed/{$this->ok_ru_Id}", $crawler->filter("#post_content{$post['topic_id']} iframe")->attr('src'));
 	}
 
 	public function signatures_data()
@@ -96,7 +96,7 @@ class media_embed_test extends \phpbb_functional_test_case
 		{
 			$this->assertContainsLang('PROFILE_UPDATED', $crawler->filter('#page-body')->text());
 			$crawler = self::request('GET', 'ucp.php?i=ucp_profile&mode=signature');
-			$this->assertContains($expected, $crawler->filter('#postform iframe')->attr('src'));
+			$this->assertStringContainsString($expected, $crawler->filter('#postform iframe')->attr('src'));
 		}
 		else
 		{
@@ -130,7 +130,7 @@ class media_embed_test extends \phpbb_functional_test_case
 		$this->assertContainsLang('HELP_EMBEDDING_MEDIA', $crawler->filter('#faqlinks')->text());
 
 		preg_match('/https:\/\/youtu\.be\/(.*)/', $this->lang('HELP_EMBEDDING_MEDIA_DEMO'), $matches);
-		$this->assertContains("//www.youtube.com/embed/{$matches[1]}", $crawler->filter('body iframe')->attr('src'));
+		$this->assertStringContainsString("//www.youtube.com/embed/{$matches[1]}", $crawler->filter('body iframe')->attr('src'));
 	}
 
 	public function test_acp_modules()
