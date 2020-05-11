@@ -19,7 +19,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -38,7 +38,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,[
 	'HELP_EMBEDDING_MEDIA'			=> '嵌入的媒体',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> '如何在帖子中嵌入其它网站的媒体内容',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> '用户可以嵌入来自所允许的网站的视频和音频内容，使用 
@@ -52,4 +52,4 @@ $lang = array_merge($lang, array(
 										<br><br>访问 <a href="http://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										MediaEmbed Plugin Documentation</a> 可以查看完整的文档，包括支持的网站和网址列子。',
 	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
-));
+]);

@@ -18,7 +18,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -37,7 +37,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,[
 	'HELP_EMBEDDING_MEDIA'			=> 'Incorporando mídia',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Como inserir mídia de outros sites em postagens',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Os usuários podem incorporar conteúdo como vídeos e áudio de sites permitidos usando 
@@ -52,4 +52,4 @@ $lang = array_merge($lang, array(
 										visite a <a href="http://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										MediaEmbed Plugin Documentation</a>.',
 	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
-));
+]);

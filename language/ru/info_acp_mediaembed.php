@@ -15,15 +15,16 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,[
 	'ACP_PHPBB_MEDIA_EMBED'				=> 'Media Embed',
 	'ACP_PHPBB_MEDIA_EMBED_MANAGE'		=> 'Управление сайтами',
 	'ACP_PHPBB_MEDIA_EMBED_SETTINGS'	=> 'Настройки',
 
 	// Log keys
+	'LOG_PHPBB_MEDIA_EMBED_CACHE_PURGED'=> '<strong>Кэш Media Embed очищен</strong>',
 	'LOG_PHPBB_MEDIA_EMBED_MANAGE'		=> '<strong>Сайты для Media Embed обновлены</strong>',
 	'LOG_PHPBB_MEDIA_EMBED_SETTINGS'	=> '<strong>Настройки Media Embed обновлены</strong>',
-));
+]);

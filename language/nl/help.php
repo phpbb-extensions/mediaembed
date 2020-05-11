@@ -18,7 +18,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -37,7 +37,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,[
 	'HELP_EMBEDDING_MEDIA'			=> 'Media Invoegen',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Hoe voeg je media van andere website in in je berichten',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Gebruikers kunnen inhoud zoals video\'s en audo invoegen van toegestane websites met gebruik van
@@ -52,4 +52,4 @@ $lang = array_merge($lang, array(
 										bezoekt u de <a href="http://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										MediaEmbed Plugin Documentatie</a>.',
 	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
-));
+]);

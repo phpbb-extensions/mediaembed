@@ -19,7 +19,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -38,7 +38,7 @@ if (empty($lang) || !is_array($lang))
 // ’ « » “ ” …
 //
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,[
 	'HELP_EMBEDDING_MEDIA'			=> 'Intégration de médias',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Intégrer un média dans les messages provenant d’un service d’un autre site Web',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Les utilisateurs peuvent intégrer du contenu multimédia (audio, vidéo) provenant de services fournis 
@@ -53,4 +53,4 @@ $lang = array_merge($lang, array(
 										est disponible depuis la page : <a href="http://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										Sites pris en charges par le plugin MediaEmbed</a>.',
 	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
-));
+]);

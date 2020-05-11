@@ -18,7 +18,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -37,7 +37,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,[
 	'HELP_EMBEDDING_MEDIA'			=> 'Embedding Media',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'How to embed media from other sites into posts',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Users can embed content such as videos and audio from allowed sites using 
@@ -52,4 +52,4 @@ $lang = array_merge($lang, array(
 										visit the <a href="http://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										MediaEmbed Plugin Documentation</a>.',
 	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
-));
+]);

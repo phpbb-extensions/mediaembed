@@ -19,7 +19,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -38,7 +38,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,[
 	'HELP_EMBEDDING_MEDIA'			=> 'Osadzanie multimediów',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Jak wyświetlić multimedia z innych stron na forum',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Użytkownicy mogą wyświetlić zawartość z innych stron jak wideo lub muzyka 
@@ -51,4 +51,4 @@ $lang = array_merge($lang, array(
 										znajduje się pod linkiem <a href="http://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										MediaEmbed Plugin Documentation</a>.',
 	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
-));
+]);

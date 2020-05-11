@@ -16,15 +16,16 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,[
 	'ACP_PHPBB_MEDIA_EMBED'				=> 'إدراج مُحتوى الوسائط',
 	'ACP_PHPBB_MEDIA_EMBED_MANAGE'		=> 'إدارة المواقع',
 	'ACP_PHPBB_MEDIA_EMBED_SETTINGS'	=> 'الإعدادات',
 
 	// Log keys
+	'LOG_PHPBB_MEDIA_EMBED_CACHE_PURGED'=> '<strong>Media Embed cache purged</strong>',
 	'LOG_PHPBB_MEDIA_EMBED_MANAGE'		=> '<strong>تم تحديث قائمة المواقع في “إدراج مُحتوى الوسائط”</strong>',
 	'LOG_PHPBB_MEDIA_EMBED_SETTINGS'	=> '<strong>تم تحديث إعدادات “إدراج مُحتوى الوسائط”</strong>',
-));
+]);

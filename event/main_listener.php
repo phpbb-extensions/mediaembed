@@ -43,6 +43,9 @@ class main_listener implements EventSubscriberInterface
 	/** @var customsitescollection $custom_sites */
 	protected $custom_sites;
 
+	/** @var string $cache_dir */
+	protected $cache_dir;
+
 	/** @var bool Disable the media embed plugin (plain url parsing) */
 	protected $disable_plugin = false;
 
@@ -62,7 +65,7 @@ class main_listener implements EventSubscriberInterface
 			'core.posting_modify_message_text'			=> 'check_forum_permission',
 			'core.ucp_pm_compose_modify_parse_before'	=> 'check_pm_permission',
 			'core.message_parser_check_message'			=> [['check_signature'], ['check_magic_urls'], ['check_bbcode_enabled']],
-			'core.text_formatter_s9e_parser_setup'		=> 'disable_media_embed',
+			'core.text_formatter_s9e_parser_setup'		=> [['disable_media_embed'], ['setup_cache_dir']],
 		];
 	}
 
@@ -75,8 +78,9 @@ class main_listener implements EventSubscriberInterface
 	 * @param language              $language
 	 * @param template              $template
 	 * @param customsitescollection $custom_sites
+	 * @param string                $cache_dir
 	 */
-	public function __construct(auth $auth, config $config, db_text $config_text, language $language, template $template, customsitescollection $custom_sites)
+	public function __construct(auth $auth, config $config, db_text $config_text, language $language, template $template, customsitescollection $custom_sites, $cache_dir = '')
 	{
 		$this->auth = $auth;
 		$this->config = $config;
@@ -84,6 +88,7 @@ class main_listener implements EventSubscriberInterface
 		$this->template = $template;
 		$this->config_text = $config_text;
 		$this->custom_sites = $custom_sites;
+		$this->cache_dir = $cache_dir;
 	}
 
 	/**
@@ -212,6 +217,23 @@ class main_listener implements EventSubscriberInterface
 		if ($this->disable_tag)
 		{
 			$parser->disableTag('MEDIA');
+		}
+	}
+
+	/**
+	 * setup a cache directory to improve scraping performance
+	 *
+	 * @param \phpbb\event\data $event The event object
+	 */
+	public function setup_cache_dir($event)
+	{
+		/** @var \phpbb\textformatter\s9e\parser $service  */
+		$service = $event['parser'];
+		$parser = $service->get_parser();
+
+		if ($this->config->offsetGet('media_embed_enable_cache') && $this->cache_dir)
+		{
+			$parser->registeredVars['cacheDir'] = $this->cache_dir;
 		}
 	}
 
