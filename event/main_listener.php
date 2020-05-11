@@ -95,6 +95,7 @@ class main_listener implements EventSubscriberInterface
 	 * Add any custom site definitions to the default MediaEmbed sites object
 	 *
 	 * @param \phpbb\event\data $event The event object
+	 * @return void
 	 */
 	public function add_custom_sites($event)
 	{
@@ -111,6 +112,7 @@ class main_listener implements EventSubscriberInterface
 	 * Enable media sites
 	 *
 	 * @param \phpbb\event\data $event The event object
+	 * @return void
 	 */
 	public function enable_media_sites($event)
 	{
@@ -137,6 +139,7 @@ class main_listener implements EventSubscriberInterface
 	 * Configure plain URL parsing
 	 *
 	 * @param \phpbb\event\data $event The event object
+	 * @return void
 	 */
 	public function configure_url_parsing($event)
 	{
@@ -150,6 +153,8 @@ class main_listener implements EventSubscriberInterface
 
 	/**
 	 * Set template switch for displaying the [media] BBCode button
+	 *
+	 * @return void
 	 */
 	public function setup_media_bbcode()
 	{
@@ -173,6 +178,7 @@ class main_listener implements EventSubscriberInterface
 	 * Add Media Embed help to the BBCode Guide
 	 *
 	 * @param \phpbb\event\data $event The event object
+	 * @return void
 	 */
 	public function media_embed_help($event)
 	{
@@ -202,6 +208,7 @@ class main_listener implements EventSubscriberInterface
 	 * Disable Media Embed plugin and tag if necessary
 	 *
 	 * @param \phpbb\event\data $event The event object
+	 * @return void
 	 */
 	public function disable_media_embed($event)
 	{
@@ -224,6 +231,7 @@ class main_listener implements EventSubscriberInterface
 	 * setup a cache directory to improve scraping performance
 	 *
 	 * @param \phpbb\event\data $event The event object
+	 * @return void
 	 */
 	public function setup_cache_dir($event)
 	{
@@ -241,6 +249,7 @@ class main_listener implements EventSubscriberInterface
 	 * Check if forum permission allows Media Embed
 	 *
 	 * @param \phpbb\event\data $event The event object
+	 * @return void
 	 */
 	public function check_forum_permission($event)
 	{
@@ -253,6 +262,8 @@ class main_listener implements EventSubscriberInterface
 
 	/**
 	 * Check if user permission allows Media Embed in private messages
+	 *
+	 * @return void
 	 */
 	public function check_pm_permission()
 	{
@@ -268,6 +279,7 @@ class main_listener implements EventSubscriberInterface
 	 * Posting signatures is 'sig', reparsing signatures is 'user_signature'.
 	 *
 	 * @param \phpbb\event\data $event The event object
+	 * @return void
 	 */
 	public function check_signature($event)
 	{
@@ -282,6 +294,7 @@ class main_listener implements EventSubscriberInterface
 	 * Check if magic urls is allowed.
 	 *
 	 * @param \phpbb\event\data $event The event object
+	 * @return void
 	 */
 	public function check_magic_urls($event)
 	{
@@ -295,6 +308,7 @@ class main_listener implements EventSubscriberInterface
 	 * Check if bbcodes are allowed.
 	 *
 	 * @param \phpbb\event\data $event The event object
+	 * @return void
 	 */
 	public function check_bbcode_enabled($event)
 	{
