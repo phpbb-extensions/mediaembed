@@ -80,7 +80,7 @@ class main_listener implements EventSubscriberInterface
 	 * @param customsitescollection $custom_sites
 	 * @param string                $cache_dir
 	 */
-	public function __construct(auth $auth, config $config, db_text $config_text, language $language, template $template, customsitescollection $custom_sites, $cache_dir = '')
+	public function __construct(auth $auth, config $config, db_text $config_text, language $language, template $template, customsitescollection $custom_sites, $cache_dir)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
@@ -235,12 +235,12 @@ class main_listener implements EventSubscriberInterface
 	 */
 	public function setup_cache_dir($event)
 	{
-		/** @var \phpbb\textformatter\s9e\parser $service  */
-		$service = $event['parser'];
-		$parser = $service->get_parser();
-
-		if ($this->config->offsetGet('media_embed_enable_cache') && $this->cache_dir)
+		if ($this->cache_dir && $this->config->offsetGet('media_embed_enable_cache'))
 		{
+			/** @var \phpbb\textformatter\s9e\parser $service  */
+			$service = $event['parser'];
+			$parser = $service->get_parser();
+
 			$parser->registeredVars['cacheDir'] = $this->cache_dir;
 		}
 	}
