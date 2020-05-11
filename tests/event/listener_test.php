@@ -24,6 +24,9 @@ class listener_test extends \phpbb_database_test_case
 		return $this->createXMLDataSet(__DIR__ . '/../../../../../../tests/text_formatter/s9e/fixtures/factory.xml');
 	}
 
+	/** @var string */
+	protected $cache_dir;
+
 	/** @var ContainerInterface */
 	protected $container;
 
@@ -55,6 +58,8 @@ class listener_test extends \phpbb_database_test_case
 		parent::setUp();
 
 		global $phpbb_root_path, $phpEx;
+
+		$this->cache_dir = $phpbb_root_path . 'cache/';
 
 		$this->db = $this->new_dbal();
 
@@ -98,7 +103,8 @@ class listener_test extends \phpbb_database_test_case
 			$this->config_text,
 			$this->language,
 			$this->template,
-			$this->custom_sites
+			$this->custom_sites,
+			$this->cache_dir
 		);
 	}
 
