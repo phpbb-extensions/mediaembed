@@ -468,6 +468,42 @@ class listener_test extends \phpbb_database_test_case
 		$listener->media_embed_help($event);
 	}
 
+	/**
+	 * Data for test_setup_cache_dir
+	 *
+	 * @return array
+	 */
+	public function setup_cache_dir_data()
+	{
+		return [
+			[true],
+			[false],
+		];
+	}
+
+	/**
+	 * Test the setup_cache_dir method
+	 *
+	 * @dataProvider setup_cache_dir_data
+	 * @param boolean $cache
+	 */
+	public function test_setup_cache_dir($cache)
+	{
+		$expected = $cache ? $this->cache_dir : null;
+		$this->config['media_embed_enable_cache'] = $cache;
+
+		$parser = $this->container->get('text_formatter.parser');
+
+		$event = new \phpbb\event\data([
+			'parser' => $parser]
+		);
+
+		$listener = $this->get_listener();
+		$listener->setup_cache_dir($event);
+
+		$this->assertSame($expected, $parser->get_parser()->registeredVars['cacheDir']);
+	}
+
 	protected function mock_s9e_parser()
 	{
 		return $this->getMockBuilder('s9e\\TextFormatter\\Parser')
