@@ -396,22 +396,6 @@ class listener_test extends \phpbb_database_test_case
 			->with($this->stringContains('_'), $this->anything())
 			->willReturnMap($acl_map);
 
-		// Must use a mock of the s9e parser
-		$mock = $this->mock_s9e_parser();
-
-		// Test the expected parser method is called
-		$mock->expects($this->exactly($expected))
-			->method('disablePlugin')
-			->with('MediaEmbed');
-
-		// Must use a mock of the phpbb parser to pass to the event
-		$parser = $this->mock_phpbb_parser();
-
-		// The phpbb parser must get the mocked s9e parser
-		$parser->expects($this->once())
-			->method('get_parser')
-			->willReturn($mock);
-
 		// Get the listener and call the methods
 		$listener = $this->get_listener();
 		switch ($permission)
@@ -425,7 +409,7 @@ class listener_test extends \phpbb_database_test_case
 				$listener->check_pm_permission();
 			break;
 		}
-		$listener->disable_media_embed(new \phpbb\event\data(['parser' => $parser]));
+		$listener->disable_media_embed(new \phpbb\event\data(['parser' => $this->container->get('text_formatter.parser')]));
 	}
 
 	/**
