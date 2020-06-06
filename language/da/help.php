@@ -18,7 +18,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -37,7 +37,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,[
 	'HELP_EMBEDDING_MEDIA'			=> 'Indlejring af medie',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Sådan indlejres medie fra andre steder i indlæg',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Brugere kan indlejre indhold, såsom videoer og lyd fra tilladte stedet med 
@@ -52,4 +52,4 @@ $lang = array_merge($lang, array(
 										dokumentationen til MediaEmbed Plugin</a> for fuld dokumentation på understøttede steder og 
 										URL\'er med eksempler.',
 	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
-));
+]);

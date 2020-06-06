@@ -16,15 +16,16 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,[
 	'ACP_PHPBB_MEDIA_EMBED'				=> 'Vkladanie médií',
 	'ACP_PHPBB_MEDIA_EMBED_MANAGE'		=> 'Spravovať stránky',
 	'ACP_PHPBB_MEDIA_EMBED_SETTINGS'	=> 'Nastavenia',
 
 	// Log keys
+	'LOG_PHPBB_MEDIA_EMBED_CACHE_PURGED'=> '<strong>Media Embed cache purged</strong>',
 	'LOG_PHPBB_MEDIA_EMBED_MANAGE'		=> '<strong>Stránky vkladania médií boli aktualizované</strong>',
 	'LOG_PHPBB_MEDIA_EMBED_SETTINGS'	=> '<strong>Nastavenia vkladania médií boli aktualizované</strong>',
-));
+]);

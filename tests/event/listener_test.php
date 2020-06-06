@@ -24,6 +24,9 @@ class listener_test extends \phpbb_database_test_case
 		return $this->createXMLDataSet(__DIR__ . '/../../../../../../tests/text_formatter/s9e/fixtures/factory.xml');
 	}
 
+	/** @var string */
+	protected $cache_dir;
+
 	/** @var ContainerInterface */
 	protected $container;
 
@@ -55,6 +58,8 @@ class listener_test extends \phpbb_database_test_case
 		parent::setUp();
 
 		global $phpbb_root_path, $phpEx;
+
+		$this->cache_dir = $phpbb_root_path . 'cache/';
 
 		$this->db = $this->new_dbal();
 
@@ -98,7 +103,8 @@ class listener_test extends \phpbb_database_test_case
 			$this->config_text,
 			$this->language,
 			$this->template,
-			$this->custom_sites
+			$this->custom_sites,
+			$this->cache_dir
 		);
 	}
 
@@ -390,22 +396,6 @@ class listener_test extends \phpbb_database_test_case
 			->with($this->stringContains('_'), $this->anything())
 			->willReturnMap($acl_map);
 
-		// Must use a mock of the s9e parser
-		$mock = $this->mock_s9e_parser();
-
-		// Test the expected parser method is called
-		$mock->expects($this->exactly($expected))
-			->method('disablePlugin')
-			->with('MediaEmbed');
-
-		// Must use a mock of the phpbb parser to pass to the event
-		$parser = $this->mock_phpbb_parser();
-
-		// The phpbb parser must get the mocked s9e parser
-		$parser->expects($this->once())
-			->method('get_parser')
-			->willReturn($mock);
-
 		// Get the listener and call the methods
 		$listener = $this->get_listener();
 		switch ($permission)
@@ -419,7 +409,7 @@ class listener_test extends \phpbb_database_test_case
 				$listener->check_pm_permission();
 			break;
 		}
-		$listener->disable_media_embed(new \phpbb\event\data(['parser' => $parser]));
+		$listener->disable_media_embed(new \phpbb\event\data(['parser' => $this->container->get('text_formatter.parser')]));
 	}
 
 	/**
@@ -460,6 +450,42 @@ class listener_test extends \phpbb_database_test_case
 		// Get the listener and call the media_embed_help method
 		$listener = $this->get_listener();
 		$listener->media_embed_help($event);
+	}
+
+	/**
+	 * Data for test_setup_cache_dir
+	 *
+	 * @return array
+	 */
+	public function setup_cache_dir_data()
+	{
+		return [
+			[true],
+			[false],
+		];
+	}
+
+	/**
+	 * Test the setup_cache_dir method
+	 *
+	 * @dataProvider setup_cache_dir_data
+	 * @param boolean $cache
+	 */
+	public function test_setup_cache_dir($cache)
+	{
+		$expected = $cache ? $this->cache_dir : null;
+		$this->config['media_embed_enable_cache'] = $cache;
+
+		$parser = $this->container->get('text_formatter.parser');
+
+		$event = new \phpbb\event\data([
+			'parser' => $parser]
+		);
+
+		$listener = $this->get_listener();
+		$listener->setup_cache_dir($event);
+
+		$this->assertSame($expected, $parser->get_parser()->registeredVars['cacheDir']);
 	}
 
 	protected function mock_s9e_parser()

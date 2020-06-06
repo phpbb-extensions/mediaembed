@@ -15,15 +15,16 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,[
 	'ACP_PHPBB_MEDIA_EMBED'				=> 'Incorpora i media',
 	'ACP_PHPBB_MEDIA_EMBED_MANAGE'		=> 'Gestisci siti',
 	'ACP_PHPBB_MEDIA_EMBED_SETTINGS'	=> 'Impostazioni',
 
 	// Log keys
+	'LOG_PHPBB_MEDIA_EMBED_CACHE_PURGED'=> '<strong>Media Embed cache purged</strong>',
 	'LOG_PHPBB_MEDIA_EMBED_MANAGE'		=> '<strong>I siti con i  Media Incorporati sono stati Aggiornati</strong>',
 	'LOG_PHPBB_MEDIA_EMBED_SETTINGS'	=> '<strong>Impostazioni PlugIn Media Embed aggiornate</strong>',
-));
+]);

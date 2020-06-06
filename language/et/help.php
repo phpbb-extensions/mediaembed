@@ -19,7 +19,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -38,7 +38,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,[
 	'HELP_EMBEDDING_MEDIA'			=> 'Meedia manustamine',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Kuidas manustada meediat teiselt veebileheküljelt postitusse',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Kasutajatel on võimalik manustada sisu nagu näiteks videosi ja helifaile lubatud veebilehekülgedelt kasutades 
@@ -51,4 +51,4 @@ $lang = array_merge($lang, array(
 										<br /><br />Et näha täielikku dokumentatsiooni toeatatutest lehekülgedest, ning näidis aadressidest, palun külasta <a href="http://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										lehekülge</a>.',
 	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
-));
+]);

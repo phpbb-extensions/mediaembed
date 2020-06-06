@@ -18,7 +18,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -37,7 +37,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,[
 	'HELP_EMBEDDING_MEDIA'			=> 'Vkládání médií',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Jak vkládat média z jiných stránek do příspěvků.',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Uživatelů mohou vkládat obsah jako jsou videa nebo zvukové stopy z povolených stránek používáním <strong>[media][/media]</strong> nebo jednoduše vložením povoleného URL do textu. Například:<br /><br />
@@ -49,4 +49,4 @@ $lang = array_merge($lang, array(
 										<br /><br />Pro kompletní dokumentaci podporovaných tránek a příklady URL navštivte <a href="http://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										MediaEmbed Plugin dokumentace</a>.',
 	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
-));
+]);
