@@ -44,7 +44,7 @@ $lang = array_merge($lang,[
 	'ACP_PHPBB_MEDIA_EMBED_SETTINGS'	=> 'Paramètres',
 
 	// Log keys
-	'LOG_PHPBB_MEDIA_EMBED_CACHE_PURGED'=> '<strong>Media Embed cache purged</strong>',
+	'LOG_PHPBB_MEDIA_EMBED_CACHE_PURGED'=> '<strong>Cache des médias intégrés vidé</strong>',
 	'LOG_PHPBB_MEDIA_EMBED_MANAGE'		=> '<strong>Services des médias intégrés mis à jour</strong>',
 	'LOG_PHPBB_MEDIA_EMBED_SETTINGS'	=> '<strong>Paramètres des médias intégrés mis à jour</strong>',
 ]);
