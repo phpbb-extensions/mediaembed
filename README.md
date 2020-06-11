@@ -57,4 +57,4 @@ Please fork this repository and submit a pull request to contribute to phpBB Med
 
 ## License
 
-[GPLv2](license.txt)
+[GNU General Public License v2](license.txt)
