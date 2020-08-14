@@ -5,7 +5,7 @@
  *
  * @copyright (c) 2016 phpBB Limited <https://www.phpbb.com>
  * @license GNU General Public License, version 2 (GPL-2.0)
- * @Polska wersja językowa 30.07.2018, Mateusz Dutko (vader) www.rnavspotters.pl
+ * @Polska wersja językowa phpBB Media Embed 1.1.1 - 25.02.2020, Mateusz Dutko (vader) www.rnavspotters.pl
  *
  */
 
@@ -41,7 +41,7 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang,[
 	'HELP_EMBEDDING_MEDIA'			=> 'Osadzanie multimediów',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Jak wyświetlić multimedia z innych stron na forum',
-	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Użytkownicy mogą wyświetlić zawartość z innych stron jak wideo lub muzyka 
+	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Użytkownicy mogą wyświetlić zawartość z innych stron jak wideo lub muzyka
 										poprzez znacznik <strong>[media][/media]</strong>. Należy wkleić adres URL pomiędzy znacznikami.
 										<br /><br />Na przykład:
 										<strong>[media]</strong>%1$s<strong>[/media]</strong>

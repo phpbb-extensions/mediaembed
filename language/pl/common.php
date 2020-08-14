@@ -5,7 +5,7 @@
  *
  * @copyright (c) 2016 phpBB Limited <https://www.phpbb.com>
  * @license GNU General Public License, version 2 (GPL-2.0)
- * @Polska wersja językowa 30.07.2018, Mateusz Dutko (vader) www.rnavspotters.pl
+ * @Polska wersja językowa phpBB Media Embed 1.1.1 - 25.02.2020, Mateusz Dutko (vader) www.rnavspotters.pl
  *
  */
 

@@ -5,7 +5,7 @@
  *
  * @copyright (c) 2016 phpBB Limited <https://www.phpbb.com>
  * @license GNU General Public License, version 2 (GPL-2.0)
- * @Polska wersja językowa 30.07.2018, Mateusz Dutko (vader) www.rnavspotters.pl
+ * @Polska wersja językowa phpBB Media Embed 1.1.1 - 25.02.2020, Mateusz Dutko (vader) www.rnavspotters.pl
  *
  */
 
@@ -40,5 +40,5 @@ $lang = array_merge($lang,[
 	'ACP_MEDIA_MANAGE'					=> 'Zarządzaj stronami osadzania multimediów',
 	'ACP_MEDIA_MANAGE_EXPLAIN'			=> 'Tutaj można dokonać konfiguracji wyświetlania elementów stron przez rozszerzenie Media Embed.',
 	'ACP_MEDIA_SITES_ERROR'				=> 'Nie ma żadnych stron do wyświetlenia.',
-	'ACP_MEDIA_SITES_MISSING'			=> 'The following sites are no longer supported or working. Please re-submit this page to remove them.',
+	'ACP_MEDIA_SITES_MISSING'			=> 'Poniższe strony nie są dłużej wspierane. Kliknij wyślij, aby zaktualizować listę.',
 ]);
