@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.1.2 - 2020-08-14
+
+- Added a new caching option (to Media Embed Settings) which will cache the scraped content from some media sites, which can speed up performance when repeatedly loading content from some sites.
+- Added more informative error messages when this extension cannot be installed successfully.
+
 ### 1.1.1 - 2019-06-13
 
 - Fixed an issue that could cause some boards to have a fatal PHP error.
