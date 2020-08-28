@@ -41,15 +41,8 @@ class purge_cache extends \phpbb\cron\task\base
 	 */
 	public function run()
 	{
-		try
-		{
-			$this->cache->purge_mediaembed_cache();
-			$this->config->set('mediaembed_last_gc', time(), false);
-		}
-		catch (\RuntimeException $e)
-		{
-			return;
-		}
+		$this->cache->purge_mediaembed_cache();
+		$this->config->set('mediaembed_last_gc', time(), false);
 	}
 
 	/**
