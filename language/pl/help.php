@@ -38,7 +38,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang,[
+$lang = array_merge($lang, [
 	'HELP_EMBEDDING_MEDIA'			=> 'Osadzanie multimediów',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Jak wyświetlić multimedia z innych stron na forum',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Użytkownicy mogą wyświetlić zawartość z innych stron jak wideo lub muzyka
