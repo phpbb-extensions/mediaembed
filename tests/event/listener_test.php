@@ -53,7 +53,7 @@ class listener_test extends \phpbb_database_test_case
 	/**
 	 * Setup test environment
 	 */
-	public function setUp(): void
+	protected function setUp(): void
 	{
 		parent::setUp();
 
@@ -148,8 +148,8 @@ class listener_test extends \phpbb_database_test_case
 		$listener->set_permissions($event);
 
 		// Assert permission keys are added
-		$this->assertArrayHasKey('f_mediaembed', $event['permissions']);
-		$this->assertArrayHasKey('u_pm_mediaembed', $event['permissions']);
+		self::assertArrayHasKey('f_mediaembed', $event['permissions']);
+		self::assertArrayHasKey('u_pm_mediaembed', $event['permissions']);
 	}
 
 	/**
@@ -183,7 +183,7 @@ class listener_test extends \phpbb_database_test_case
 	 */
 	public function test_configure_media_embed($tag, $code, $id, $exists, $parse_urls, $expected)
 	{
-		$this->custom_sites->expects($this->once())
+		$this->custom_sites->expects(self::once())
 			->method('get_collection')
 			->willReturn([__DIR__ . '/../fixtures/sites/ok.yml']);
 
@@ -205,7 +205,7 @@ class listener_test extends \phpbb_database_test_case
 		// Force config_text to return all default and custom MediaEmbed sites
 		$default_sites = array_keys(iterator_to_array($configurator->MediaEmbed->defaultSites));
 		$custom_sites = ['ok'];
-		$this->config_text->expects($this->once())
+		$this->config_text->expects(self::once())
 			->method('get')
 			->with('media_embed_sites')
 			->willReturn(json_encode(array_merge($default_sites, $custom_sites)));
@@ -225,7 +225,7 @@ class listener_test extends \phpbb_database_test_case
 		$parser = null;
 		extract($configurator->finalize(), EXTR_OVERWRITE);
 
-		$assertion = $expected ? 'assertContains' : 'assertNotContains';
+		$assertion = $expected ? 'assertStringContainsString' : 'assertStringNotContainsString';
 
 		$this->{$assertion}($id, $parser->parse($code));
 	}
@@ -255,7 +255,7 @@ class listener_test extends \phpbb_database_test_case
 	{
 		$this->expectException($exception);
 
-		$this->custom_sites->expects($this->once())
+		$this->custom_sites->expects(self::once())
 			->method('get_collection')
 			->willReturn([__DIR__ . "/../fixtures/sites/$site.yml"]);
 
@@ -320,12 +320,12 @@ class listener_test extends \phpbb_database_test_case
 		$mock = $this->mock_s9e_parser();
 
 		// Test disablePlugin is called if expected
-		$mock->expects($this->exactly($disable_plugin))
+		$mock->expects(self::exactly($disable_plugin))
 			->method('disablePlugin')
 			->with('MediaEmbed');
 
 		// Test disableTag is called if expected
-		$mock->expects($this->exactly($disable_tag))
+		$mock->expects(self::exactly($disable_tag))
 			->method('disableTag')
 			->with('MEDIA');
 
@@ -333,7 +333,7 @@ class listener_test extends \phpbb_database_test_case
 		$parser = $this->mock_phpbb_parser();
 
 		// The phpbb parser must get the mocked s9e parser
-		$parser->expects($this->once())
+		$parser->expects(self::once())
 			->method('get_parser')
 			->willReturn($mock);
 
@@ -391,9 +391,9 @@ class listener_test extends \phpbb_database_test_case
 			return $arr;
 		}, $acl_map);
 
-		$this->auth->expects($this->atMost(3))
+		$this->auth->expects(self::atMost(3))
 			->method('acl_get')
-			->with($this->stringContains('_'), $this->anything())
+			->with(self::stringContains('_'), self::anything())
 			->willReturnMap($acl_map);
 
 		// Get the listener and call the methods
@@ -419,7 +419,7 @@ class listener_test extends \phpbb_database_test_case
 	{
 		$listener = $this->get_listener();
 
-		$this->template->expects($this->once())
+		$this->template->expects(self::once())
 			->method('assign_var')
 			->with('S_BBCODE_MEDIA', $this->config['media_embed_bbcode']);
 
@@ -429,7 +429,7 @@ class listener_test extends \phpbb_database_test_case
 	public function test_media_embed_help()
 	{
 		// Test template methods and lang vars are called as expected
-		$this->template->expects($this->exactly(2))
+		$this->template->expects(self::exactly(2))
 			->method('assign_block_vars')
 			->withConsecutive(
 				['faq_block', [
@@ -473,7 +473,6 @@ class listener_test extends \phpbb_database_test_case
 	 */
 	public function test_setup_cache_dir($cache)
 	{
-		$expected = $cache ? $this->cache_dir : null;
 		$this->config['media_embed_enable_cache'] = $cache;
 
 		$parser = $this->container->get('text_formatter.parser');
@@ -485,7 +484,15 @@ class listener_test extends \phpbb_database_test_case
 		$listener = $this->get_listener();
 		$listener->setup_cache_dir($event);
 
-		$this->assertSame($expected, $parser->get_parser()->registeredVars['cacheDir']);
+		if ($cache)
+		{
+			self::assertArrayHasKey('cacheDir', $parser->get_parser()->registeredVars);
+			self::assertSame($this->cache_dir, $parser->get_parser()->registeredVars['cacheDir']);
+		}
+		else
+		{
+			self::assertArrayNotHasKey('cacheDir', $parser->get_parser()->registeredVars);
+		}
 	}
 
 	protected function mock_s9e_parser()
