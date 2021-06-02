@@ -38,7 +38,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang,[
+$lang = array_merge($lang, [
 	'HELP_EMBEDDING_MEDIA'			=> 'Vkladanie médií',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Ako vložiť obsah z inej stránky do príspevku',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Používatelia môžu vložiť obsah (napríklad video alebo zvuk z povolených stránok použítím

@@ -37,7 +37,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang,[
+$lang = array_merge($lang, [
 	'HELP_EMBEDDING_MEDIA'			=> 'Incrustación de Medios',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Cómo insertar medios de otros sitios en los mensajes',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Los usuarios pueden incorporar contenido como videos y audio desde sitios permitidos usando

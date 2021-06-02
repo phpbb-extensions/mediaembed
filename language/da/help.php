@@ -37,7 +37,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang,[
+$lang = array_merge($lang, [
 	'HELP_EMBEDDING_MEDIA'			=> 'Indlejring af medie',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Sådan indlejres medie fra andre steder i indlæg',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Brugere kan indlejre indhold, såsom videoer og lyd fra tilladte stedet med

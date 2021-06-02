@@ -19,7 +19,7 @@ if (empty($lang) || !is_array($lang))
 	$lang = [];
 }
 
-$lang = array_merge($lang,[
+$lang = array_merge($lang, [
 	'ACP_PHPBB_MEDIA_EMBED'				=> '嵌入的媒体',
 	'ACP_PHPBB_MEDIA_EMBED_MANAGE'		=> '管理网站',
 	'ACP_PHPBB_MEDIA_EMBED_SETTINGS'	=> '设置',

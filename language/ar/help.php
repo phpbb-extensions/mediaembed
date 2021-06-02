@@ -38,7 +38,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang,[
+$lang = array_merge($lang, [
 	'HELP_EMBEDDING_MEDIA'			=> 'إدراج مُحتوى الوسائط',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'كيف أستطيع إدراج مُحتوى الوسائط من المواقع الأخرى في المُشاركات؟',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'يستطيع الأعضاء إدراج محتوى الوسائط مثل الفيديو والمقاطع الصوتية من المواقع المسموح بها بإستخدام

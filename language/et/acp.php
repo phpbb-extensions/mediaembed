@@ -19,7 +19,7 @@ if (empty($lang) || !is_array($lang))
 	$lang = [];
 }
 
-$lang = array_merge($lang,[
+$lang = array_merge($lang, [
 	// Settings
 	'ACP_MEDIA_SETTINGS'				=> 'Manustatud meedia seaded',
 	'ACP_MEDIA_SETTINGS_EXPLAIN'		=> 'Sellel leheküljel on sul võimalik seadistada laienduse manustatud meedia seadeid.',

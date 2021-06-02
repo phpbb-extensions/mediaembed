@@ -38,7 +38,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang,[
+$lang = array_merge($lang, [
 	'HELP_EMBEDDING_MEDIA'			=> 'Medya (Ortam) Yerleştirme',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Diğer sitelerden alınan medya(ortam) içerikleri mesajların içerisine nasıl yerleştirilir',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Kullanıcılar izin verilen sitelerden aldığı video ve ses gibi içerikleri

@@ -18,7 +18,7 @@ if (empty($lang) || !is_array($lang))
 	$lang = [];
 }
 
-$lang = array_merge($lang,[
+$lang = array_merge($lang, [
 	'ACP_PHPBB_MEDIA_EMBED'				=> 'Media Embed',
 	'ACP_PHPBB_MEDIA_EMBED_MANAGE'		=> 'Spravovat stránky',
 	'ACP_PHPBB_MEDIA_EMBED_SETTINGS'	=> 'Nastavení',

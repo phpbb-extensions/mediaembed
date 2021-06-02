@@ -19,7 +19,7 @@ if (empty($lang) || !is_array($lang))
 	$lang = [];
 }
 
-$lang = array_merge($lang,[
+$lang = array_merge($lang, [
 	'ACP_PHPBB_MEDIA_EMBED'				=> 'إدراج مُحتوى الوسائط',
 	'ACP_PHPBB_MEDIA_EMBED_MANAGE'		=> 'إدارة المواقع',
 	'ACP_PHPBB_MEDIA_EMBED_SETTINGS'	=> 'الإعدادات',

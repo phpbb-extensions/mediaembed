@@ -38,7 +38,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang,[
+$lang = array_merge($lang, [
 	'HELP_EMBEDDING_MEDIA'			=> 'Meedia manustamine',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Kuidas manustada meediat teiselt veebileheküljelt postitusse',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Kasutajatel on võimalik manustada sisu nagu näiteks videosi ja helifaile lubatud veebilehekülgedelt kasutades

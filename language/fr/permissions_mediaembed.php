@@ -38,7 +38,7 @@ if (empty($lang) || !is_array($lang))
 // ’ « » “ ” …
 //
 
-$lang = array_merge($lang,[
+$lang = array_merge($lang, [
 	'ACL_F_MEDIAEMBED'		=> 'Peut utiliser le BBCode [media].',
 	'ACL_U_PM_MEDIAEMBED'	=> 'Peut utiliser le BBCode [media] dans les messages privés.',
 ]);

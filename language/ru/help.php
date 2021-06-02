@@ -37,7 +37,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang,[
+$lang = array_merge($lang, [
 	'HELP_EMBEDDING_MEDIA'			=> 'Встраивание мультимедиа',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Как вставлять медиа с других сайтов в сообщения?',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Пользователи могут вставлять контент, например, видео и аудио с разрешенных сайтов, используя бб-код

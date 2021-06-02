@@ -37,7 +37,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang,[
+$lang = array_merge($lang, [
 	'HELP_EMBEDDING_MEDIA'			=> 'Incorporando mídia',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Como inserir mídia de outros sites em postagens',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Os usuários podem incorporar conteúdo como vídeos e áudio de sites permitidos usando

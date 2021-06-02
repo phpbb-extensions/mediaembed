@@ -38,7 +38,7 @@ if (empty($lang) || !is_array($lang))
 // ’ « » “ ” …
 //
 
-$lang = array_merge($lang,[
+$lang = array_merge($lang, [
 	'HELP_EMBEDDING_MEDIA'			=> 'Intégration de médias',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Intégrer un média dans les messages provenant d’un service d’un autre site Web',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Les utilisateurs peuvent intégrer du contenu multimédia (audio, vidéo) provenant de services fournis
