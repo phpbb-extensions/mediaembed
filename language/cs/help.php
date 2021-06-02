@@ -46,7 +46,7 @@ $lang = array_merge($lang,[
 										<strong>[media]</strong> tagů.
 										<br /><br />Uvedený příklad bude vypadat následovně:<br /><br />%2$s
 										<br /><br />Tyto stránky jsou podporovány:<br /><samp>%3$s.</samp>
-										<br /><br />Pro kompletní dokumentaci podporovaných tránek a příklady URL navštivte <a href="http://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
+										<br /><br />Pro kompletní dokumentaci podporovaných tránek a příklady URL navštivte <a href="https://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										MediaEmbed Plugin dokumentace</a>.',
 	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
 ]);

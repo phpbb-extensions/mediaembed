@@ -48,8 +48,8 @@ $lang = array_merge($lang,[
 										<strong>[media]</strong> Tags verwendet werden.
 										<br /><br />Das hier gezeigt Beispiel würde folgendes generieren:<br /><br />%2$s
 										<br /><br />Die folgenden Seiten sind erlaubt:<br /><samp>%3$s.</samp>
-										<br /><br />Für eine komplette Dokumentation der unterstützen Seiten und Beispiel URLs, 
-										besuche die <a href="http://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
+										<br /><br />Für eine komplette Dokumentation der unterstützen Seiten und Beispiel URLs,
+										besuche die <a href="https://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										MediaEmbed Plugin Documentation</a>.',
 	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
 ]);
