@@ -30,24 +30,25 @@ class listener_test extends \phpbb_database_test_case
 	/** @var ContainerInterface */
 	protected $container;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\auth\auth */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|\phpbb\auth\auth */
 	protected $auth;
 
 	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\config\db_text */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|\phpbb\config\db_text */
 	protected $config_text;
 
+	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
 	/** @var \phpbb\language\language */
 	protected $language;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\template\template */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|\phpbb\template\template */
 	protected $template;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\mediaembed\collection\customsitescollection */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|\phpbb\mediaembed\collection\customsitescollection */
 	protected $custom_sites;
 
 	/**
@@ -354,12 +355,12 @@ class listener_test extends \phpbb_database_test_case
 	public function check_permissions_data()
 	{
 		return [
-			[2, 'f_mediaembed', false, 1],
-			[3, 'f_mediaembed', true, 0],
-			[2, 'f_bbcode', false, 1],
-			[3, 'f_bbcode', true, 0],
-			[0, 'u_pm_mediaembed', false, 1],
-			[0, 'u_pm_mediaembed', true, 0],
+			[2, 'f_mediaembed', false],
+			[3, 'f_mediaembed', true],
+			[2, 'f_bbcode', false],
+			[3, 'f_bbcode', true],
+			[0, 'u_pm_mediaembed', false],
+			[0, 'u_pm_mediaembed', true],
 		];
 	}
 
@@ -369,11 +370,10 @@ class listener_test extends \phpbb_database_test_case
 	 * @param bool   $forum_id   Forum id?
 	 * @param string $permission The permission name
 	 * @param bool   $allowed    Allowed?
-	 * @param int    $expected   The expected times parser plugin methods are called
 	 *
 	 * @dataProvider check_permissions_data
 	 */
-	public function test_check_permissions($forum_id, $permission, $allowed, $expected)
+	public function test_check_permissions($forum_id, $permission, $allowed)
 	{
 		// Set default permissions map
 		$acl_map = [

@@ -38,7 +38,7 @@ if (empty($lang) || !is_array($lang))
 // ’ « » “ ” …
 //
 
-$lang = array_merge($lang,[
+$lang = array_merge($lang, [
 	'ACP_PHPBB_MEDIA_EMBED'				=> 'Médias intégrés aux messages',
 	'ACP_PHPBB_MEDIA_EMBED_MANAGE'		=> 'Gestion des services',
 	'ACP_PHPBB_MEDIA_EMBED_SETTINGS'	=> 'Paramètres',

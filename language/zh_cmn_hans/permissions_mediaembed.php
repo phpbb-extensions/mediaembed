@@ -30,7 +30,7 @@ if (empty($lang) || !is_array($lang))
 // equally where a string contains only two placeholders which are used to wrap text
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 
-$lang = array_merge($lang,[
+$lang = array_merge($lang, [
 	'ACL_F_MEDIAEMBED'		=> '可以使用 [media] 标签',
 	'ACL_U_PM_MEDIAEMBED'	=> '可以在短信中粘贴 [media]',
 ]);

@@ -19,9 +19,9 @@
 		{% for sites in MEDIA_SITES|batch(4, '') %}
 			<tr>
 				{% for site in sites %}
-					<td style="width:25%">
+					<td style="width: 25%;">
 						{% if site %}
-							<label style="font-size:1em;" title="{{ site.title }}">
+							<label style="font-size: 1em;" title="{{ site.title }}">
 								<input type="checkbox" class="radio" name="mark[]" value="{{ site.id }}"{% if site.disabled %} disabled{% elseif site.enabled %} checked{% endif %} /> {{ site.name }}
 							</label>
 						{% endif %}

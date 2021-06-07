@@ -37,7 +37,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang,[
+$lang = array_merge($lang, [
 	'HELP_EMBEDDING_MEDIA'			=> 'Media Invoegen',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Hoe voeg je media van andere website in in je berichten',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Gebruikers kunnen inhoud zoals video\'s en audo invoegen van toegestane websites met gebruik van
@@ -49,7 +49,7 @@ $lang = array_merge($lang,[
 										<br /><br />Bovenstaand voorbeeld geeft als resultaat:<br /><br />%2$s
 										<br /><br />De volgende websites worden ondersteund:<br /><samp>%3$s.</samp>
 										<br /><br />Voor de volledige documentatie op ondersteunde websites en voorbeeld URL\'s,
-										bezoekt u de <a href="http://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
+										bezoekt u de <a href="https://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										MediaEmbed Plugin Documentatie</a>.',
 	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
 ]);

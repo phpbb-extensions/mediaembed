@@ -37,10 +37,10 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang,[
+$lang = array_merge($lang, [
 	'HELP_EMBEDDING_MEDIA'			=> 'Incorporando mídia',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Como inserir mídia de outros sites em postagens',
-	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Os usuários podem incorporar conteúdo como vídeos e áudio de sites permitidos usando 
+	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Os usuários podem incorporar conteúdo como vídeos e áudio de sites permitidos usando
 										as tags <strong>[media][/media]</strong>, ou simplesmente postando uma
 										URL suportada em texto simples. Por exemplo:<br /><br />
 										<strong>[media]</strong>%1$s<strong>[/media]</strong>
@@ -48,8 +48,8 @@ $lang = array_merge($lang,[
 										<strong>[media]</strong>.
 										<br /><br />O exemplo mostrado aqui geraria:<br /><br />%2$s
 										<br /><br />Os seguintes sites são suportados:<br /><samp>%3$s.</samp>
-										<br /><br />Para obter documentação completa sobre sites suportados e URLs de exemplo,  
-										visite a <a href="http://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
+										<br /><br />Para obter documentação completa sobre sites suportados e URLs de exemplo,
+										visite a <a href="https://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										MediaEmbed Plugin Documentation</a>.',
 	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
 ]);

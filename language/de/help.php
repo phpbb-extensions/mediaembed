@@ -37,7 +37,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang,[
+$lang = array_merge($lang, [
 	'HELP_EMBEDDING_MEDIA'			=> 'Embedding Media',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Wie werden Medien von anderen Seiten in Posts eingebunden',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'User können Medien von anderen erlaubten Seiten wie Video und Audio einbinden indem
@@ -48,8 +48,8 @@ $lang = array_merge($lang,[
 										<strong>[media]</strong> Tags verwendet werden.
 										<br /><br />Das hier gezeigt Beispiel würde folgendes generieren:<br /><br />%2$s
 										<br /><br />Die folgenden Seiten sind erlaubt:<br /><samp>%3$s.</samp>
-										<br /><br />Für eine komplette Dokumentation der unterstützen Seiten und Beispiel URLs, 
-										besuche die <a href="http://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
+										<br /><br />Für eine komplette Dokumentation der unterstützen Seiten und Beispiel URLs,
+										besuche die <a href="https://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										MediaEmbed Plugin Documentation</a>.',
 	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
 ]);

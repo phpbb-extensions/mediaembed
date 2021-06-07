@@ -38,7 +38,7 @@ if (empty($lang) || !is_array($lang))
 // ’ « » “ ” …
 //
 
-$lang = array_merge($lang,[
+$lang = array_merge($lang, [
 	'PHPBB_VERSION_ERROR'	=> 'Il semble que le forum n’est pas à jour, une ancienne version de phpBB est installée. phpBB ' . \phpbb\mediaembed\ext::PHPBB_MINIMUM . ' ou une version plus récente est requise pour utiliser cette extension.',
 	'S9E_MEDIAEMBED_ERROR'	=> 'L’extension « s9e/mediaembed » a été détectée, celle-ci est installée sur le forum. L’extension « phpBB Media Embed PlugIn » ne peut être installée tant que l’extension « <a href="https://www.phpbb.com/community/viewtopic.php?f=456&t=2272431">s9e/mediaembed</a> » est activée. Ainsi, il est nécessaire de la désactiver puis de supprimer tous ses fichiers sur son FTP.',
 ]);

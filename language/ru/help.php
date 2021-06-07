@@ -37,7 +37,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang,[
+$lang = array_merge($lang, [
 	'HELP_EMBEDDING_MEDIA'			=> 'Встраивание мультимедиа',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Как вставлять медиа с других сайтов в сообщения?',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Пользователи могут вставлять контент, например, видео и аудио с разрешенных сайтов, используя бб-код
@@ -46,7 +46,7 @@ $lang = array_merge($lang,[
 										<br /><br />Как говорилось выше, ссылка также может использоваться без бб-кода <strong>[media]</strong>.
 										<br /><br />Пример, показанный здесь, будет генерировать:<br /><br />%2$s
 										<br /><br />Поддерживаются следующие сайты::<br /><samp>%3$s.</samp>
-										<br /><br />Полную документацию о поддерживаемых сайтах и ​​URL-адресах смотрите на странице <a href="http://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
+										<br /><br />Полную документацию о поддерживаемых сайтах и ​​URL-адресах смотрите на странице <a href="https://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										Документация MediaEmbed</a>.',
 	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
 ]);

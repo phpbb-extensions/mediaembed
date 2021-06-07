@@ -38,7 +38,7 @@ if (empty($lang) || !is_array($lang))
 // ’ « » “ ” …
 //
 
-$lang = array_merge($lang,[
+$lang = array_merge($lang, [
 	// Settings
 	'ACP_MEDIA_SETTINGS'				=> 'Paramètres des médias intégrés',
 	'ACP_MEDIA_SETTINGS_EXPLAIN'		=> 'Depuis cette page il est possible de paramétrer les options de l’extension « phpBB Media Embed PlugIn ».',

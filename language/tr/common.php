@@ -38,6 +38,6 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang,[
+$lang = array_merge($lang, [
 	'BBCODE_MEDIA_HELP'	=> 'Medya (Ortam) Yerleştirme: [media]http://medya_url_adresi[/media]',
 ]);

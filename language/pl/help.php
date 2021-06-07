@@ -48,7 +48,7 @@ $lang = array_merge($lang, [
 										<br /><br />Powyższy adres URL zostanie wyświetlony jak pokazano poniżej:<br /><br />%2$s
 										<br /><br />Na forum wspierane są strony:<br /><samp>%3$s.</samp>
 										<br /><br />Dokumentacja wraz z wszystkimi wspieranymi stronami i przykładami adresów URL
-										znajduje się pod linkiem <a href="http://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
+										znajduje się pod linkiem <a href="https://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										MediaEmbed Plugin Documentation</a>.',
 	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
 ]);

@@ -18,7 +18,7 @@ if (empty($lang) || !is_array($lang))
 	$lang = [];
 }
 
-$lang = array_merge($lang,[
+$lang = array_merge($lang, [
 	// Settings
 	'ACP_MEDIA_SETTINGS'				=> 'Ajustes de Media Embed',
 	'ACP_MEDIA_SETTINGS_EXPLAIN'		=> 'Aquí puede configurar los ajustes del PlugIn Media Embed.',
