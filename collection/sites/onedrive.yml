@@ -1,0 +1,8 @@
+name: OneDrive
+host: onedrive.live.com
+example: 'https://onedrive.live.com/embed?cid=175B59721780BABD&resid=175B59721780BABD%21105&authkey=ALpJzZGo4dvTIY4&em=2'
+extract: "!onedrive\\.live\\.com/embed(?'id'[^/]+)!"
+iframe:
+    height: 500
+    width: '100%'
+    src: https://onedrive.live.com/embed{@id}
