@@ -6,6 +6,6 @@ example:
     - 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSbbciMU7t5dCB8auk-nyK-p-25TJjgUrzBuMCAiq_2ZDqoMSFAlZCctIC7y3TXS71ys_MRdoAU4Jqr/pubchart?oid=1729348495'
 extract: "!docs\\.google\\.com/(?'id'(document|spreadsheets|presentation|forms)(((/\\d)+|(/\\w)+)+)/([^/?]+)(/[^/]+)?)!"
 iframe:
-    height: 500
+    height: '500'
     width: '100%'
     src: https://docs.google.com/{@id}
