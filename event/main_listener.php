@@ -66,6 +66,7 @@ class main_listener implements EventSubscriberInterface
 			'core.ucp_pm_compose_modify_parse_before'	=> 'check_pm_permission',
 			'core.message_parser_check_message'			=> [['check_signature'], ['check_magic_urls'], ['check_bbcode_enabled']],
 			'core.text_formatter_s9e_parser_setup'		=> [['disable_media_embed'], ['setup_cache_dir']],
+			'core.page_header' 							=> 'setup_media_configs',
 		];
 	}
 
@@ -319,6 +320,11 @@ class main_listener implements EventSubscriberInterface
 			$this->disable_plugin = true;
 			$this->disable_tag = true;
 		}
+	}
+
+	public function setup_media_configs()
+	{
+		$this->template->assign_var('S_MEDIA_EMBED_FULL_WIDTH', $this->config->offsetGet('media_embed_full_width'));
 	}
 
 	/**

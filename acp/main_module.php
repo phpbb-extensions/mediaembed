@@ -123,6 +123,7 @@ class main_module
 			'S_MEDIA_EMBED_BBCODE'		=> $this->config['media_embed_bbcode'],
 			'S_MEDIA_EMBED_ALLOW_SIG'	=> $this->config['media_embed_allow_sig'],
 			'S_MEDIA_EMBED_PARSE_URLS'	=> $this->config['media_embed_parse_urls'],
+			'S_MEDIA_EMBED_FULL_WIDTH'	=> $this->config['media_embed_full_width'],
 			'S_MEDIA_EMBED_ENABLE_CACHE'=> $this->config['media_embed_enable_cache'],
 			'U_ACTION'					=> $this->u_action,
 		]);
@@ -210,6 +211,7 @@ class main_module
 		$this->config->set('media_embed_bbcode', $this->request->variable('media_embed_bbcode', 0));
 		$this->config->set('media_embed_allow_sig', $this->request->variable('media_embed_allow_sig', 0));
 		$this->config->set('media_embed_parse_urls', $this->request->variable('media_embed_parse_urls', 0));
+		$this->config->set('media_embed_full_width', $this->request->variable('media_embed_full_width', 0));
 		$this->config->set('media_embed_enable_cache', $this->request->variable('media_embed_enable_cache', 0));
 
 		$this->media_cache->purge_textformatter_cache();
