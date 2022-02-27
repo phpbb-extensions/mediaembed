@@ -221,6 +221,11 @@ class main_module
 
 		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PHPBB_MEDIA_EMBED_SETTINGS');
 
+		if (count($this->errors))
+		{
+			trigger_error($this->language->lang('ACP_MEDIA_ERROR_MSG', implode('<br>', $this->errors)) . adm_back_link($this->u_action), E_USER_WARNING);
+		}
+
 		trigger_error($this->language->lang('CONFIG_UPDATED') . adm_back_link($this->u_action));
 	}
 
@@ -299,6 +304,20 @@ class main_module
 	 */
 	protected function validate($input)
 	{
-		return preg_match('/\w+/', $input['site']) && preg_match('/\d+(?:%|px)/', $input['width']);
+		$errors = [];
+
+		if (!preg_match('/^\w+$/', $input['site']))
+		{
+			$errors[] = $this->language->lang('ACP_MEDIA_INVALID_SITE', $input['site'], $input['width']);
+		}
+
+		if (!preg_match('/^\d+(?:%|px)$/', $input['width']))
+		{
+			$errors[] = $this->language->lang('ACP_MEDIA_INVALID_WIDTH', $input['site'], $input['width']);
+		}
+
+		$this->errors = array_merge($this->errors, $errors);
+
+		return empty($errors);
 	}
 }

@@ -42,6 +42,9 @@ $lang = array_merge($lang, [
 	'ACP_MEDIA_PURGE_CACHE_EXPLAIN'		=> 'Media Embed cache is automatically purged once per day, however this button can be used to manually purge its cache now.',
 	'ACP_MEDIA_SITE_TITLE'				=> 'Site id: %s',
 	'ACP_MEDIA_SITE_DISABLED'			=> 'This site conflicts with an existing BBCode: [%s]',
+	'ACP_MEDIA_ERROR_MSG'				=> 'The following error was encountered:<br><br>%s',
+	'ACP_MEDIA_INVALID_SITE'			=> '“%1$s:%2$s” contained an invalid site id',
+	'ACP_MEDIA_INVALID_WIDTH'			=> '“%1$s:%2$s” contained an invalid width',
 
 	// Manage sites
 	'ACP_MEDIA_MANAGE'					=> 'Manage Media Embed Sites',
