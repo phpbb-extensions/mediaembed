@@ -324,7 +324,10 @@ class main_listener implements EventSubscriberInterface
 
 	public function setup_media_configs()
 	{
-		$this->template->assign_var('S_MEDIA_EMBED_FULL_WIDTH', $this->config->offsetGet('media_embed_full_width'));
+		$this->template->assign_vars([
+			'S_MEDIA_EMBED_FULL_WIDTH' => $this->config->offsetGet('media_embed_full_width'),
+			'S_MEDIA_EMBED_MAX_WIDTHS' => json_decode($this->config_text->get('media_embed_max_width'), true),
+		]);
 	}
 
 	/**

@@ -123,8 +123,9 @@ class main_module
 			'S_MEDIA_EMBED_BBCODE'		=> $this->config['media_embed_bbcode'],
 			'S_MEDIA_EMBED_ALLOW_SIG'	=> $this->config['media_embed_allow_sig'],
 			'S_MEDIA_EMBED_PARSE_URLS'	=> $this->config['media_embed_parse_urls'],
-			'S_MEDIA_EMBED_FULL_WIDTH'	=> $this->config['media_embed_full_width'],
 			'S_MEDIA_EMBED_ENABLE_CACHE'=> $this->config['media_embed_enable_cache'],
+			'S_MEDIA_EMBED_FULL_WIDTH'	=> $this->config['media_embed_full_width'],
+			'S_MEDIA_EMBED_MAX_WIDTHS'	=> $this->get_media_embed_max_width(),
 			'U_ACTION'					=> $this->u_action,
 		]);
 	}
@@ -211,8 +212,10 @@ class main_module
 		$this->config->set('media_embed_bbcode', $this->request->variable('media_embed_bbcode', 0));
 		$this->config->set('media_embed_allow_sig', $this->request->variable('media_embed_allow_sig', 0));
 		$this->config->set('media_embed_parse_urls', $this->request->variable('media_embed_parse_urls', 0));
-		$this->config->set('media_embed_full_width', $this->request->variable('media_embed_full_width', 0));
 		$this->config->set('media_embed_enable_cache', $this->request->variable('media_embed_enable_cache', 0));
+		$this->config->set('media_embed_full_width', $this->request->variable('media_embed_full_width', 0));
+
+		$this->set_media_embed_max_width();
 
 		$this->media_cache->purge_textformatter_cache();
 
@@ -231,5 +234,71 @@ class main_module
 		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PHPBB_MEDIA_EMBED_CACHE_PURGED');
 
 		trigger_error($this->language->lang('PURGE_CACHE_SUCCESS') . adm_back_link($this->u_action));
+	}
+
+	/**
+	 * Store the media embed max width value to the config text as JSON,
+	 * with some basic input validation and array formatting.
+	 */
+	protected function set_media_embed_max_width()
+	{
+		$input = $this->request->variable('media_embed_max_width', '');
+
+		if ($input)
+		{
+			$lines = explode("\n", $input);
+
+			foreach ($lines as $key => $parts)
+			{
+				$parts = explode(":", $parts);
+				if (count($parts) !== 2)
+				{
+					unset($lines[$key]);
+					continue;
+				}
+
+				$lines[$key] = array_combine(['site', 'width'], array_map('trim', $parts));
+			}
+
+			$input = json_encode(array_filter($lines, [$this, 'validate']));
+		}
+
+		$this->config_text->set('media_embed_max_width', strtolower($input));
+	}
+
+	/**
+	 * Get the stored media embed max width data from config text and convert
+	 * from JSON to the formatting used in the ACP textarea field.
+	 *
+	 * @return string
+	 */
+	protected function get_media_embed_max_width()
+	{
+		$config = json_decode($this->config_text->get('media_embed_max_width'), true);
+
+		if ($config)
+		{
+			foreach ($config as &$item)
+			{
+				$item = implode(':', $item);
+			}
+
+			unset($item);
+		}
+
+		return $config ? implode("\n", $config) : '';
+	}
+
+	/**
+	 * Validate the input for media embed max widths
+	 * 'site' key value should be a word
+	 * 'width' key value should be a number appended with either px or %
+	 *
+	 * @param array $input The array to check
+	 * @return bool True if array contains valid values, false if not
+	 */
+	protected function validate($input)
+	{
+		return preg_match('/\w+/', $input['site']) && preg_match('/\d+(?:%|px)/', $input['width']);
 	}
 }

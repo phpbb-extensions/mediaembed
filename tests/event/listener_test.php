@@ -433,8 +433,11 @@ class listener_test extends \phpbb_database_test_case
 		$listener = $this->get_listener();
 
 		$this->template->expects(self::once())
-			->method('assign_var')
-			->with('S_MEDIA_EMBED_FULL_WIDTH', $this->config['media_embed_full_width']);
+			->method('assign_vars')
+			->with([
+				'S_MEDIA_EMBED_FULL_WIDTH'	=> $this->config['media_embed_full_width'],
+				'S_MEDIA_EMBED_MAX_WIDTHS'	=> '',
+			]);
 
 		$listener->setup_media_configs();
 	}

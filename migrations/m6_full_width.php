@@ -29,6 +29,7 @@ class m6_full_width extends \phpbb\db\migration\migration
 	{
 		return [
 			['config.add', ['media_embed_full_width', 0]],
+			['config_text.add', ['media_embed_max_width', '']],
 		];
 	}
 }
