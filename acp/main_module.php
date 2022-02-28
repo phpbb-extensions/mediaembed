@@ -306,7 +306,7 @@ class main_module
 	{
 		$errors = [];
 
-		if (!preg_match('/^\w+$/', $input['site']))
+		if (!in_array($input['site'], $this->get_enabled_sites()))
 		{
 			$errors[] = $this->language->lang('ACP_MEDIA_INVALID_SITE', $input['site'], $input['width']);
 		}
