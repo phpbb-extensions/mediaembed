@@ -251,11 +251,11 @@ class main_module
 
 		if ($input)
 		{
-			$lines = explode("\n", $input);
+			$lines = array_unique(explode("\n", $input));
 
-			foreach ($lines as $key => $parts)
+			foreach ($lines as $key => $line)
 			{
-				$parts = explode(":", $parts);
+				$parts = explode(':', $line);
 				if (count($parts) !== 2)
 				{
 					unset($lines[$key]);
@@ -301,6 +301,7 @@ class main_module
 	 *
 	 * @param array $input The array to check
 	 * @return bool True if array contains valid values, false if not
+	 * @throws \Exception
 	 */
 	protected function validate($input)
 	{
