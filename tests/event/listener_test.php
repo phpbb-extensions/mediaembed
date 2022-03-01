@@ -71,6 +71,7 @@ class listener_test extends \phpbb_database_test_case
 			'media_embed_bbcode' => 1,
 			'media_embed_allow_sig' => 0,
 			'media_embed_parse_urls' => 1,
+			'media_embed_full_width' => 1,
 		]);
 
 		$this->config_text = $this->getMockBuilder('\phpbb\config\db_text')
@@ -131,6 +132,7 @@ class listener_test extends \phpbb_database_test_case
 			'core.ucp_pm_compose_modify_parse_before',
 			'core.message_parser_check_message',
 			'core.text_formatter_s9e_parser_setup',
+			'core.page_header',
 		], array_keys(\phpbb\mediaembed\event\main_listener::getSubscribedEvents()));
 	}
 
@@ -424,6 +426,20 @@ class listener_test extends \phpbb_database_test_case
 			->with('S_BBCODE_MEDIA', $this->config['media_embed_bbcode']);
 
 		$listener->setup_media_bbcode();
+	}
+
+	public function test_setup_media_configs()
+	{
+		$listener = $this->get_listener();
+
+		$this->template->expects(self::once())
+			->method('assign_vars')
+			->with([
+				'S_MEDIA_EMBED_FULL_WIDTH'	=> $this->config['media_embed_full_width'],
+				'S_MEDIA_EMBED_MAX_WIDTHS'	=> '',
+			]);
+
+		$listener->setup_media_configs();
 	}
 
 	public function test_media_embed_help()

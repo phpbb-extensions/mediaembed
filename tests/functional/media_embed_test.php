@@ -140,9 +140,30 @@ class media_embed_test extends \phpbb_functional_test_case
 		$this->login();
 		$this->admin_login();
 
+		// Test settings module width error
 		$crawler = self::request('GET', "adm/index.php?i=\\phpbb\\mediaembed\\acp\\main_module&mode=settings&sid={$this->sid}");
 		$this->assertContainsLang('ACP_MEDIA_SETTINGS', $crawler->filter('#main')->text(), 'The Media Embed settings module failed to load');
+		$form_data = [
+			'media_embed_max_width'	=> "vimo:100px\nyoutube:100",
+			'media_embed_full_width'=> 1,
+		];
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
+		$crawler = self::submit($form, $form_data);
+		self::assertGreaterThan(0, $crawler->filter('.errorbox')->count());
+		self::assertStringContainsString($this->lang('ACP_MEDIA_INVALID_SITE', 'vimo', '100px') . '<br>' . $this->lang('ACP_MEDIA_INVALID_WIDTH', 'youtube', '100'), $crawler->filter('.errorbox')->html());
 
+		// Test settings module width success
+		$crawler = self::request('GET', "adm/index.php?i=\\phpbb\\mediaembed\\acp\\main_module&mode=settings&sid={$this->sid}");
+		$this->assertContainsLang('ACP_MEDIA_SETTINGS', $crawler->filter('#main')->text(), 'The Media Embed settings module failed to load');
+		$form_data = [
+			'media_embed_max_width'	=> "vimeo:100px\nyoutube:100%",
+			'media_embed_full_width'=> 1,
+		];
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
+		$crawler = self::submit($form, $form_data);
+		self::assertGreaterThan(0, $crawler->filter('.successbox')->count());
+
+		// Test manage sites module
 		$crawler = self::request('GET', "adm/index.php?i=\\phpbb\\mediaembed\\acp\\main_module&mode=manage&sid={$this->sid}");
 		$this->assertContainsLang('ACP_MEDIA_MANAGE', $crawler->filter('#main')->text(), 'The Media Embed settings module failed to load');
 
