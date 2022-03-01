@@ -304,18 +304,31 @@ class main_module
 	 */
 	protected function validate($input)
 	{
+		// First, lets get all the available media embed site IDs
+		static $default_sites;
+
+		if (null === $default_sites)
+		{
+			$configurator = $this->container->get('text_formatter.s9e.factory')->get_configurator();
+			$default_sites = array_keys(iterator_to_array($configurator->MediaEmbed->defaultSites));
+		}
+
+		// Next create an array to hold any errors
 		$errors = [];
 
-		if (!in_array($input['site'], $this->get_enabled_sites()))
+		// Check to see if the site id provided exists in Media Embed
+		if (!in_array($input['site'], $default_sites))
 		{
 			$errors[] = $this->language->lang('ACP_MEDIA_INVALID_SITE', $input['site'], $input['width']);
 		}
 
+		// Check to see if the width provided is a valid number followed px or %
 		if (!preg_match('/^\d+(?:%|px)$/', $input['width']))
 		{
 			$errors[] = $this->language->lang('ACP_MEDIA_INVALID_WIDTH', $input['site'], $input['width']);
 		}
 
+		// Update the errors object with any new errors
 		$this->errors = array_merge($this->errors, $errors);
 
 		return empty($errors);
