@@ -2,6 +2,7 @@
 /**
  *
  * phpBB Media Embed PlugIn extension for the phpBB Forum Software package.
+ * Turkish translation by ESQARE (https://www.phpbbturkey.com)
  *
  * @copyright (c) 2016 phpBB Limited <https://www.phpbb.com>
  * @license GNU General Public License, version 2 (GPL-2.0)
@@ -31,6 +32,6 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 
 $lang = array_merge($lang, [
-	'ACL_F_MEDIAEMBED'		=> '[media] BBCode etiketi kullanabilir',
-	'ACL_U_PM_MEDIAEMBED'	=> 'Özel mesajlarda [media] BBCode etiketi kullanabilir',
+	'ACL_F_MEDIAEMBED'		=> '[media] BBCode etiketini kullanabilir',
+	'ACL_U_PM_MEDIAEMBED'	=> 'Özel mesajlarda [media] BBCode etiketini kullanabilir',
 ]);
