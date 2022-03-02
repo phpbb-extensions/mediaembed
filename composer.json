@@ -2,7 +2,7 @@
 	"name": "phpbb/mediaembed",
 	"type": "phpbb-extension",
 	"description": "An official phpBB extension that allows users to embed content from allowed sites using a [media] BBCode, or from simply posting a supported URL in plain text.",
-	"homepage": "https://www.phpbb.com",
+	"homepage": "https://www.phpbb.com/customise/db/extension/mediaembed/",
 	"version": "1.1.2",
 	"license": "GPL-2.0-only",
 	"authors": [

@@ -3,12 +3,14 @@
  *
  * phpBB Media Embed PlugIn extension for the phpBB Forum Software package.
  *
- * @copyright (c) 2016 phpBB Limited <https://www.phpbb.com>
+ * @copyright (c) 2019 phpBB Limited <https://www.phpbb.com>
  * @license GNU General Public License, version 2 (GPL-2.0)
- * @Polska wersja językowa phpBB Media Embed 1.1.2 - 10.09.2020, Mateusz Dutko (vader) www.rnavspotters.pl
- *
+ * @正體中文化 竹貓星球 <http://phpbb-tw.net/phpbb/>
  */
 
+/**
+ * DO NOT CHANGE
+ */
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -30,8 +32,12 @@ if (empty($lang) || !is_array($lang))
 // You do not need this where single placeholders are used, e.g. 'Message %d' is fine
 // equally where a string contains only two placeholders which are used to wrap text
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
+//
+// Some characters you may want to copy&paste:
+// ’ » “ ” …
+//
 
 $lang = array_merge($lang, [
-	'ACL_F_MEDIAEMBED'		=> 'Używanie znacznika BBcode [media]',
-	'ACL_U_PM_MEDIAEMBED'	=> 'Używanie znacznika BBCode [media] w prywatnych wiadomościach',
+	'PHPBB_VERSION_ERROR'	=> '您的討論區似乎使用的是舊版本的 phpBB。phpBB ' . \phpbb\mediaembed\ext::PHPBB_MINIMUM . ' 或需要更新才能使用此擴展。',
+	'S9E_MEDIAEMBED_ERROR'	=> '我們偵測到 s9e/mediaembed 擴展。 除非您禁用、清除和刪除與 s9e/mediaembed 擴展相關的所有檔案，否則無法安裝 phpBB 的媒體嵌入外掛。',
 ]);

@@ -5,7 +5,6 @@
  *
  * @copyright (c) 2016 phpBB Limited <https://www.phpbb.com>
  * @license GNU General Public License, version 2 (GPL-2.0)
- * @Polska wersja językowa phpBB Media Embed 1.1.2 - 10.09.2020, Mateusz Dutko (vader) www.rnavspotters.pl
  *
  */
 
@@ -32,6 +31,6 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 
 $lang = array_merge($lang, [
-	'ACL_F_MEDIAEMBED'		=> 'Używanie znacznika BBcode [media]',
-	'ACL_U_PM_MEDIAEMBED'	=> 'Używanie znacznika BBCode [media] w prywatnych wiadomościach',
+	'ACL_F_MEDIAEMBED'		=> 'Pode usar a tag [media]',
+	'ACL_U_PM_MEDIAEMBED'	=> 'Pode usar a tag [media] BBCode em mensagens privadas',
 ]);
