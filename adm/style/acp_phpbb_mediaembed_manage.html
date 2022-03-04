@@ -35,7 +35,7 @@
 		{% endfor %}
 	</table>
 	<fieldset class="quick">
-		<p class="small"><a href="#" onclick="marklist('mediaembed_manage', 'mark', true); return false;">{{ lang('MARK_ALL') }}</a> &bull; <a href="#" onclick="marklist('mediaembed_manage', 'mark', false); return false;">{{ lang('UNMARK_ALL') }}</a></p>
+		<p class="small"><a href="#" data-marksites="true">{{ lang('MARK_ALL') }}</a> &bull; <a href="#" data-marksites="false">{{ lang('UNMARK_ALL') }}</a></p>
 	</fieldset>
 	<p id="buttons" class="submit-buttons">
 		<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
@@ -43,5 +43,14 @@
 	</p>
 	{{ S_FORM_TOKEN }}
 </form>
+
+<script>
+	for (const mark of document.querySelectorAll("[data-marksites]")) {
+		mark.addEventListener("click", (e) => {
+			e.preventDefault();
+			marklist("mediaembed_manage", "mark", e.target.dataset.marksites === "true");
+		})
+	}
+</script>
 
 {% include 'overall_footer.html' %}

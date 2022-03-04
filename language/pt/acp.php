@@ -2,7 +2,7 @@
 /**
  *
  * phpBB Media Embed PlugIn extension for the phpBB Forum Software package.
- * Brazilian Portuguese translation by eunaumtenhoid (c) 2017 [ver 1.0.1] (https://github.com/phpBBTraducoes)
+ *
  * @copyright (c) 2016 phpBB Limited <https://www.phpbb.com>
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
@@ -29,17 +29,17 @@ $lang = array_merge($lang, [
 	'ACP_MEDIA_ALLOW_SIG'				=> 'Permitir em assinaturas de usuários',
 	'ACP_MEDIA_ALLOW_SIG_EXPLAIN'		=> 'Permitir que assinaturas de usuários exiba conteúdo do Media Embed.',
 	'ACP_MEDIA_CACHE_LEGEND'			=> 'Content caching',
-	'ACP_MEDIA_ENABLE_CACHE'			=> 'Enable Media Embed cache',
-	'ACP_MEDIA_ENABLE_CACHE_EXPLAIN'	=> 'In some cases you may notice slower than normal performance when loading media from other sites, especially while loading the same content multiple times (e.g. when editing a post). Enabling this will cache the information Media Embed gathers from sites locally and should improve performance.',
-	'ACP_MEDIA_PARSE_URLS'				=> 'Convert plain URLs',
-	'ACP_MEDIA_PARSE_URLS_EXPLAIN'		=> 'Enable this to convert plain URLs (not wrapped in <samp>[media]</samp> or <samp>[url]</samp> tags) to embedded media content. Note that changing this setting will only affect new posts, as existing posts have already been parsed.',
+	'ACP_MEDIA_ENABLE_CACHE'			=> 'Habilitar cache de incorporação de mídia',
+	'ACP_MEDIA_ENABLE_CACHE_EXPLAIN'	=> 'Em alguns casos, você pode notar um desempenho mais lento do que o normal ao carregar mídia de outros sites, especialmente ao carregar o mesmo conteúdo várias vezes (por exemplo, ao editar uma postagem). Ativar isso irá armazenar em cache as informações que o Media Embed coleta de sites localmente e deve melhorar o desempenho.',
+	'ACP_MEDIA_PARSE_URLS'				=> 'Converter URLs simples',
+	'ACP_MEDIA_PARSE_URLS_EXPLAIN'		=> 'Habilite isto para converter URLs simples (não incluídos nas tags <samp>[media]</samp> ou <samp>[url]</samp>) em conteúdo de mídia incorporado. Observe que alterar esta configuração afetará apenas as novas postagens, pois as postagens existentes já foram analisadas.',
 	'ACP_MEDIA_WIDTH_LEGEND'			=> 'Content sizing',
 	'ACP_MEDIA_FULL_WIDTH'				=> 'Enable full width content',
 	'ACP_MEDIA_FULL_WIDTH_EXPLAIN'		=> 'Enable this to expand most Media Embed content to fill the full width of the post content area while maintaining its native aspect ratio.',
 	'ACP_MEDIA_MAX_WIDTH'				=> 'Custom max-width content',
 	'ACP_MEDIA_MAX_WIDTH_EXPLAIN'		=> 'Use this field to define custom max-width values for individual sites. This will override the default size and the full width option above. Enter each site on a new line, using the format <samp class="error">siteId:width</samp> with either <samp class="error">px</samp> or <samp class="error">%</samp>. For example:<br><br><samp class="error">youtube:80%</samp><br><samp class="error">funnyordie:480px</samp><br><br><i><strong class="error">Tip:</strong> Hover your mouse over a site on the Manage sites page to reveal the site id name to use here.</i>',
-	'ACP_MEDIA_PURGE_CACHE'				=> 'Purge Media Embed cache',
-	'ACP_MEDIA_PURGE_CACHE_EXPLAIN'		=> 'Media Embed cache is automatically purged once per day, however this button can be used to manually purge its cache now.',
+	'ACP_MEDIA_PURGE_CACHE'				=> 'Limpar cache de incorporação de mídia',
+	'ACP_MEDIA_PURGE_CACHE_EXPLAIN'		=> 'O cache do Media Embed é purgado automaticamente uma vez por dia, no entanto, este botão pode ser usado para limpar manualmente seu cache agora.',
 	'ACP_MEDIA_SITE_TITLE'				=> 'Site id: %s',
 	'ACP_MEDIA_SITE_DISABLED'			=> 'Este site está em conflito com um BBCode existente: [%s]',
 	'ACP_MEDIA_ERROR_MSG'				=> 'The following errors were encountered:<br><br>%s',

@@ -5,8 +5,7 @@
  *
  * @copyright (c) 2016 phpBB Limited <https://www.phpbb.com>
  * @license GNU General Public License, version 2 (GPL-2.0)
- * @Polska wersja językowa phpBB Media Embed 1.1.2 - 10.09.2020, Mateusz Dutko (vader) www.rnavspotters.pl
- *
+ * @正體中文化 竹貓星球 <http://phpbb-tw.net/phpbb/>
  */
 
 /**
@@ -39,16 +38,13 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, [
-	'HELP_EMBEDDING_MEDIA'			=> 'Osadzanie multimediów',
-	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Jak wyświetlić multimedia z innych stron na forum',
-	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Użytkownicy mogą wyświetlić zawartość z innych stron jak wideo lub muzyka
-										poprzez znacznik <strong>[media][/media]</strong>. Należy wkleić adres URL pomiędzy znacznikami.
-										<br /><br />Na przykład:
-										<strong>[media]</strong>%1$s<strong>[/media]</strong>
-										<br /><br />Powyższy adres URL zostanie wyświetlony jak pokazano poniżej:<br /><br />%2$s
-										<br /><br />Na forum wspierane są strony:<br /><samp>%3$s.</samp>
-										<br /><br />Dokumentacja wraz z wszystkimi wspieranymi stronami i przykładami adresów URL
-										znajduje się pod linkiem <a href="https://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
-										MediaEmbed Plugin Documentation</a>.',
+	'HELP_EMBEDDING_MEDIA'			=> '嵌入媒體',
+	'HELP_EMBEDDING_MEDIA_QUESTION'	=> '如何將來自其他網站的媒體嵌入到文章中',
+	'HELP_EMBEDDING_MEDIA_ANSWER'	=> '會員可以使用 <strong>[media][/media]</strong> 標籤嵌入來自允許網站的視頻和音頻等內容，或者簡單地以純文本形式發表受支持的網址。例如：
+										<br /><br /><strong>[media]</strong>%1$s<strong>[/media]</strong>
+										<br /><br />如上所述，連結也可以在沒有 <strong>[media]</strong> 標籤的情況下使用。
+										<br /><br />此處顯示的範例將生成：<br /><br />%2$s
+										<br /><br />支持以下站點：<br /><samp>%3$s</samp>。
+										<br /><br />有關受支持站點和範例網址的完整文件，參訪 <a href="https://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">MediaEmbed Plugin Documentation</a>。',
 	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
 ]);

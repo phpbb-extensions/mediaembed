@@ -124,6 +124,8 @@ class main_module
 			'S_MEDIA_EMBED_ALLOW_SIG'	=> $this->config['media_embed_allow_sig'],
 			'S_MEDIA_EMBED_PARSE_URLS'	=> $this->config['media_embed_parse_urls'],
 			'S_MEDIA_EMBED_ENABLE_CACHE'=> $this->config['media_embed_enable_cache'],
+			'S_MEDIA_EMBED_FULL_WIDTH'	=> $this->config['media_embed_full_width'],
+			'S_MEDIA_EMBED_MAX_WIDTHS'	=> $this->get_media_embed_max_width(),
 			'U_ACTION'					=> $this->u_action,
 		]);
 	}
@@ -211,10 +213,18 @@ class main_module
 		$this->config->set('media_embed_allow_sig', $this->request->variable('media_embed_allow_sig', 0));
 		$this->config->set('media_embed_parse_urls', $this->request->variable('media_embed_parse_urls', 0));
 		$this->config->set('media_embed_enable_cache', $this->request->variable('media_embed_enable_cache', 0));
+		$this->config->set('media_embed_full_width', $this->request->variable('media_embed_full_width', 0));
+
+		$this->set_media_embed_max_width();
 
 		$this->media_cache->purge_textformatter_cache();
 
 		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PHPBB_MEDIA_EMBED_SETTINGS');
+
+		if (count($this->errors))
+		{
+			trigger_error($this->language->lang('ACP_MEDIA_ERROR_MSG', implode('<br>', $this->errors)) . adm_back_link($this->u_action), E_USER_WARNING);
+		}
 
 		trigger_error($this->language->lang('CONFIG_UPDATED') . adm_back_link($this->u_action));
 	}
@@ -229,5 +239,99 @@ class main_module
 		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_PHPBB_MEDIA_EMBED_CACHE_PURGED');
 
 		trigger_error($this->language->lang('PURGE_CACHE_SUCCESS') . adm_back_link($this->u_action));
+	}
+
+	/**
+	 * Store the media embed max width value to the config text as JSON,
+	 * with some basic input validation and array formatting.
+	 */
+	protected function set_media_embed_max_width()
+	{
+		$input = $this->request->variable('media_embed_max_width', '');
+
+		if ($input)
+		{
+			$lines = array_unique(explode("\n", $input));
+
+			foreach ($lines as $key => $line)
+			{
+				$parts = explode(':', $line);
+				if (count($parts) !== 2)
+				{
+					unset($lines[$key]);
+					continue;
+				}
+
+				$lines[$key] = array_combine(['site', 'width'], array_map('trim', $parts));
+			}
+
+			$input = json_encode(array_filter($lines, [$this, 'validate']));
+		}
+
+		$this->config_text->set('media_embed_max_width', strtolower($input));
+	}
+
+	/**
+	 * Get the stored media embed max width data from config text and convert
+	 * from JSON to the formatting used in the ACP textarea field.
+	 *
+	 * @return string
+	 */
+	protected function get_media_embed_max_width()
+	{
+		$config = json_decode($this->config_text->get('media_embed_max_width'), true);
+
+		if ($config)
+		{
+			foreach ($config as &$item)
+			{
+				$item = implode(':', $item);
+			}
+
+			unset($item);
+		}
+
+		return $config ? implode("\n", $config) : '';
+	}
+
+	/**
+	 * Validate the input for media embed max widths
+	 * 'site' key value should be a word
+	 * 'width' key value should be a number appended with either px or %
+	 *
+	 * @param array $input The array to check
+	 * @return bool True if array contains valid values, false if not
+	 * @throws \Exception
+	 */
+	protected function validate($input)
+	{
+		// First, lets get all the available media embed site IDs
+		static $default_sites;
+
+		if (null === $default_sites)
+		{
+			$configurator = $this->container->get('text_formatter.s9e.factory')->get_configurator();
+			$default_sites = array_keys(iterator_to_array($configurator->MediaEmbed->defaultSites));
+		}
+
+		// Next create an array to hold any errors
+		$errors = [];
+
+		// Check to see if the site id provided exists in Media Embed
+		if (!in_array($input['site'], $default_sites))
+		{
+			$errors[] = $this->language->lang('ACP_MEDIA_INVALID_SITE', $input['site'], $input['width']);
+		}
+
+		// Check to see if the width provided is a valid number followed px or %
+		if (!preg_match('/^\d+(?:%|px)$/', $input['width']))
+		{
+			$errors[] = $this->language->lang('ACP_MEDIA_INVALID_WIDTH', $input['site'], $input['width']);
+		}
+
+		// Update the errors object with any new errors
+		$this->errors = array_merge($this->errors, $errors);
+
+		return empty($errors);
 	}
 }

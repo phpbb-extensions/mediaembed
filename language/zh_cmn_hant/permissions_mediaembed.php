@@ -5,8 +5,7 @@
  *
  * @copyright (c) 2016 phpBB Limited <https://www.phpbb.com>
  * @license GNU General Public License, version 2 (GPL-2.0)
- * @Polska wersja językowa phpBB Media Embed 1.1.2 - 10.09.2020, Mateusz Dutko (vader) www.rnavspotters.pl
- *
+ * @正體中文化 竹貓星球 <http://phpbb-tw.net/phpbb/>
  */
 
 if (!defined('IN_PHPBB'))
@@ -32,6 +31,6 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 
 $lang = array_merge($lang, [
-	'ACL_F_MEDIAEMBED'		=> 'Używanie znacznika BBcode [media]',
-	'ACL_U_PM_MEDIAEMBED'	=> 'Używanie znacznika BBCode [media] w prywatnych wiadomościach',
+	'ACL_F_MEDIAEMBED'		=> '可以使用 [media] BBCode 標籤',
+	'ACL_U_PM_MEDIAEMBED'	=> '可以在私人訊息使用 [media] BBCode 標籤',
 ]);

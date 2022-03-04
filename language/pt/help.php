@@ -5,7 +5,6 @@
  *
  * @copyright (c) 2016 phpBB Limited <https://www.phpbb.com>
  * @license GNU General Public License, version 2 (GPL-2.0)
- * @Polska wersja językowa phpBB Media Embed 1.1.2 - 10.09.2020, Mateusz Dutko (vader) www.rnavspotters.pl
  *
  */
 
@@ -39,16 +38,18 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, [
-	'HELP_EMBEDDING_MEDIA'			=> 'Osadzanie multimediów',
-	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Jak wyświetlić multimedia z innych stron na forum',
-	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Użytkownicy mogą wyświetlić zawartość z innych stron jak wideo lub muzyka
-										poprzez znacznik <strong>[media][/media]</strong>. Należy wkleić adres URL pomiędzy znacznikami.
-										<br /><br />Na przykład:
+	'HELP_EMBEDDING_MEDIA'			=> 'Incorporando mídia',
+	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Como inserir mídia de outros sites em postagens',
+	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Os usuários podem incorporar conteúdo como vídeos e áudio de sites permitidos usando
+										as tags <strong>[media][/media]</strong>, ou simplesmente postando uma
+										URL suportada em texto simples. Por exemplo:<br /><br />
 										<strong>[media]</strong>%1$s<strong>[/media]</strong>
-										<br /><br />Powyższy adres URL zostanie wyświetlony jak pokazano poniżej:<br /><br />%2$s
-										<br /><br />Na forum wspierane są strony:<br /><samp>%3$s.</samp>
-										<br /><br />Dokumentacja wraz z wszystkimi wspieranymi stronami i przykładami adresów URL
-										znajduje się pod linkiem <a href="https://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
+										<br /><br />Conforme mencionado acima, o link também pode ser usado sem as tags
+										<strong>[media]</strong>.
+										<br /><br />O exemplo mostrado aqui geraria:<br /><br />%2$s
+										<br /><br />Os seguintes sites são suportados:<br /><samp>%3$s.</samp>
+										<br /><br />Para obter documentação completa sobre sites suportados e URLs de exemplo,
+										visite a <a href="https://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										MediaEmbed Plugin Documentation</a>.',
 	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
 ]);
