@@ -1,5 +1,16 @@
 # Changelog
 
+### 2.0.0 - 2022-03-03
+
+- Backwards incompatible changes require a new minimum phpBB version of 3.3.2.
+- New ACP options for custom content sizing:
+  - Added a new setting to enlarge most embedded content to fit 100% of the width of the post area.
+  - Added a new setting to define custom maximum widths in pixels or percent for individual sites.
+- Fixed issues for new installs that would fail if any of phpBB's default forum roles were missing.
+- Added language packs:
+  - Portuguese
+  - Chinese (traditional)
+
 ### 1.1.2 - 2020-08-14
 
 - Added a new caching option (to Media Embed Settings) which will cache the scraped content from some media sites, which can speed up performance when repeatedly loading content from some sites.
