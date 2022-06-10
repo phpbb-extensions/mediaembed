@@ -240,10 +240,10 @@ class listener_test extends \phpbb_database_test_case
 	 */
 	public function exception_errors_data()
 	{
-		return array(
-			array('notok', '\Symfony\Component\Yaml\Exception\ParseException'), // Exception when custom site YAML is invalid
-			array('invalid', '\InvalidArgumentException'), // Exception when MediaEmbed can't process the site definition
-		);
+		return [
+			['notok', '\Symfony\Component\Yaml\Exception\ParseException'], // Exception when custom site YAML is invalid
+			['invalid', '\InvalidArgumentException'], // Exception when MediaEmbed can't process the site definition
+		];
 	}
 
 	/**
