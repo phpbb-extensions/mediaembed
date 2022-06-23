@@ -3,7 +3,7 @@
  *
  * phpBB Media Embed PlugIn extension for the phpBB Forum Software package.
  *
- * @copyright (c) 2016 phpBB Limited <https://www.phpbb.com>
+ * @copyright (c) 2019 phpBB Limited <https://www.phpbb.com>
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
@@ -38,5 +38,6 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, [
-	'BBCODE_MEDIA_HELP'	=> 'Media Embed: [media]http://URL_media[/media]',
+	'PHPBB_VERSION_ERROR'	=> 'Su foro parece estar usando una versión anterior de phpBB. Se requiere phpBB ' . \phpbb\mediaembed\ext::PHPBB_MINIMUM . ' o posterior para usar esta extensión.',
+	'S9E_MEDIAEMBED_ERROR'	=> 'Detectamos la extensión s9e/mediaembed. El complemento Media Embed de phpBB no se puede instalar hasta que deshabilite, purgue y elimine todos los archivos relacionados con la extensión s9e/mediaembed.',
 ]);
