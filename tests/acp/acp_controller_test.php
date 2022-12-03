@@ -70,6 +70,8 @@ class acp_controller_test extends \phpbb_test_case
 			->disableOriginalConstructor()
 			->getMock();
 		$this->user = new user($this->language, '\phpbb\datetime');
+		$this->user->data['user_id'] = 2;
+		$this->user->ip = '0.0.0.0';
 		$this->request = $this->getMockBuilder('\phpbb\request\request')
 			->disableOriginalConstructor()
 			->getMock();

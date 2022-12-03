@@ -167,7 +167,7 @@ class acp_module_test extends \phpbb_test_case
 		$this->acp_controller
 			->expects(self::$valid_form ? self::once() : self::never())
 			->method("{$action}_$mode")
-			->willReturn($save ? ['code' => $expected] : $expected);
+			->willReturn($save ? ['code' => $expected, 'message' => ''] : $expected);
 
 		if ($save)
 		{
@@ -225,7 +225,7 @@ class acp_module_test extends \phpbb_test_case
 		$this->acp_controller
 			->expects(self::once())
 			->method('purge_mediaembed_cache')
-			->willReturn(['code' => E_USER_NOTICE]);
+			->willReturn(['code' => E_USER_NOTICE, 'message' => '']);
 
 		$this->setExpectedTriggerError(E_USER_NOTICE);
 
