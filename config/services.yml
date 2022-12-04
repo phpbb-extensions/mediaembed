@@ -26,3 +26,16 @@ services:
             - '@cache.driver'
             - '%text_formatter.cache.parser.key%'
             - '%text_formatter.cache.renderer.key%'
+
+    phpbb.mediaembed.acp_controller:
+        class: phpbb\mediaembed\controller\acp_controller
+        arguments:
+            - '@config'
+            - '@config_text'
+            - '@language'
+            - '@log'
+            - '@phpbb.mediaembed.cache'
+            - '@request'
+            - '@template'
+            - '@text_formatter.s9e.factory'
+            - '@user'

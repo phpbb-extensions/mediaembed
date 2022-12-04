@@ -3,6 +3,7 @@
 An extension for phpBB 3.2 that allows the user to embed content from allowed sites using a [media] BBCode, or from simply posting a supported URL in plain text.
 
 [![Build Status](https://github.com/phpbb-extensions/mediaembed/workflows/Tests/badge.svg)](https://github.com/phpbb-extensions/mediaembed/actions)
+[![codecov](https://codecov.io/gh/phpbb-extensions/mediaembed/branch/master/graph/badge.svg?token=EzEFamVD12)](https://codecov.io/gh/phpbb-extensions/mediaembed)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phpbb-extensions/mediaembed/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phpbb-extensions/mediaembed/?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/3796c133cc39216797f5/maintainability)](https://codeclimate.com/github/phpbb-extensions/mediaembed/maintainability)
 
