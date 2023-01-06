@@ -46,9 +46,14 @@ class custom_sites_collection_test extends \phpbb_test_case
 
 		$collection = $customsitescollection->get_collection();
 
-		$this->assertContains('phpBB/ext/phpbb/mediaembed/collection/sites/codepen.yml', $collection);
-		$this->assertContains('phpBB/ext/phpbb/mediaembed/collection/sites/snotr.yml', $collection);
+		$this->assertContains('phpBB/ext/phpbb/mediaembed/collection/sites/allocine.yml', $collection);
+		$this->assertContains('phpBB/ext/phpbb/mediaembed/collection/sites/dotsub.yml', $collection);
+		$this->assertContains('phpBB/ext/phpbb/mediaembed/collection/sites/ebaumsworld.yml', $collection);
+		$this->assertContains('phpBB/ext/phpbb/mediaembed/collection/sites/moddb.yml', $collection);
 		$this->assertContains('phpBB/ext/phpbb/mediaembed/collection/sites/ok.yml', $collection);
+		$this->assertContains('phpBB/ext/phpbb/mediaembed/collection/sites/redgifs.yml', $collection);
+		$this->assertContains('phpBB/ext/phpbb/mediaembed/collection/sites/schooltube.yml', $collection);
+		$this->assertContains('phpBB/ext/phpbb/mediaembed/collection/sites/snotr.yml', $collection);
 		$this->assertContains('phpBB/ext/phpbb/mediaembed/collection/sites/videopress.yml', $collection);
 		$this->assertNotContains('phpBB/ext/phpbb/mediaembed/collection/sites/youtube.yml', $collection);
 	}
