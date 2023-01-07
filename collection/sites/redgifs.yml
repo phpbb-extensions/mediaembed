@@ -1,6 +1,0 @@
-name: RedGIFs
-host: redgifs.com
-example: https://redgifs.com/watch/perfumedradiantdegus
-extract: "!//(www.)?redgifs.com/watch/(?'id'\\w+)!"
-iframe:
-    src: //redgifs.com/ifr/{@id}
