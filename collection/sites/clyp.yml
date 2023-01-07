@@ -1,8 +1,0 @@
-name: Clyp
-host: clyp.it
-example: https://clyp.it/0r0qbxx2
-extract: "!//clyp.it/(?'id'\\w+)!"
-iframe:
-    width: "100%"
-    height: "265"
-    src: https://clyp.it/{@id}/widget

@@ -229,7 +229,7 @@ class main_listener implements EventSubscriberInterface
 	}
 
 	/**
-	 * setup a cache directory to improve scraping performance
+	 * Set up a cache directory to improve scraping performance
 	 *
 	 * @param \phpbb\event\data $event The event object
 	 * @return void
@@ -315,7 +315,7 @@ class main_listener implements EventSubscriberInterface
 	{
 		if (!$event['allow_bbcode'])
 		{
-			// Want to leave plugin enabled but it seems plugin won't work
+			// Want to leave plugin enabled, but it seems plugin won't work
 			// when tag is disabled, so we have to disable both it seems.
 			$this->disable_plugin = true;
 			$this->disable_tag = true;
