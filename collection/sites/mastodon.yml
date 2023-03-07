@@ -6,8 +6,7 @@ oembed:
     endpoint: https://mastodon.social/api/oembed
     scheme: https://mastodon.social/@{@name}/{@id}
 scrape:
-    - extract:
-        url: "!https://(?'host'[-.\\w]+)/@(?'name'\\w+)/(?'id'\\d+)!"
+    - extract: "!\"url\":\"https://(?'host'[-.\\w]+)/@(?'name'\\w+)/(?'id'\\d+)\"!"
     - match: "!^(?'origin'https://[^/]+)/@\\w+@[-.\\w]+/(?'id'\\d+)!"
     - url: "{@origin}/api/v1/statuses/{@id}"
 iframe:
