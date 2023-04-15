@@ -14,7 +14,7 @@
 	</div>
 {% endif %}
 
-<form id="mediaembed_manage" method="post" action="{{ U_ACTION }}">
+<form id="mediaembed_manage" method="post" action="{{ U_ACTION }}" data-ajax="true">
 	<table class="table1 zebra-table">
 		{% for sites in MEDIA_SITES|batch(4, '') %}
 			<tr>
