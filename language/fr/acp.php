@@ -2,7 +2,7 @@
 /**
  *
  * phpBB Media Embed PlugIn. An extension for the phpBB Forum Software package.
- * French translation by Galixte (http://www.galixte.com)
+ * French translation by Galixte (http://www.galixte.com) and Fred Rimbert (https://forums.caforum.fr)
  *
  * @copyright (c) 2018 phpBB Limited <https://www.phpbb.com>
  * @license GNU General Public License, version 2 (GPL-2.0-only)
@@ -53,11 +53,11 @@ $lang = array_merge($lang, [
 	'ACP_MEDIA_ENABLE_CACHE_EXPLAIN'	=> 'Permet d’améliorer les performances via la mise en cache des informations recueillies localement sur les sites. En effet, dans certains cas il est possible de remarquer des performances dégradées lors du chargement de médias à partir d’autres sites, en particulier lorsque le même contenu est chargé plusieurs fois (par exemple lors de la modification d’un message).',
 	'ACP_MEDIA_PARSE_URLS'				=> 'Convertir les URL simples',
 	'ACP_MEDIA_PARSE_URLS_EXPLAIN'		=> 'Permet de convertir les URL simples (non mises entre les balises des BBCodes <samp>[media]</samp> ou <samp>[url]</samp>) en contenu multimédia intégré. Merci de noter que cette fonctionnalité ne concerne que les nouveaux messages, car les messages déjà publiés ont déjà été analysés.',
-	'ACP_MEDIA_WIDTH_LEGEND'			=> 'Content sizing',
-	'ACP_MEDIA_FULL_WIDTH'				=> 'Enable full width content',
-	'ACP_MEDIA_FULL_WIDTH_EXPLAIN'		=> 'Enable this to expand most Media Embed content to fill the full width of the post content area while maintaining its native aspect ratio.',
-	'ACP_MEDIA_MAX_WIDTH'				=> 'Custom max-width content',
-	'ACP_MEDIA_MAX_WIDTH_EXPLAIN'		=> 'Use this field to define custom max-width values for individual sites. This will override the default size and the full width option above. Enter each site on a new line, using the format <samp class="error">siteId:width</samp> with either <samp class="error">px</samp> or <samp class="error">%</samp>. For example:<br><br><samp class="error">youtube:80%</samp><br><samp class="error">funnyordie:480px</samp><br><br><i><strong class="error">Tip:</strong> Hover your mouse over a site on the Manage sites page to reveal the site id name to use here.</i>',
+	'ACP_MEDIA_WIDTH_LEGEND'			=> 'Dimensionnement du contenu',
+	'ACP_MEDIA_FULL_WIDTH'				=> 'Activer le contenu en pleine largeur',
+	'ACP_MEDIA_FULL_WIDTH_EXPLAIN'		=> 'Activez cette option pour étendre la plupart des contenus Media Embed afin qu‘ils occupent toute la largeur de la zone de contenu du message tout en conservant leur format d‘origine.',
+	'ACP_MEDIA_MAX_WIDTH'				=> 'Contenu personnalisé à largeur maximale',
+	'ACP_MEDIA_MAX_WIDTH_EXPLAIN'		=> 'Utilisez ce champ pour définir des valeurs de largeur maximale personnalisées pour des sites individuels. Cela remplacera la taille par défaut et l‘option pleine largeur ci-dessus. Entrez chaque site sur une nouvelle ligne, en utilisant le format <samp class="error">siteId:width</samp> avec soit <samp class="error">px</samp> ou <samp class="error"> %</samp>. Par exemple :<br><br><samp class="error">youtube : 80 %</samp><br><samp class="error">funnyordie : 480px</samp><br><br><i><strong class="error">Astuce :</strong> Passez votre souris sur un site de la page Gérer les sites pour révéler le nom de l‘ID de site à utiliser ici.</i>',
 	'ACP_MEDIA_PURGE_CACHE'				=> 'Vider le cache des médias intégrés',
 	'ACP_MEDIA_PURGE_CACHE_EXPLAIN'		=> 'Permet de vider le cache immédiatement. Pour information, ce cache automatiquement vidé une fois par jour.',
 	'ACP_MEDIA_SITE_TITLE'				=> 'ID du service : %s',
