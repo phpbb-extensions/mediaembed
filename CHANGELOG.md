@@ -1,5 +1,14 @@
 # Changelog
 
+### 2.0.1 - 2023-04-15
+
+- Refactored the ACP and added AJAX to its user interface.
+- Added support for these media sites
+  - bilibili.com
+  - mastodon.social
+  - tenor.com
+  - music.yandex.ru
+
 ### 2.0.0 - 2022-03-03
 
 - Backwards incompatible changes require a new minimum phpBB version of 3.3.2.
