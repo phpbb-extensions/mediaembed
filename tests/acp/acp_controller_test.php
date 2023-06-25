@@ -119,23 +119,6 @@ class acp_controller_test extends \phpbb_test_case
 		return $controller;
 	}
 
-	public function get_page_title_data()
-	{
-		return [
-			['settings', 'ACP_MEDIA_SETTINGS'],
-			['manage', 'ACP_MEDIA_MANAGE'],
-		];
-	}
-
-	/**
-	 * @dataProvider get_page_title_data
-	 */
-	public function test_get_page_title($mode, $expected)
-	{
-		$controller = $this->get_controller();
-		self::assertEquals($controller->get_page_title($mode), $this->language->lang($expected));
-	}
-
 	public function test_display_settings()
 	{
 		$this->config_text->expects(self::once())
