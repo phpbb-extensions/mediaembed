@@ -44,7 +44,8 @@
 		"version-check": {
 			"host": "www.phpbb.com",
 			"directory": "/customise/db/extension/mediaembed",
-			"filename": "version_check"
+			"filename": "version_check",
+			"ssl": true
 		}
 	}
 }
