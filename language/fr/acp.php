@@ -62,9 +62,9 @@ $lang = array_merge($lang, [
 	'ACP_MEDIA_PURGE_CACHE_EXPLAIN'		=> 'Permet de vider le cache immédiatement. Pour information, ce cache automatiquement vidé une fois par jour.',
 	'ACP_MEDIA_SITE_TITLE'				=> 'ID du service : %s',
 	'ACP_MEDIA_SITE_DISABLED'			=> 'Ce service entre en conflit avec un BBCode déjà installé sur le forum : [%s]',
-	'ACP_MEDIA_ERROR_MSG'				=> 'The following errors were encountered:<br><br>%s',
-	'ACP_MEDIA_INVALID_SITE'			=> '%1$s:%2$s :: “%1$s” is not a valid site id',
-	'ACP_MEDIA_INVALID_WIDTH'			=> '%1$s:%2$s :: “%2$s” is not a valid width in “px” or “%%”',
+	'ACP_MEDIA_ERROR_MSG'				=> 'Les erreurs suivantes ont été rencontrées :<br><br>%s',
+	'ACP_MEDIA_INVALID_SITE'			=> '%1$s:%2$s :: “%1$s” n‘est pas un identifiant de site valide',
+	'ACP_MEDIA_INVALID_WIDTH'			=> '%1$s:%2$s :: “%2$s” n‘est pas une largeur valide en "px" ou “%%”',
 
 	// Manage sites
 	'ACP_MEDIA_MANAGE'					=> 'Gestion des services pour les médias intégrés aux messages',
