@@ -23,14 +23,6 @@ interface acp_controller_interface
 	public function set_page_url($u_action);
 
 	/**
-	 * Get ACP page title for module
-	 *
-	 * @param string $mode
-	 * @return string Language string for ACP module
-	 */
-	public function get_page_title($mode);
-
-	/**
 	 * Add settings template vars to the form
 	 */
 	public function display_settings();

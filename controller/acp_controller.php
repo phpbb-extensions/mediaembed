@@ -90,17 +90,6 @@ class acp_controller implements acp_controller_interface
 	}
 
 	/**
-	 * Get ACP page title for module
-	 *
-	 * @param string $mode
-	 * @return string Language string for ACP module
-	 */
-	public function get_page_title($mode)
-	{
-		return $this->language->lang('ACP_MEDIA_' . strtoupper($mode));
-	}
-
-	/**
 	 * Add settings template vars to the form
 	 */
 	public function display_settings()

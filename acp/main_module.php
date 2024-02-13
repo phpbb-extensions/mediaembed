@@ -47,7 +47,7 @@ class main_module
 		$this->tpl_name = 'acp_phpbb_mediaembed_' . $mode;
 
 		// Set the page title for our ACP page
-		$this->page_title = $acp_controller->get_page_title($mode);
+		$this->page_title = 'ACP_MEDIA_' . strtoupper($mode);
 
 		$form_key = 'phpbb/mediaembed';
 		add_form_key($form_key);

@@ -160,11 +160,6 @@ class acp_module_test extends \phpbb_test_case
 			->method('set_page_url');
 
 		$this->acp_controller
-			->expects(self::once())
-			->method('get_page_title')
-			->with($mode);
-
-		$this->acp_controller
 			->expects(self::$valid_form ? self::once() : self::never())
 			->method("{$action}_$mode")
 			->willReturn($save ? ['code' => $expected, 'message' => ''] : $expected);
