@@ -14,10 +14,9 @@ class ext extends \phpbb\extension\base
 {
 	/**
 	 * @var string Minimum requirements:
-	 * phpBB 3.3.2 because using role_exists in migrations
-	 * phpBB 3.3.2 because TextFormatter 2.7.5 supports clyp.it and codepen.com
+	 * phpBB 4.0.0 because using Icon())
 	 */
-	public const PHPBB_MINIMUM = '3.3.2';
+	public const PHPBB_MINIMUM = '4.0.0-dev';
 
 	/**
 	 * @var string YAML file extension
