@@ -8,7 +8,7 @@ attributes:
 example:
     - "https://bsky.app/profile/bsky.app/post/3kkrqzuydho2v"
     - "https://bsky.app/profile/bnewbold.net/post/3kxjq2auebs2f"
-extract: "#https://(?'embedder'[.\\w]+)/oembed.*?url=(?'url'[\\w%.]+)#"
+extract: "#^https://(?'embedder'[.\\w]+)/oembed.*?url=(?'url'[\\w%.]+)#"
 homepage: "https://bsky.app/"
 host: "bsky.app"
 iframe:
