@@ -1,6 +1,8 @@
 name: Pastebin
 host: pastebin.com
-example: https://pastebin.com/9jEf44nc
+example:
+    - "https://pastebin.com/9jEf44nc"
+    - "https://pastebin.com/9jEf44nc?theme=dark"
 extract: "#pastebin\\.com/(?!u/)(?:\\w+(?:\\.php\\?i=|/))?(?'id'\\w+)(?'dark'\\?theme=dark)?#"
 iframe:
     scrolling: "yes"
