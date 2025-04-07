@@ -1,0 +1,12 @@
+name: Pastebin
+host: pastebin.com
+example:
+    - "https://pastebin.com/9jEf44nc"
+    - "https://pastebin.com/9jEf44nc?theme=dark"
+extract: "#pastebin\\.com/(?!u/)(?:\\w+(?:\\.php\\?i=|/))?(?'id'\\w+)(?'dark'\\?theme=dark)?#"
+iframe:
+    scrolling: "yes"
+    width: "100%"
+    height: "300"
+    style: ["border:none;resize:vertical;width:100%"]
+    src: //pastebin.com/embed_iframe/{@id}{@dark}
