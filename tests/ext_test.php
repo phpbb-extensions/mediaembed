@@ -21,7 +21,7 @@ class ext_test extends \phpbb_test_case
 	/** @var \PHPUnit\Framework\MockObject\MockObject|\phpbb\extension\manager $extension_manager */
 	protected $extension_manager;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject|\phpbb\finder $extension_finder */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|\phpbb\finder\finder $extension_finder */
 	protected $extension_finder;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject|\phpbb\db\migrator $migrator */
@@ -41,7 +41,7 @@ class ext_test extends \phpbb_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->extension_finder = $this->getMockBuilder('\phpbb\finder')
+		$this->extension_finder = $this->getMockBuilder('\phpbb\finder\finder')
 			->disableOriginalConstructor()
 			->getMock();
 

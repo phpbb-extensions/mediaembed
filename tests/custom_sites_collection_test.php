@@ -30,13 +30,7 @@ class custom_sites_collection_test extends \phpbb_test_case
 
 	public function test_get_collection()
 	{
-		$finder = new \phpbb\finder(
-			new filesystem(),
-			$this->phpbb_root_path,
-			$this->getMockBuilder('\phpbb\cache\service')->disableOriginalConstructor()->getMock(),
-			$this->php_ext,
-			'_ext_finder'
-		);
+		$finder = new \phpbb\finder\finder(null, false, $this->phpbb_root_path, $this->php_ext);
 
 		$this->ext_manager->expects(self::once())
 			->method('get_finder')
