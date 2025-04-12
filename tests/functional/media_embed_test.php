@@ -171,6 +171,19 @@ class media_embed_test extends \phpbb_functional_test_case
 	}
 
 	/**
+	 * Override original function to handle boolean attributes
+	 *
+	 * {@inheritDoc}
+	 */
+	public function assert_checkbox_is_checked($crawler, $name, $message = '')
+	{
+		$this->assertNotNull(
+			$this->assert_find_one_checkbox($crawler, $name)->attr('checked'),
+			$message ?: "Failed asserting that checkbox $name is checked."
+		);
+	}
+
+	/**
 	 * Override original function to search by checkbox value instead of name
 	 *
 	 * {@inheritDoc}
