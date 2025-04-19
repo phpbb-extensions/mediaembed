@@ -1,0 +1,25 @@
+attributes:
+    embedder:
+        filterChain: []
+        required: true
+    url:
+        filterChain: "urldecode"
+        required: true
+example:
+    - "https://bsky.app/profile/bsky.app/post/3kkrqzuydho2v"
+    - "https://bsky.app/profile/bnewbold.net/post/3kxjq2auebs2f"
+extract: "#^https://(?'embedder'[.\\w]+)/oembed.*?url=(?'url'[\\w%.]+)#"
+homepage: "https://bsky.app/"
+host: "bsky.app"
+iframe:
+    data-s9e-livepreview-ignore-attrs: style
+    height: 600
+    onload: "let c=new MessageChannel;c.port1.onmessage=e=>this.style.height=e.data+'px';this.contentWindow.postMessage('s9e:init','*',[c.port2])"
+    src: "https://s9e.github.io/iframe/2/bluesky.min.html#<xsl:value-of select=\"@url\"/>#<xsl:value-of select=\"@embedder\"/>"
+    width: 600
+name: "Bluesky"
+scrape:
+    extract: "#https://(?'embedder'[.\\w]+)/oembed.*?url=(?'url'[\\w%.]+)#"
+    match: "#/profile/[^/]+/post/.#"
+source: "https://embed.bsky.app/"
+tags: "social"
