@@ -22,7 +22,7 @@
 					<td style="width: 25%;">
 						{% if site %}
 							<label style="font-size: 1em;" title="{{ site.title }}">
-								<input type="checkbox" class="radio" name="mark[]" value="{{ site.id }}"{% if site.disabled %} disabled{% elseif site.enabled %} checked{% endif %} /> {{ site.name }}
+								<input type="checkbox" class="radio" name="mark[]" value="{{ site.id }}"{% if site.disabled %} disabled{% elseif site.enabled %} checked{% endif %}> {{ site.name }}
 							</label>
 						{% endif %}
 					</td>
@@ -38,8 +38,8 @@
 		<p class="small"><a href="#" data-marksites="true">{{ lang('MARK_ALL') }}</a> &bull; <a href="#" data-marksites="false">{{ lang('UNMARK_ALL') }}</a></p>
 	</fieldset>
 	<p id="buttons" class="submit-buttons">
-		<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
-		<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}" />
+		<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}">&nbsp;
+		<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}">
 	</p>
 	{{ S_FORM_TOKEN }}
 </form>
