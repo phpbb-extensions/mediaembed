@@ -193,9 +193,9 @@ class main_listener implements EventSubscriberInterface
 			]);
 
 			$uid = $bitfield = $flags = '';
-			$demo_text = $this->language->lang('HELP_EMBEDDING_MEDIA_DEMO');
-			generate_text_for_storage($demo_text, $uid, $bitfield, $flags, true, true);
-			$demo_display = generate_text_for_display($demo_text, $uid, $bitfield, $flags);
+			$demo_text = $demo_text_parsed = $this->language->lang('HELP_EMBEDDING_MEDIA_DEMO');
+			generate_text_for_storage($demo_text_parsed, $uid, $bitfield, $flags, true, true);
+			$demo_display = generate_text_for_display($demo_text_parsed, $uid, $bitfield, $flags);
 			$list_sites = implode(', ', $this->get_siteIds());
 
 			$this->template->assign_block_vars('faq_block.faq_row', [
