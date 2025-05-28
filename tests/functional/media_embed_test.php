@@ -10,6 +10,8 @@
 
 namespace phpbb\mediaembed\tests\functional;
 
+use phpbb\mediaembed\event\main_listener;
+
 /**
  * @group functional
  */
@@ -129,7 +131,7 @@ class media_embed_test extends \phpbb_functional_test_case
 		$crawler = self::request('GET', 'app.php/help/bbcode');
 		$this->assertContainsLang('HELP_EMBEDDING_MEDIA', $crawler->filter('#faqlinks')->text());
 
-		preg_match('/https:\/\/youtu\.be\/(.*)/', $this->lang('HELP_EMBEDDING_MEDIA_DEMO'), $matches);
+		preg_match('/https:\/\/youtu\.be\/(.*)/', main_listener::MEDIA_DEMO_URL, $matches);
 		self::assertStringContainsString("//www.youtube.com/embed/$matches[1]", $crawler->filter('body iframe')->attr('src'));
 	}
 

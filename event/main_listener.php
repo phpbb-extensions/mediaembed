@@ -25,6 +25,9 @@ use Symfony\Component\Yaml\Yaml;
  */
 class main_listener implements EventSubscriberInterface
 {
+	/** @var string A link to a rich content media site for demo purposes */
+	public const MEDIA_DEMO_URL ='https://youtu.be/Ne18ZQ7LLI0';
+
 	/** @var auth */
 	protected $auth;
 
@@ -193,14 +196,14 @@ class main_listener implements EventSubscriberInterface
 			]);
 
 			$uid = $bitfield = $flags = '';
-			$demo_text = $demo_text_parsed = $this->language->lang('HELP_EMBEDDING_MEDIA_DEMO');
-			generate_text_for_storage($demo_text_parsed, $uid, $bitfield, $flags, true, true);
-			$demo_display = generate_text_for_display($demo_text_parsed, $uid, $bitfield, $flags);
+			$demo_text = self::MEDIA_DEMO_URL;
+			generate_text_for_storage($demo_text, $uid, $bitfield, $flags, true, true);
+			$demo_display = generate_text_for_display($demo_text, $uid, $bitfield, $flags);
 			$list_sites = implode(', ', $this->get_siteIds());
 
 			$this->template->assign_block_vars('faq_block.faq_row', [
 				'FAQ_QUESTION'	=> $this->language->lang('HELP_EMBEDDING_MEDIA_QUESTION'),
-				'FAQ_ANSWER'	=> $this->language->lang('HELP_EMBEDDING_MEDIA_ANSWER', $demo_text, $demo_display, $list_sites),
+				'FAQ_ANSWER'	=> $this->language->lang('HELP_EMBEDDING_MEDIA_ANSWER', self::MEDIA_DEMO_URL, $demo_display, $list_sites),
 			]);
 		}
 	}

@@ -52,5 +52,4 @@ $lang = array_merge($lang, [
 										<br /><br />Une documentation complète à propos des services et des exemples d’adresses URL pris en charge,
 										est disponible depuis la page : <a href="https://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										Sites pris en charges par le plugin MediaEmbed</a>.',
-	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
 ]);

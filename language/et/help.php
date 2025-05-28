@@ -50,5 +50,4 @@ $lang = array_merge($lang, [
 										<br /><br />Toetatud on järgmised veebilehed:<br /><samp>%3$s.</samp>
 										<br /><br />Et näha täielikku dokumentatsiooni toeatatutest lehekülgedest, ning näidis aadressidest, palun külasta <a href="https://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										lehekülge</a>.',
-	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
 ]);

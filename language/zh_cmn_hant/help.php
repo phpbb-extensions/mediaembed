@@ -46,5 +46,4 @@ $lang = array_merge($lang, [
 										<br /><br />此處顯示的範例將生成：<br /><br />%2$s
 										<br /><br />支持以下站點：<br /><samp>%3$s</samp>。
 										<br /><br />有關受支持站點和範例網址的完整文件，參訪 <a href="https://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">MediaEmbed Plugin Documentation</a>。',
-	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
 ]);

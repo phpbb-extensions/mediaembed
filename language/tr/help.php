@@ -52,5 +52,4 @@ $lang = array_merge($lang, [
 										<br /><br />Desteklenen siteler ve örnek URL adresleri hakkında tüm belgeler için,
 										<a href="https://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										MediaEmbed Plugin Belgeleri</a> sayfasını ziyaret edin.',
-	'HELP_EMBEDDING_MEDIA_DEMO'		=>	'https://youtu.be/QH2-TGUlwu4',
 ]);
