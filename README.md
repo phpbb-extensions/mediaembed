@@ -5,7 +5,6 @@ An extension for phpBB that allows the user to embed content from allowed sites 
 [![Build Status](https://github.com/phpbb-extensions/mediaembed/actions/workflows/tests.yml/badge.svg)](https://github.com/phpbb-extensions/mediaembed/actions)
 [![codecov](https://codecov.io/gh/phpbb-extensions/mediaembed/branch/master/graph/badge.svg?token=EzEFamVD12)](https://codecov.io/gh/phpbb-extensions/mediaembed)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phpbb-extensions/mediaembed/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phpbb-extensions/mediaembed/?branch=master)
-[![Maintainability](https://api.codeclimate.com/v1/badges/3796c133cc39216797f5/maintainability)](https://codeclimate.com/github/phpbb-extensions/mediaembed/maintainability)
 
 ## Install
 
