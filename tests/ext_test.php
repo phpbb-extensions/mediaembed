@@ -49,12 +49,14 @@ class ext_test extends \phpbb_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
+		$services = ['ext.manager', 'language'];
+		$returns = [$this->extension_manager, new language(new language_file_loader($phpbb_root_path, $phpEx))];
+		$callCount = 0;
 		$this->container->method('get')
-			->withConsecutive(['ext.manager'], ['language'])
-			->willReturnOnConsecutiveCalls(
-				$this->extension_manager,
-				new language(new language_file_loader($phpbb_root_path, $phpEx))
-			);
+			->willReturnCallback(function($service) use ($services, $returns, &$callCount) {
+				$this->assertEquals($services[$callCount], $service);
+				return $returns[$callCount++];
+			});
 	}
 
 	protected function get_ext()

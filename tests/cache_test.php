@@ -53,13 +53,14 @@ class cache_test extends \phpbb_test_case
 
 	public function test_purge_textformatter_cache()
 	{
+		$expected_args = [$this->cache_key_parser, $this->cache_key_renderer];
+		$invocation = 0;
 		$this->cache_driver
-			->expects($this->exactly(2))
+			->expects($this->exactly(count($expected_args)))
 			->method('destroy')
-			->withConsecutive(
-				[$this->cache_key_parser],
-				[$this->cache_key_renderer]
-			);
+			->willReturnCallback(function($arg) use (&$invocation, $expected_args) {
+				self::assertEquals($expected_args[$invocation++], $arg);
+			});
 
 		$this->membed_cache->purge_textformatter_cache();
 	}

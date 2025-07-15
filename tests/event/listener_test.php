@@ -445,18 +445,24 @@ class listener_test extends \phpbb_database_test_case
 	public function test_media_embed_help()
 	{
 		// Test template methods and lang vars are called as expected
-		$this->template->expects(self::exactly(2))
+		$expected_args = [
+			['faq_block', [
+				'BLOCK_TITLE'	=> 'HELP_EMBEDDING_MEDIA',
+				'SWITCH_COLUMN'	=> false
+			]],
+			['faq_block.faq_row', [
+				'FAQ_QUESTION'	=> 'HELP_EMBEDDING_MEDIA_QUESTION',
+				'FAQ_ANSWER'	=> 'HELP_EMBEDDING_MEDIA_ANSWER',
+			]]
+		];
+		$invocation = 0;
+		$this->template->expects(self::exactly(count($expected_args)))
 			->method('assign_block_vars')
-			->withConsecutive(
-				['faq_block', [
-					'BLOCK_TITLE'	=> 'HELP_EMBEDDING_MEDIA',
-					'SWITCH_COLUMN'	=> false
-				]],
-				['faq_block.faq_row', [
-					'FAQ_QUESTION'	=> 'HELP_EMBEDDING_MEDIA_QUESTION',
-					'FAQ_ANSWER'	=> 'HELP_EMBEDDING_MEDIA_ANSWER',
-				]]
-			);
+			->willReturnCallback(function($block, $vars) use (&$invocation, $expected_args) {
+				self::assertEquals($expected_args[$invocation][0], $block);
+				self::assertEquals($expected_args[$invocation][1], $vars);
+				$invocation++;
+			});
 
 		// Assign $event data
 		$event = new \phpbb\event\data([

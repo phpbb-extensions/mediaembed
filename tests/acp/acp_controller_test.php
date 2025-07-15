@@ -172,25 +172,24 @@ class acp_controller_test extends \phpbb_test_case
 	 */
 	public function test_save_setting($success, $data, $expected)
 	{
+		$expected_args = [
+			['media_embed_bbcode', 0],
+			['media_embed_allow_sig', 0],
+			['media_embed_parse_urls', 0],
+			['media_embed_enable_cache', 0],
+			['media_embed_full_width', 0],
+			['media_embed_max_width', '']
+		];
+		$expected_returns = [1, 1, 1, 1, 1, $data[0]];
+		$invocation = 0;
 		$this->request
-			->expects(self::exactly(6))
+			->expects(self::exactly(count($expected_args)))
 			->method('variable')
-			->withConsecutive(
-				['media_embed_bbcode', 0],
-				['media_embed_allow_sig', 0],
-				['media_embed_parse_urls', 0],
-				['media_embed_enable_cache', 0],
-				['media_embed_full_width', 0],
-				['media_embed_max_width', '']
-			)
-			->willReturnOnConsecutiveCalls(
-				1,
-				1,
-				1,
-				1,
-				1,
-				$data[0]
-			);
+			->willReturnCallback(function($arg1, $arg2) use (&$invocation, $expected_args, $expected_returns) {
+				self::assertEquals($expected_args[$invocation][0], $arg1);
+				self::assertEquals($expected_args[$invocation][1], $arg2);
+				return $expected_returns[$invocation++];
+			});
 
 		$this->config_text->expects(self::once())
 			->method('set')

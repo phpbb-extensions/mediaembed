@@ -142,18 +142,15 @@ class acp_module_test extends \phpbb_test_case
 			define('IN_ADMIN', true);
 		}
 
+		$services = ['phpbb.mediaembed.acp_controller', 'request', 'language'];
+		$returns = [$this->acp_controller, $request, $language];
+		$callCount = 0;
 		$phpbb_container
 			->method('get')
-			->withConsecutive(
-				['phpbb.mediaembed.acp_controller'],
-				['request'],
-				['language']
-			)
-			->willReturnOnConsecutiveCalls(
-				$this->acp_controller,
-				$request,
-				$language
-			);
+			->willReturnCallback(function($service) use ($services, $returns, &$callCount) {
+				$this->assertEquals($services[$callCount], $service);
+				return $returns[$callCount++];
+			});
 
 		$this->acp_controller
 			->expects(self::once())
@@ -166,16 +163,15 @@ class acp_module_test extends \phpbb_test_case
 
 		if ($save)
 		{
+			$expected_args = ['action_purge_cache', 'submit'];
+			$expected_returns = [false, true];
+			$invocation = 0;
 			$request
 				->method('is_set_post')
-				->withConsecutive(
-					['action_purge_cache'],
-					['submit']
-				)
-				->willReturnOnConsecutiveCalls(
-					false,
-					true
-				);
+				->willReturnCallback(function($arg) use (&$invocation, $expected_args, $expected_returns) {
+					self::assertEquals($expected_args[$invocation], $arg);
+					return $expected_returns[$invocation++];
+				});
 
 			$this->setExpectedTriggerError($expected);
 		}
@@ -199,17 +195,16 @@ class acp_module_test extends \phpbb_test_case
 			define('IN_ADMIN', true);
 		}
 
+		$expected_args = ['phpbb.mediaembed.acp_controller', 'request'];
+		$expected_returns = [$this->acp_controller, $request];
+		$invocation = 0;
 		$phpbb_container
 			->expects(self::exactly(2))
 			->method('get')
-			->withConsecutive(
-				['phpbb.mediaembed.acp_controller'],
-				['request']
-			)
-			->willReturnOnConsecutiveCalls(
-				$this->acp_controller,
-				$request
-			);
+			->willReturnCallback(function($arg) use (&$invocation, $expected_args, $expected_returns) {
+				self::assertEquals($expected_args[$invocation], $arg);
+				return $expected_returns[$invocation++];
+			});
 
 		$request
 			->expects(self::atLeastOnce())
