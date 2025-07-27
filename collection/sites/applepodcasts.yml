@@ -1,0 +1,25 @@
+name: "Apple Podcasts"
+homepage: "https://podcasts.apple.com/"
+host: podcasts.apple.com
+example:
+    - https://podcasts.apple.com/us/podcast/the-office-deep-dive-with-brian-baumgartner/id1550331348
+    - https://podcasts.apple.com/us/podcast/the-office-deep-dive-with-brian-baumgartner/id1550331348?i=1000514199106
+extract:
+    - "@podcasts.apple.com/(?'country'\\w+)/podcast/[-\\w%]*/id(?'podcast_id'\\d+)(?:\\?i=(?'episode_id'\\d+))?@"
+choose:
+    when:
+        test: '@episode_id'
+        iframe:
+            allow: "autoplay *;encrypted-media *"
+            width: "100%"
+            height: "175"
+            max-width: "900"
+            src: "https://embed.podcasts.apple.com/{@country}/podcast/episode/id{@podcast_id}?i={@episode_id}"
+    otherwise:
+        iframe:
+            allow: "autoplay *;encrypted-media *"
+            width: "100%"
+            height: "450"
+            max-width: "900"
+            src: "https://embed.podcasts.apple.com/{@country}/podcast/episode/id{@podcast_id}"
+tags: "podcasts"
