@@ -30,7 +30,7 @@ class cache_test extends \phpbb_test_case
 
 		$this->cache_driver = $this->getMockBuilder('phpbb\cache\driver\file')
 			->disableOriginalConstructor()
-			->setMethods(['destroy', 'remove_file'])
+			->onlyMethods(['destroy', 'remove_file'])
 			->getMock();
 
 		$this->membed_cache = new \phpbb\mediaembed\cache\cache(
