@@ -14,6 +14,10 @@ iframe:
     data-s9e-livepreview-ignore-attrs: "style"
     onload: "let c=new MessageChannel;c.port1.onmessage=e=>this.style.height=e.data+'px';this.contentWindow.postMessage('s9e:init','*',[c.port2])"
     width: "550"
-    height: "273"
+    height: "350"
     allow: "autoplay *"
-    src: https://s9e.github.io/iframe/2/twitter.min.html#<xsl:value-of select="@id"/><xsl:if test="$MEDIAEMBED_THEME='dark'">#theme=dark</xsl:if>
+    src: https://s9e.github.io/iframe/2/twitter.min.html#<xsl:value-of select="@id"/><xsl:if test="$MEDIAEMBED_THEME">#theme=<xsl:value-of select="$MEDIAEMBED_THEME"/></xsl:if>
+amp:
+    custom-element: amp-twitter
+    src: https://cdn.ampproject.org/v0/amp-twitter-0.1.js
+    template: '<amp-twitter layout="responsive" width="550" height="273" data-tweetid="{@id}"><blockquote placeholder=""><a href="https://twitter.com/user/status/{@id}">X</a></blockquote></amp-twitter>'
