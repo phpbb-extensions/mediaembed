@@ -70,6 +70,7 @@ class main_listener implements EventSubscriberInterface
 			'core.message_parser_check_message'			=> [['check_signature'], ['check_magic_urls'], ['check_bbcode_enabled']],
 			'core.text_formatter_s9e_parser_setup'		=> [['disable_media_embed'], ['setup_cache_dir']],
 			'core.page_header' 							=> 'setup_media_configs',
+			'core.page_footer_after'					=> 'append_agreement',
 		];
 	}
 
@@ -364,5 +365,22 @@ class main_listener implements EventSubscriberInterface
 		$siteIds = $this->config_text->get('media_embed_sites');
 
 		return $siteIds ? json_decode($siteIds, true) : [];
+	}
+
+	/**
+	 * Appends additional language to the privacy policy agreement text.
+	 *
+	 * @return void
+	 */
+	public function append_agreement()
+	{
+		if (!$this->template->retrieve_var('S_AGREEMENT') || ($this->template->retrieve_var('AGREEMENT_TITLE') !== $this->language->lang('PRIVACY')))
+		{
+			return;
+		}
+
+		$this->language->add_lang('info_ucp_mediaembed', 'phpbb/mediaembed');
+
+		$this->template->append_var('AGREEMENT_TEXT', $this->language->lang('MEDIA_EMBED_PRIVACY_POLICY', $this->config['sitename']));
 	}
 }
