@@ -164,7 +164,8 @@ class main_listener implements EventSubscriberInterface
 	 */
 	public function modify_tag_templates($event)
 	{
-		try {
+		try
+		{
 			// force YouTube to use the no cookies until the user starts video playback
 			$tag = $event['configurator']->tags['YOUTUBE'];
 			$tag->template = str_replace('www.youtube.com', 'www.youtube-nocookie.com', $tag->template);
