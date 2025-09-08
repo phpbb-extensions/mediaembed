@@ -61,7 +61,7 @@ class main_listener implements EventSubscriberInterface
 	public static function getSubscribedEvents()
 	{
 		return [
-			'core.text_formatter_s9e_configure_after'	=> [['add_custom_sites', 3], ['enable_media_sites', 2], ['configure_url_parsing', 1]],
+			'core.text_formatter_s9e_configure_after'	=> [['add_custom_sites', 3], ['enable_media_sites', 2], ['configure_url_parsing', 1], ['modify_tag_templates', 0]],
 			'core.display_custom_bbcodes'				=> 'setup_media_bbcode',
 			'core.permissions'							=> 'set_permissions',
 			'core.help_manager_add_block_before'		=> 'media_embed_help',
@@ -152,6 +152,27 @@ class main_listener implements EventSubscriberInterface
 		{
 			$event['configurator']->MediaEmbed->finalize();
 			unset($event['configurator']->MediaEmbed);
+		}
+	}
+
+	/**
+	 * Modify bbcode tag templates
+	 *
+	 * @param \phpbb\event\data $event The event object
+	 * @return void
+	 */
+	public function modify_tag_templates($event)
+	{
+		try {
+			// force YouTube to use the no cookies until the user starts video playback
+			$tag = $event['configurator']->tags['YOUTUBE'];
+			$tag->template = str_replace('www.youtube.com', 'www.youtube-nocookie.com', $tag->template);
+
+			$event['configurator']->finalize();
+		}
+		catch (\RuntimeException $e)
+		{
+			// do nothing
 		}
 	}
 

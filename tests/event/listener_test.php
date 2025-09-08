@@ -223,6 +223,7 @@ class listener_test extends \phpbb_database_test_case
 		$listener->add_custom_sites($event);
 		$listener->enable_media_sites($event);
 		$listener->configure_url_parsing($event);
+		$listener->modify_tag_templates($event);
 
 		// Get an instance of the parser
 		$parser = null;
