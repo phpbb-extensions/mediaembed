@@ -283,6 +283,7 @@ class listener_test extends \phpbb_database_test_case
 		$listener = $this->get_listener();
 		$listener->add_custom_sites($event);
 		$listener->enable_media_sites($event);
+		$listener->modify_tag_templates($event);
 	}
 
 	public function check_methods_data()
