@@ -172,6 +172,14 @@ class media_embed_test extends \phpbb_functional_test_case
 		$this->assert_checkbox_is_checked($crawler, 'youtube');
 	}
 
+	public function test_ucp_agreement()
+	{
+		$this->add_lang_ext('phpbb/mediaembed', 'ucp');
+
+		$crawler = self::request('GET', 'ucp.php?mode=privacy');
+		$this->assertStringContainsString($this->lang('MEDIA_EMBED_PRIVACY_POLICY', 'yourdomain.com'), $crawler->filter('.agreement')->html());
+	}
+
 	/**
 	 * Override original function to search by checkbox value instead of name
 	 *

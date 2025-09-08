@@ -379,7 +379,7 @@ class main_listener implements EventSubscriberInterface
 			return;
 		}
 
-		$this->language->add_lang('info_ucp_mediaembed', 'phpbb/mediaembed');
+		$this->language->add_lang('ucp', 'phpbb/mediaembed');
 
 		$this->template->append_var('AGREEMENT_TEXT', $this->language->lang('MEDIA_EMBED_PRIVACY_POLICY', $this->config['sitename']));
 	}
