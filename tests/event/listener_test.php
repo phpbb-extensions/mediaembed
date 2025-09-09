@@ -133,7 +133,7 @@ class listener_test extends \phpbb_database_test_case
 			'core.message_parser_check_message',
 			'core.text_formatter_s9e_parser_setup',
 			'core.page_header',
-			'core.page_footer_after',
+			'core.page_footer',
 		], array_keys(\phpbb\mediaembed\event\main_listener::getSubscribedEvents()));
 	}
 

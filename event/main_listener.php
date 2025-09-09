@@ -70,7 +70,7 @@ class main_listener implements EventSubscriberInterface
 			'core.message_parser_check_message'			=> [['check_signature'], ['check_magic_urls'], ['check_bbcode_enabled']],
 			'core.text_formatter_s9e_parser_setup'		=> [['disable_media_embed'], ['setup_cache_dir']],
 			'core.page_header' 							=> 'setup_media_configs',
-			'core.page_footer_after'					=> 'append_agreement',
+			'core.page_footer'							=> 'append_agreement',
 		];
 	}
 
