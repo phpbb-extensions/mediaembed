@@ -14,7 +14,7 @@ class ext extends \phpbb\extension\base
 {
 	/**
 	 * @var string Minimum requirements:
-	 * phpBB 4.0.0 because using Icon())
+	 * phpBB 4.0.0 because using Icon()
 	 */
 	public const PHPBB_MINIMUM = '4.0.0-dev';
 
