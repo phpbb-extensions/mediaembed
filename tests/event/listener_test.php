@@ -160,7 +160,7 @@ class listener_test extends \phpbb_database_test_case
 	 *
 	 * @return array
 	 */
-	public function configure_media_embed_data()
+	public static function configure_media_embed_data()
 	{
 		return [
 			['dailymotion', '[media]http://www.dailymotion.com/video/x222z1[/media]', 'DAILYMOTION id="x222z1"', false, true, true], // site using the MEDIA BBCode
@@ -238,7 +238,7 @@ class listener_test extends \phpbb_database_test_case
 	 *
 	 * @return array
 	 */
-	public function exception_errors_data()
+	public static function exception_errors_data()
 	{
 		return [
 			['notok', '\Symfony\Component\Yaml\Exception\ParseException'], // Exception when custom site YAML is invalid
@@ -283,7 +283,7 @@ class listener_test extends \phpbb_database_test_case
 		$listener->enable_media_sites($event);
 	}
 
-	public function check_methods_data()
+	public static function check_methods_data()
 	{
 		return [
 			['check_signature', ['mode' => 'sig'], ['media_embed_allow_sig' => false], 1, 1],
@@ -354,7 +354,7 @@ class listener_test extends \phpbb_database_test_case
 	 *
 	 * @return array
 	 */
-	public function check_permissions_data()
+	public static function check_permissions_data()
 	{
 		return [
 			[2, 'f_mediaembed', false],
@@ -439,6 +439,11 @@ class listener_test extends \phpbb_database_test_case
 				'S_MEDIA_EMBED_MAX_WIDTHS'	=> '',
 			]);
 
+		$this->config_text->expects(self::once())
+			->method('get')
+			->with('media_embed_max_width')
+			->willReturn('');
+
 		$listener->setup_media_configs();
 	}
 
@@ -479,7 +484,7 @@ class listener_test extends \phpbb_database_test_case
 	 *
 	 * @return array
 	 */
-	public function setup_cache_dir_data()
+	public static function setup_cache_dir_data()
 	{
 		return [
 			[true],

@@ -17,8 +17,8 @@ use phpbb\mediaembed\event\main_listener;
  */
 class media_embed_test extends \phpbb_functional_test_case
 {
-	protected $youtubeId = 'PHzShhtkzEk';
-	protected $ok_ru_Id = '549000643961';
+	const YOUTUBE_ID = 'PHzShhtkzEk';
+	const OK_RU_ID = '549000643961';
 
 	protected static function setup_extensions()
 	{
@@ -29,9 +29,9 @@ class media_embed_test extends \phpbb_functional_test_case
 	{
 		$this->login();
 
-		$post = $this->create_topic(2, 'Media Embed Test Topic 1', "[media]https://youtu.be/$this->youtubeId[/media]");
+		$post = $this->create_topic(2, 'Media Embed Test Topic 1', "[media]https://youtu.be/" . self::YOUTUBE_ID . "[/media]");
 		$crawler = self::request('GET', "viewtopic.php?t={$post['topic_id']}&sid=$this->sid");
-		self::assertStringContainsString("//www.youtube.com/embed/$this->youtubeId", $crawler->filter("#post_content{$post['topic_id']} iframe")->attr('src'));
+		self::assertStringContainsString("//www.youtube.com/embed/" . self::YOUTUBE_ID, $crawler->filter("#post_content{$post['topic_id']} iframe")->attr('src'));
 	}
 
 	public function test_posting_custom_site()
@@ -55,16 +55,16 @@ class media_embed_test extends \phpbb_functional_test_case
 		$crawler = self::request('GET', "adm/index.php?i=\\phpbb\\mediaembed\\acp\\main_module&mode=manage&sid=$this->sid");
 		$this->assert_checkbox_is_checked($crawler, 'ok');
 
-		$post = $this->create_topic(2, 'Media Embed Custom Site Test Topic 1', "[media]https://ok.ru/video/$this->ok_ru_Id[/media]");
+		$post = $this->create_topic(2, 'Media Embed Custom Site Test Topic 1', "[media]https://ok.ru/video/" . self::OK_RU_ID . "[/media]");
 		$crawler = self::request('GET', "viewtopic.php?t={$post['topic_id']}&sid=$this->sid");
-		self::assertStringContainsString("//ok.ru/videoembed/$this->ok_ru_Id", $crawler->filter("#post_content{$post['topic_id']} iframe")->attr('src'));
+		self::assertStringContainsString("//ok.ru/videoembed/" . self::OK_RU_ID, $crawler->filter("#post_content{$post['topic_id']} iframe")->attr('src'));
 	}
 
-	public function signatures_data()
+	public static function signatures_data()
 	{
 		return [
 			[false, 'UNAUTHORISED_BBCODE'],
-			[true, "//www.youtube.com/embed/$this->youtubeId"],
+			[true, "//www.youtube.com/embed/" . self::YOUTUBE_ID],
 		];
 	}
 
@@ -89,7 +89,7 @@ class media_embed_test extends \phpbb_functional_test_case
 		$crawler = self::request('GET', 'ucp.php?i=ucp_profile&mode=signature');
 
 		$form = $crawler->selectButton('Submit')->form([
-			'signature'	=> "[media]https://youtu.be/$this->youtubeId[/media]",
+			'signature'	=> "[media]https://youtu.be/" . self::YOUTUBE_ID . "[/media]",
 		]);
 
 		$crawler = self::submit($form);

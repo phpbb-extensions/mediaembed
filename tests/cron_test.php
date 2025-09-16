@@ -57,7 +57,7 @@ class cron_test extends \phpbb_test_case
 	 *
 	 * @return array Array of test data
 	 */
-	public function should_run_data()
+	public static function should_run_data()
 	{
 		return [
 			[time(), false],
@@ -83,7 +83,7 @@ class cron_test extends \phpbb_test_case
 		self::assertSame($expected, $this->cron_task->should_run());
 	}
 
-	public function is_runnable_data()
+	public static function is_runnable_data()
 	{
 		return [
 			[true],

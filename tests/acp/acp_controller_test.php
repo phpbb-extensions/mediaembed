@@ -55,6 +55,9 @@ class acp_controller_test extends \phpbb_test_case
 	/** @var user $user */
 	protected $user;
 
+	/** @var string */
+	protected $u_action;
+
 	protected function setUp(): void
 	{
 		parent::setUp();
@@ -151,12 +154,16 @@ class acp_controller_test extends \phpbb_test_case
 			->willReturn($this->container
 				->get('text_formatter.s9e.factory')
 				->get_configurator());
+		$this->config_text->expects(self::once())
+			->method('get')
+			->with('media_embed_sites')
+			->willReturn('[]');
 
 		$controller = $this->get_controller();
 		$controller->display_manage();
 	}
 
-	public function save_setting_data()
+	public static function save_setting_data()
 	{
 		return [
 			[true, ['youtube:100%', '[{"site":"youtube","width":"100%"}]'], ['code' => E_USER_NOTICE, 'message' => 'CONFIG_UPDATED']],

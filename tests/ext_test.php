@@ -70,7 +70,7 @@ class ext_test extends \phpbb_test_case
 		);
 	}
 
-	public function ext_test_data()
+	public static function ext_test_data()
 	{
 		return [
 			[false, true],
