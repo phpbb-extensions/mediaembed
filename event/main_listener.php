@@ -61,7 +61,7 @@ class main_listener implements EventSubscriberInterface
 	public static function getSubscribedEvents()
 	{
 		return [
-			'core.text_formatter_s9e_configure_after'	=> [['add_custom_sites', 3], ['enable_media_sites', 2], ['configure_url_parsing', 1]],
+			'core.text_formatter_s9e_configure_after'	=> [['add_custom_sites', 3], ['enable_media_sites', 2], ['configure_url_parsing', 1], ['modify_tag_templates', 0]],
 			'core.display_custom_bbcodes'				=> 'setup_media_bbcode',
 			'core.permissions'							=> 'set_permissions',
 			'core.help_manager_add_block_before'		=> 'media_embed_help',
@@ -70,6 +70,7 @@ class main_listener implements EventSubscriberInterface
 			'core.message_parser_check_message'			=> [['check_signature'], ['check_magic_urls'], ['check_bbcode_enabled']],
 			'core.text_formatter_s9e_parser_setup'		=> [['disable_media_embed'], ['setup_cache_dir']],
 			'core.page_header' 							=> 'setup_media_configs',
+			'core.page_footer'							=> 'append_agreement',
 		];
 	}
 
@@ -152,6 +153,28 @@ class main_listener implements EventSubscriberInterface
 		{
 			$event['configurator']->MediaEmbed->finalize();
 			unset($event['configurator']->MediaEmbed);
+		}
+	}
+
+	/**
+	 * Modify bbcode tag templates
+	 *
+	 * @param \phpbb\event\data $event The event object
+	 * @return void
+	 */
+	public function modify_tag_templates($event)
+	{
+		try
+		{
+			// force YouTube to use the no cookies until the user starts video playback
+			$tag = $event['configurator']->tags['YOUTUBE'];
+			$tag->template = str_replace('www.youtube.com', 'www.youtube-nocookie.com', $tag->template);
+
+			$event['configurator']->finalize();
+		}
+		catch (\RuntimeException $e)
+		{
+			// do nothing
 		}
 	}
 
@@ -343,5 +366,22 @@ class main_listener implements EventSubscriberInterface
 		$siteIds = $this->config_text->get('media_embed_sites');
 
 		return $siteIds ? json_decode($siteIds, true) : [];
+	}
+
+	/**
+	 * Appends additional language to the privacy policy agreement text.
+	 *
+	 * @return void
+	 */
+	public function append_agreement()
+	{
+		if (!$this->template->retrieve_var('S_AGREEMENT') || ($this->template->retrieve_var('AGREEMENT_TITLE') !== $this->language->lang('PRIVACY')))
+		{
+			return;
+		}
+
+		$this->language->add_lang('ucp', 'phpbb/mediaembed');
+
+		$this->template->append_var('AGREEMENT_TEXT', $this->language->lang('MEDIA_EMBED_PRIVACY_POLICY', $this->config['sitename']));
 	}
 }
