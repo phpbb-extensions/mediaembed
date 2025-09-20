@@ -133,6 +133,7 @@ class listener_test extends \phpbb_database_test_case
 			'core.message_parser_check_message',
 			'core.text_formatter_s9e_parser_setup',
 			'core.page_header',
+			'core.page_footer',
 		], array_keys(\phpbb\mediaembed\event\main_listener::getSubscribedEvents()));
 	}
 
@@ -223,6 +224,7 @@ class listener_test extends \phpbb_database_test_case
 		$listener->add_custom_sites($event);
 		$listener->enable_media_sites($event);
 		$listener->configure_url_parsing($event);
+		$listener->modify_tag_templates($event);
 
 		// Get an instance of the parser
 		$parser = null;
@@ -281,6 +283,7 @@ class listener_test extends \phpbb_database_test_case
 		$listener = $this->get_listener();
 		$listener->add_custom_sites($event);
 		$listener->enable_media_sites($event);
+		$listener->modify_tag_templates($event);
 	}
 
 	public function check_methods_data()
@@ -509,6 +512,53 @@ class listener_test extends \phpbb_database_test_case
 		{
 			self::assertArrayNotHasKey('cacheDir', $parser->get_parser()->registeredVars);
 		}
+	}
+
+	/**
+	 * Data for test_append_agreement
+	 *
+	 * @return array
+	 */
+	public function append_agreement_data()
+	{
+		return [
+			[false, 'PRIVACY', 0], // No agreement
+			[true, 'TERMS', 0], // Wrong title
+			[true, 'PRIVACY', 1], // Correct conditions
+		];
+	}
+
+	/**
+	 * Test the append_agreement method
+	 *
+	 * @dataProvider append_agreement_data
+	 * @param mixed $s_agreement S_AGREEMENT template variable value
+	 * @param mixed $agreement_title AGREEMENT_TITLE template variable value
+	 * @param int $expected_append_calls Expected append_var calls
+	 */
+	public function test_append_agreement($s_agreement, $agreement_title, $expected_append_calls)
+	{
+		$this->config['sitename'] = 'Test Forum';
+
+		$this->template->expects(self::atMost(2))
+			->method('retrieve_var')
+			->withConsecutive(['S_AGREEMENT'], ['AGREEMENT_TITLE'])
+			->willReturnOnConsecutiveCalls($s_agreement, $this->language->lang($agreement_title));
+
+		if ($expected_append_calls > 0)
+		{
+			$this->template->expects(self::once())
+				->method('append_var')
+				->with('AGREEMENT_TEXT', $this->language->lang('MEDIA_EMBED_PRIVACY_POLICY', 'Test Forum'));
+		}
+		else
+		{
+			$this->template->expects(self::never())
+				->method('append_var');
+		}
+
+		$listener = $this->get_listener();
+		$listener->append_agreement();
 	}
 
 	protected function mock_s9e_parser()

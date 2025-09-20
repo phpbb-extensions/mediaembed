@@ -31,7 +31,7 @@ class media_embed_test extends \phpbb_functional_test_case
 
 		$post = $this->create_topic(2, 'Media Embed Test Topic 1', "[media]https://youtu.be/$this->youtubeId[/media]");
 		$crawler = self::request('GET', "viewtopic.php?t={$post['topic_id']}&sid=$this->sid");
-		self::assertStringContainsString("//www.youtube.com/embed/$this->youtubeId", $crawler->filter("#post_content{$post['topic_id']} iframe")->attr('src'));
+		self::assertStringContainsString("//www.youtube-nocookie.com/embed/$this->youtubeId", $crawler->filter("#post_content{$post['topic_id']} iframe")->attr('src'));
 	}
 
 	public function test_posting_custom_site()
@@ -64,7 +64,7 @@ class media_embed_test extends \phpbb_functional_test_case
 	{
 		return [
 			[false, 'UNAUTHORISED_BBCODE'],
-			[true, "//www.youtube.com/embed/$this->youtubeId"],
+			[true, "//www.youtube-nocookie.com/embed/$this->youtubeId"],
 		];
 	}
 
@@ -132,7 +132,7 @@ class media_embed_test extends \phpbb_functional_test_case
 		$this->assertContainsLang('HELP_EMBEDDING_MEDIA', $crawler->filter('#faqlinks')->text());
 
 		preg_match('/https:\/\/youtu\.be\/(.*)/', main_listener::MEDIA_DEMO_URL, $matches);
-		self::assertStringContainsString("//www.youtube.com/embed/$matches[1]", $crawler->filter('body iframe')->attr('src'));
+		self::assertStringContainsString("//www.youtube-nocookie.com/embed/$matches[1]", $crawler->filter('body iframe')->attr('src'));
 	}
 
 	public function test_acp_modules()
@@ -170,6 +170,14 @@ class media_embed_test extends \phpbb_functional_test_case
 		$this->assertContainsLang('ACP_MEDIA_MANAGE', $crawler->filter('#main')->text(), 'The Media Embed settings module failed to load');
 
 		$this->assert_checkbox_is_checked($crawler, 'youtube');
+	}
+
+	public function test_ucp_agreement()
+	{
+		$this->add_lang_ext('phpbb/mediaembed', 'ucp');
+
+		$crawler = self::request('GET', 'ucp.php?mode=privacy');
+		$this->assertStringContainsString($this->lang('MEDIA_EMBED_PRIVACY_POLICY', 'yourdomain.com'), $crawler->filter('.agreement')->html());
 	}
 
 	/**
