@@ -186,7 +186,7 @@ class main_listener implements EventSubscriberInterface
 	public function setup_media_bbcode()
 	{
 		$this->language->add_lang('common', 'phpbb/mediaembed');
-		$this->template->assign_var('S_MEDIA_EMBED_BBCODE', $this->config->offsetGet('media_embed_bbcode'));
+		$this->template->assign_var('S_BBCODE_MEDIA', $this->config->offsetGet('media_embed_bbcode'));
 	}
 
 	/**

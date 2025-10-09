@@ -426,7 +426,7 @@ class listener_test extends \phpbb_database_test_case
 
 		$this->template->expects(self::once())
 			->method('assign_var')
-			->with('S_MEDIA_EMBED_BBCODE', $this->config['media_embed_bbcode']);
+			->with('S_BBCODE_MEDIA', $this->config['media_embed_bbcode']);
 
 		$listener->setup_media_bbcode();
 	}
