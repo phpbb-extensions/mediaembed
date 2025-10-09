@@ -29,7 +29,12 @@ class media_embed_test extends \phpbb_functional_test_case
 	{
 		$this->login();
 
-		$post = $this->create_topic(2, 'Media Embed Test Topic 1', "[media]https://youtu.be/" . self::YOUTUBE_ID . "[/media]");
+		$forum_id = 2;
+
+		$crawler = self::request('GET', "posting.php?mode=post&f={$forum_id}&sid={$this->sid}");
+		self::assertCount(1, $crawler->filter('button[name="addmedia"]'));
+
+		$post = $this->create_topic($forum_id, 'Media Embed Test Topic 1', "[media]https://youtu.be/" . self::YOUTUBE_ID . "[/media]");
 		$crawler = self::request('GET', "viewtopic.php?t={$post['topic_id']}&sid=$this->sid");
 		self::assertStringContainsString("//www.youtube-nocookie.com/embed/" . self::YOUTUBE_ID, $crawler->filter("#post_content{$post['topic_id']} iframe")->attr('src'));
 	}
