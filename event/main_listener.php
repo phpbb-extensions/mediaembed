@@ -104,12 +104,22 @@ class main_listener implements EventSubscriberInterface
 	 */
 	public function add_custom_sites($event)
 	{
+		$is_phpbb4 = phpbb_version_compare(PHPBB_VERSION, '4.0.0', '>=');
+		$phpbb4_builtins = array_flip([
+			'applepodcasts', 'bluesky', 'bunny', 'mastodon', 'pastebin', 'threads', 'twitter',
+		]);
+
 		foreach ($this->custom_sites->get_collection() as $site)
 		{
-			$event['configurator']->MediaEmbed->defaultSites->add(
-				basename($site, ext::YML),
-				Yaml::parse(file_get_contents($site))
-			);
+			$name = basename($site, ext::YML);
+
+			// Skip built-in sites when running phpBB 4
+			if ($is_phpbb4 && isset($phpbb4_builtins[$name]))
+			{
+				continue;
+			}
+
+			$event['configurator']->MediaEmbed->defaultSites->add($name, Yaml::parseFile($site));
 		}
 	}
 
