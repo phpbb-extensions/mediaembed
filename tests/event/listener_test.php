@@ -189,10 +189,14 @@ class listener_test extends \phpbb_database_test_case
 	{
 		$this->custom_sites->expects(self::once())
 			->method('get_collection')
-			->willReturn([__DIR__ . '/../fixtures/sites/ok.yml']);
+			->willReturn([
+				__DIR__ . '/../fixtures/sites/ok.yml',
+				__DIR__ . '/../fixtures/sites/bluesky.yml',  // this is to test that phpbb4 filtering works
+			]);
 
 		// Update configs with test values
 		$this->config['media_embed_parse_urls'] = $parse_urls;
+		$this->config['version'] = '4.0.0'; // this is to test that phpbb4 filtering works
 
 		// Get the s9e configurator
 		$configurator = $this->container
