@@ -104,7 +104,6 @@ class main_listener implements EventSubscriberInterface
 	 */
 	public function add_custom_sites($event)
 	{
-		$is_phpbb4 = phpbb_version_compare($this->config['version'], '4.0.0-a1', '>=');
 		$phpbb4_builtins = array_flip([
 			'applepodcasts', 'bluesky', 'bunny', 'mastodon', 'pastebin', 'threads', 'twitter',
 		]);
@@ -114,7 +113,7 @@ class main_listener implements EventSubscriberInterface
 			$name = basename($site, ext::YML);
 
 			// Skip built-in sites when running phpBB 4
-			if ($is_phpbb4 && isset($phpbb4_builtins[$name]))
+			if ($this->is_phpbb4() && isset($phpbb4_builtins[$name]))
 			{
 				continue;
 			}
@@ -178,7 +177,11 @@ class main_listener implements EventSubscriberInterface
 		{
 			// force YouTube to use the no cookies until the user starts video playback, and fix referrer policy issues
 			$tag = $event['configurator']->tags['YOUTUBE'];
-			$tag->template = str_replace(['www.youtube.com', ' allowfullscreen'], ['www.youtube-nocookie.com', ' referrerpolicy="origin" allowfullscreen'], $tag->template);
+			$tag->template = str_replace(['www.youtube.com'], 'www.youtube-nocookie.com', $tag->template);
+			if (!$this->is_phpbb4())
+			{
+				$tag->template = str_replace([' allowfullscreen'], ' referrerpolicy="origin" allowfullscreen', $tag->template);
+			}
 
 			$event['configurator']->finalize();
 		}
@@ -393,5 +396,13 @@ class main_listener implements EventSubscriberInterface
 		$this->language->add_lang('ucp', 'phpbb/mediaembed');
 
 		$this->template->append_var('AGREEMENT_TEXT', $this->language->lang('MEDIA_EMBED_PRIVACY_POLICY', $this->config['sitename']));
+	}
+
+	/**
+	 * @return mixed
+	 */
+	private function is_phpbb4()
+	{
+		return phpbb_version_compare($this->config['version'], '4.0.0-a1', '>=');
 	}
 }
