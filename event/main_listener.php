@@ -177,7 +177,11 @@ class main_listener implements EventSubscriberInterface
 		{
 			// force YouTube to use the no cookies until the user starts video playback, and fix referrer policy issues
 			$tag = $event['configurator']->tags['YOUTUBE'];
-			$tag->template = str_replace(['www.youtube.com', ' allowfullscreen'], ['www.youtube-nocookie.com', ' referrerpolicy="origin" allowfullscreen'], $tag->template);
+			$tag->template = str_replace(['www.youtube.com'], 'www.youtube-nocookie.com', $tag->template);
+			if (!$this->is_phpbb4())
+			{
+				$tag->template = str_replace([' allowfullscreen'], ' referrerpolicy="origin" allowfullscreen', $tag->template);
+			}
 
 			$event['configurator']->finalize();
 		}
