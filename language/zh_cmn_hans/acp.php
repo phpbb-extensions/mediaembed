@@ -21,7 +21,7 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, [
 	// Settings
-	'ACP_MEDIA_SETTINGS'				=> 'Media Embed Settings',
+	'ACP_MEDIA_SETTINGS'				=> 'Media Embed 设置',
 	'ACP_MEDIA_SETTINGS_EXPLAIN'		=> '这里可设置 Media Embed PlugIn 的相关参数。',
 	'ACP_MEDIA_BBCODE_LEGEND'			=> 'BBCode',
 	'ACP_MEDIA_DISPLAY_BBCODE'			=> '在发帖页面显示 <samp>[media]</samp> BBCode',
