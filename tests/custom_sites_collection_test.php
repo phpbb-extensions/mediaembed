@@ -51,6 +51,7 @@ class custom_sites_collection_test extends \phpbb_test_case
 		$this->assertContains('phpBB/ext/phpbb/mediaembed/collection/sites/snotr.yml', $collection);
 		$this->assertContains('phpBB/ext/phpbb/mediaembed/collection/sites/tenor.yml', $collection);
 		$this->assertContains('phpBB/ext/phpbb/mediaembed/collection/sites/videopress.yml', $collection);
+		$this->assertContains('phpBB/ext/phpbb/mediaembed/collection/sites/vk.yml', $collection);
 		$this->assertNotContains('phpBB/ext/phpbb/mediaembed/collection/sites/youtube.yml', $collection);
 	}
 }

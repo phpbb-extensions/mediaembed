@@ -1,0 +1,30 @@
+name: "VK"
+homepage: "https://vk.com/"
+tags: ".ru"
+host:
+    - "vk.com"
+    - "vkontakte.ru"
+    - "vkvideo.ru"
+example:
+    - "https://vk.com/video121599878_165723901?hash=e06b0878046e1d32"
+    - "https://vk.com/video_ext.php?oid=121599878&id=165723901&hash=e06b0878046e1d32"
+attributes:
+    oid:
+        required: true
+    vid:
+        required: true
+extract:
+    - "!video(?'oid'-?\\d+)_(?'vid'\\d+)!"
+    - "!video_ext\\.php\\?oid=(?'oid'-?\\d+)&id=(?'vid'\\d+)!"
+    - "!hash=(?'hash'[0-9a-f]+)!"
+    - "!hd=(?'hd'\\d)!"
+iframe:
+    src: "//vk.com/video_ext.php?oid={@oid}&id={@vid}&hash={@hash}&hd={@hd}"
+scrape:
+    extract:
+        - "#meta property=\"og:video\" content=\".*?oid=(?'oid'-?\\d+).*?id=(?'vid'\\d+)#"
+        - "#meta property=\"og:video\" content=\".*?hash=(?'hash'[0-9a-f]+)#"
+    match: "#^(?!.*?hash=)#"
+    header:
+        - "User-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+        - "Cookie: _ignoreAutoLogin=1"
