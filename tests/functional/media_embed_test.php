@@ -133,7 +133,7 @@ class media_embed_test extends \phpbb_functional_test_case
 	{
 		$this->add_lang_ext('phpbb/mediaembed', 'help');
 
-		$crawler = self::request('GET', 'app.php/help/bbcode');
+		$crawler = self::request('GET', 'index.php/help/bbcode');
 		$this->assertContainsLang('HELP_EMBEDDING_MEDIA', $crawler->filter('#faqlinks')->text());
 
 		preg_match('/https:\/\/youtu\.be\/(.*)/', main_listener::MEDIA_DEMO_URL, $matches);
