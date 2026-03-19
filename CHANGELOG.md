@@ -1,5 +1,12 @@
 # Changelog
 
+### 2.0.4 - 2025-12-16
+
+- Fixed problems with YouTube not playing videos due to YouTube's referrerer policy.
+- Ensure and future-proof compatibility with phpBB4.
+- Added language packs:
+	- Romanian
+
 ### 2.0.3 - 2025-09-20
 
 - Added an amendment to the forum privacy policy regarding how embedded content may affect user privacy.
