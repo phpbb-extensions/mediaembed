@@ -105,7 +105,15 @@ class main_listener implements EventSubscriberInterface
 	public function add_custom_sites($event)
 	{
 		$phpbb4_builtins = array_flip([
-			'applepodcasts', 'bluesky', 'bunny', 'mastodon', 'pastebin', 'threads', 'twitter',
+			'applepodcasts',
+			'bluesky',
+			'bunny',
+			'facebook',
+			'mastodon',
+			'pastebin',
+			'threads',
+			'twitter',
+			'vk',
 		]);
 
 		foreach ($this->custom_sites->get_collection() as $site)
