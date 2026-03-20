@@ -55,6 +55,9 @@ class main_listener implements EventSubscriberInterface
 	/** @var bool Disable the media tag (bbcode parsing) */
 	protected $disable_tag = false;
 
+	/** @var bool|null Cached result of is_phpbb4() */
+	protected $is_phpbb4;
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -121,7 +124,7 @@ class main_listener implements EventSubscriberInterface
 			$name = basename($site, ext::YML);
 
 			// Skip built-in sites when running phpBB 4
-			if ($this->is_phpbb4() && isset($phpbb4_builtins[$name]))
+			if (isset($phpbb4_builtins[$name]) && $this->is_phpbb4())
 			{
 				continue;
 			}
@@ -411,6 +414,11 @@ class main_listener implements EventSubscriberInterface
 	 */
 	private function is_phpbb4()
 	{
-		return phpbb_version_compare($this->config['version'], '4.0.0-a1', '>=');
+		if ($this->is_phpbb4 === null)
+		{
+			$this->is_phpbb4 = phpbb_version_compare($this->config['version'], '4.0.0-a1', '>=');
+		}
+
+		return $this->is_phpbb4;
 	}
 }
