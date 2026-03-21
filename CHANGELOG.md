@@ -1,5 +1,11 @@
 # Changelog
 
+### 2.0.5 - 2026-03-21
+
+- Added and/or updated support for media sites:
+	- Facebook
+	- vk.com
+
 ### 2.0.4 - 2025-12-16
 
 - Fixed problems with YouTube not playing videos due to YouTube's referrerer policy.
