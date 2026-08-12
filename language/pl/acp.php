@@ -5,7 +5,7 @@
  *
  * @copyright (c) 2016 phpBB Limited <https://www.phpbb.com>
  * @license GNU General Public License, version 2 (GPL-2.0)
- * @Polska wersja językowa phpBB Media Embed 1.1.2 - 10.09.2020, Mateusz Dutko (vader) www.rnavspotters.pl
+ * @Polska wersja językowa phpBB Media Embed 2.0.5 - 21.06.2026, Mateusz Dutko (vader) www.rnavspotters.pl
  *
  */
 
@@ -43,9 +43,9 @@ $lang = array_merge($lang, [
 	'ACP_MEDIA_PURGE_CACHE_EXPLAIN'		=> 'Pamięć podręczna osadzania multimediów jest codziennie, automatycznie czyszczona. Można ją usunąć teraz poprzez kliknięcie przycisku.',
 	'ACP_MEDIA_SITE_TITLE'				=> 'ID strony: %s',
 	'ACP_MEDIA_SITE_DISABLED'			=> 'Ta strona ma konflikt z istniejącym znacznikiem BBCode: [%s]',
-	'ACP_MEDIA_ERROR_MSG'				=> 'The following errors were encountered:<br><br>%s',
-	'ACP_MEDIA_INVALID_SITE'			=> '%1$s:%2$s :: “%1$s” is not a valid site id',
-	'ACP_MEDIA_INVALID_WIDTH'			=> '%1$s:%2$s :: “%2$s” is not a valid width in “px” or “%%”',
+	'ACP_MEDIA_ERROR_MSG'				=> 'Wystąpiły następujące błędy:<br><br>%s',
+	'ACP_MEDIA_INVALID_SITE'			=> '%1$s:%2$s :: “%1$s” nie jest prawidłową stroną internetową',
+	'ACP_MEDIA_INVALID_WIDTH'			=> '%1$s:%2$s :: “%2$s” nie jest prawidłową wartością szerokości w “px” lub “%%”',
 
 	// Manage sites
 	'ACP_MEDIA_MANAGE'					=> 'Zarządzaj stronami osadzania multimediów',
