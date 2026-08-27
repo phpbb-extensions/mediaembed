@@ -21,9 +21,9 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, [
 	'MEDIA_EMBED_PRIVACY_POLICY' => '
 		<br><br>
-		<h3>Embedded Content from Other Websites</h3>
-		“%1$s” may include posts or content that contain embedded material from external websites, including but not limited to YouTube, Facebook, Twitter, and similar platforms. Embedded content from these external sites behaves in the same way as if you had visited the originating website directly.
-		<br><br>These external websites may collect data about you, use cookies, embed additional third-party tracking, and monitor your interaction with the embedded content, including tracking your interaction if you have an account and are logged in to that website.
-		<br><br>Please note that such activity is beyond the control of “%1$s” and is governed by the privacy policies and terms of service of the respective external websites. We encourage you to review the privacy and cookie policies of any third-party services you interact with through embedded content.
+		<h3>Conteúdo incorporado de outros sites</h3>
+		“%1$s” pode incluir mensagens ou conteúdo com material incorporado de sites externos, incluindo YouTube, Facebook, Twitter e plataformas semelhantes. O conteúdo incorporado destes sites externos comporta-se da mesma forma que se tivesse visitado diretamente o site de origem.
+		<br><br>Estes sites externos podem recolher dados sobre si, utilizar cookies, incorporar rastreio adicional de terceiros e monitorizar a sua interação com o conteúdo incorporado, inclusive se tiver uma conta e tiver iniciado sessão nesse site.
+		<br><br>Tenha em atenção que esta atividade está fora do controlo de “%1$s” e é regida pelas políticas de privacidade e pelos termos de serviço dos respetivos sites externos. Recomendamos que consulte as políticas de privacidade e de cookies de todos os serviços de terceiros com os quais interage através de conteúdo incorporado.
 	',
 ]);
