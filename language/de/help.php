@@ -38,7 +38,7 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, [
-	'HELP_EMBEDDING_MEDIA'			=> 'Embedding Media',
+	'HELP_EMBEDDING_MEDIA'			=> 'Medien einbetten',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Wie werden Medien von anderen Seiten in Posts eingebunden',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'User können Medien von anderen erlaubten Seiten wie Video und Audio einbinden indem
 										die <strong>[media][/media]</strong> Tags oder indem einfach die reine URL der erlaubten Seite
