@@ -21,9 +21,9 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, [
 	'MEDIA_EMBED_PRIVACY_POLICY' => '
 		<br><br>
-		<h3>Embedded Content from Other Websites</h3>
-		“%1$s” may include posts or content that contain embedded material from external websites, including but not limited to YouTube, Facebook, Twitter, and similar platforms. Embedded content from these external sites behaves in the same way as if you had visited the originating website directly.
-		<br><br>These external websites may collect data about you, use cookies, embed additional third-party tracking, and monitor your interaction with the embedded content, including tracking your interaction if you have an account and are logged in to that website.
-		<br><br>Please note that such activity is beyond the control of “%1$s” and is governed by the privacy policies and terms of service of the respective external websites. We encourage you to review the privacy and cookie policies of any third-party services you interact with through embedded content.
+		<h3>Eingebettete Inhalte anderer Websites</h3>
+		„%1$s“ kann Beiträge oder Inhalte mit eingebettetem Material externer Websites enthalten, darunter YouTube, Facebook, Twitter und ähnliche Plattformen. Eingebettete Inhalte dieser externen Websites verhalten sich so, als hättest du die ursprüngliche Website direkt besucht.
+		<br><br>Diese externen Websites können Daten über dich sammeln, Cookies verwenden, zusätzliche Nachverfolgung durch Dritte einbetten und deine Interaktion mit eingebetteten Inhalten überwachen. Dies schließt die Nachverfolgung deiner Interaktion ein, wenn du ein Konto besitzt und auf der betreffenden Website angemeldet bist.
+		<br><br>Bitte beachte, dass solche Aktivitäten außerhalb der Kontrolle von „%1$s“ liegen und den Datenschutzrichtlinien und Nutzungsbedingungen der jeweiligen externen Websites unterliegen. Wir empfehlen, die Datenschutz- und Cookie-Richtlinien aller Drittanbieterdienste zu prüfen, mit denen du über eingebettete Inhalte interagierst.
 	',
 ]);
