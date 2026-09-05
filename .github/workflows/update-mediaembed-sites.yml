@@ -1,0 +1,67 @@
+name: Update MediaEmbed sites
+
+on:
+    schedule:
+        - cron: '17 8 * * 1'
+    workflow_dispatch:
+
+permissions:
+    contents: write
+    pull-requests: write
+
+jobs:
+    update:
+        name: Update from latest TextFormatter release
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Check out repository
+              uses: actions/checkout@v6
+
+            - name: Find latest TextFormatter release
+              id: release
+              env:
+                  GH_TOKEN: ${{ github.token }}
+              run: |
+                  version="$(gh api repos/s9e/TextFormatter/releases/latest --jq .tag_name)"
+                  echo "version=${version}" >> "$GITHUB_OUTPUT"
+
+            - name: Generate definition overlay
+              run: php scripts/update_mediaembed_sites.php --target="${{ steps.release.outputs.version }}"
+
+            - name: Create update branch
+              id: changes
+              run: |
+                  if git diff --quiet -- collection/generated/upstream_sites.php; then
+                      echo 'changed=false' >> "$GITHUB_OUTPUT"
+                      exit 0
+                  fi
+
+                  branch='automation/update-mediaembed-sites'
+                  git config user.name 'github-actions[bot]'
+                  git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+                  git fetch origin "$branch:refs/remotes/origin/$branch" || true
+                  git switch -C "$branch"
+                  git add collection/generated/upstream_sites.php
+                  git commit -m "Update MediaEmbed sites to ${{ steps.release.outputs.version }}"
+                  git push --force-with-lease origin "$branch"
+                  echo 'changed=true' >> "$GITHUB_OUTPUT"
+                  echo "branch=${branch}" >> "$GITHUB_OUTPUT"
+
+            - name: Open pull request
+              if: steps.changes.outputs.changed == 'true'
+              env:
+                  GH_TOKEN: ${{ github.token }}
+              run: |
+                  branch="${{ steps.changes.outputs.branch }}"
+                  number="$(gh pr list --head "$branch" --state open --json number --jq '.[0].number')"
+                  if [ -n "$number" ]; then
+                      gh pr edit "$number" \
+                          --title "Update MediaEmbed sites to ${{ steps.release.outputs.version }}" \
+                          --body "Generated definition delta from s9e/TextFormatter. Review compatibility overrides and test results before merging."
+                  else
+                      gh pr create \
+                          --head "$branch" \
+                          --title "Update MediaEmbed sites to ${{ steps.release.outputs.version }}" \
+                          --body "Generated definition delta from s9e/TextFormatter. Review compatibility overrides and test results before merging."
+                  fi
