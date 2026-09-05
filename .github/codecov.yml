@@ -1,2 +1,5 @@
 fixes:
     - "/phpBB3/phpBB/ext/phpbb/mediaembed/::"
+
+ignore:
+    - "scripts/**"

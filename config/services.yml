@@ -11,6 +11,7 @@ services:
             - '@language'
             - '@template'
             - '@phpbb.mediaembed.customsitescollection'
+            - '@phpbb.mediaembed.upstreamsitescollection'
             - '%core.cache_dir%'
         tags:
             - { name: event.listener }
@@ -19,6 +20,9 @@ services:
         class: phpbb\mediaembed\collection\customsitescollection
         arguments:
             - '@ext.manager'
+
+    phpbb.mediaembed.upstreamsitescollection:
+        class: phpbb\mediaembed\collection\upstreamsitescollection
 
     phpbb.mediaembed.cache:
         class: phpbb\mediaembed\cache\cache
