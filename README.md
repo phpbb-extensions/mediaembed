@@ -67,7 +67,7 @@ Verify the committed output against its pinned releases:
 php scripts/update_mediaembed_sites.php --check
 ```
 
-Definitions needing older-TextFormatter adaptations belong in `collection/compatibility_sites.php`; never edit `collection/generated/upstream_sites.php`. Tests compile every generated definition with phpBB's bundled TextFormatter and reject unsupported upstream helper dependencies. Removed upstream definitions are removed from phpBB 3's available collection too.
+Minimal field patches needed for compatibility with phpBB's older TextFormatter belong in `collection/compatibility_sites.php`; never copy whole definitions there or edit `collection/generated/upstream_sites.php`. Tests compile every generated definition with phpBB's bundled TextFormatter and reject unsupported upstream helper dependencies. Removed upstream definitions are removed from phpBB 3's available collection too.
 
 Scheduled workflow checks new TextFormatter releases and opens a generated pull request. Pull-request tests remain required: media definitions control remote scraping and iframe output, so updates must not merge without review.
 

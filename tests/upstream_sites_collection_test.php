@@ -43,6 +43,18 @@ class upstream_sites_collection_test extends \phpbb_test_case
 		$configurator->finalize();
 	}
 
+	public function test_compatibility_file_contains_only_minimal_patches()
+	{
+		$patches = require __DIR__ . '/../collection/compatibility_sites.php';
+
+		$this->assertSame(['bluesky', 'mastodon', 'pastebin', 'peertube', 'vk', 'xenforo'], array_keys($patches));
+		foreach ($patches as $site_id => $patch)
+		{
+			$this->assertNotEmpty($patch, "Empty compatibility patch for '$site_id'");
+			$this->assertEmpty(array_diff(array_keys($patch), ['append', 'replace', 'unset']), "Full definition found in compatibility patch for '$site_id'");
+		}
+	}
+
 	public function test_upstream_examples_match_their_definitions()
 	{
 		$sites = (new upstreamsitescollection())->get_collection();
