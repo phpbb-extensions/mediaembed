@@ -10,6 +10,8 @@
 
 namespace phpbb\mediaembed\collection;
 
+use phpbb\mediaembed\collection\generated\upstream_sites;
+
 class upstreamsitescollection
 {
 	/**
@@ -19,21 +21,20 @@ class upstreamsitescollection
 	 */
 	public function get_collection()
 	{
-		$upstream = require __DIR__ . '/generated/upstream_sites.php';
-		$patches = require __DIR__ . '/compatibility_sites.php';
-		$sites = $upstream['sites'];
+		$patches = compatibility_sites::PATCHES;
+		$sites = upstream_sites::SITES;
 
 		foreach ($patches as $site_id => $patch)
 		{
-			foreach (isset($patch['unset']) ? $patch['unset'] : [] as $path)
+			foreach ($patch['unset'] ?? [] as $path)
 			{
 				$this->unset_path($sites[$site_id], $path);
 			}
-			foreach (isset($patch['replace']) ? $patch['replace'] : [] as $path => $value)
+			foreach ($patch['replace'] ?? [] as $path => $value)
 			{
 				$this->set_path($sites[$site_id], $path, $value);
 			}
-			foreach (isset($patch['append']) ? $patch['append'] : [] as $path => $values)
+			foreach ($patch['append'] ?? [] as $path => $values)
 			{
 				$current = $this->get_path($sites[$site_id], $path);
 				$this->set_path($sites[$site_id], $path, array_merge((array) $current, $values));
@@ -82,9 +83,7 @@ class upstreamsitescollection
 	 */
 	public function get_removed_sites()
 	{
-		$upstream = require __DIR__ . '/generated/upstream_sites.php';
-
-		return $upstream['removed_sites'];
+		return upstream_sites::REMOVED_SITES;
 	}
 
 	/**
@@ -94,11 +93,9 @@ class upstreamsitescollection
 	 */
 	public function get_metadata()
 	{
-		$upstream = require __DIR__ . '/generated/upstream_sites.php';
-
 		return [
-			'base_version' => $upstream['base_version'],
-			'target_version' => $upstream['target_version'],
+			'base_version' => upstream_sites::BASE_VERSION,
+			'target_version' => upstream_sites::TARGET_VERSION,
 		];
 	}
 }

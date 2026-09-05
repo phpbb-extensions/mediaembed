@@ -13,43 +13,48 @@
  *
  */
 
-return [
-	'bluesky' => [
-		'unset' => ['helper'],
-		'replace' => [
-			'attributes.embedder.filterChain' => [],
-			'attributes.url.filterChain' => ['urldecode'],
-		],
-	],
-	'mastodon' => [
-		'unset' => ['helper'],
-	],
-	'pastebin' => [
-		'append' => [
-			'example' => ['https://pastebin.com/9jEf44nc?theme=dark'],
-		],
-		'replace' => [
-			'extract' => [
-				"#pastebin\\.com/(?!u/)(?:\\w+(?:\\.php\\?i=|/))?(?'id'\\w+)(?'dark'\\?theme=dark)?#",
+namespace phpbb\mediaembed\collection;
+
+class compatibility_sites
+{
+	public const PATCHES = [
+		'bluesky' => [
+			'unset' => ['helper'],
+			'replace' => [
+				'attributes.embedder.filterChain' => [],
+				'attributes.url.filterChain' => ['urldecode'],
 			],
-			'iframe.src' => '//pastebin.com/embed_iframe/{@id}{@dark}',
 		],
-	],
-	'peertube' => [
-		'unset' => ['helper'],
-	],
-	'vk' => [
-		'append' => [
-			'extract' => ["!hd=(?'hd'\\d)!"],
+		'mastodon' => [
+			'unset' => ['helper'],
 		],
-		'replace' => [
-			'iframe.src' => '//vk.com/video_ext.php?oid={@oid}&id={@vid}&hash={@hash}&hd={@hd}',
+		'pastebin' => [
+			'append' => [
+				'example' => ['https://pastebin.com/9jEf44nc?theme=dark'],
+			],
+			'replace' => [
+				'extract' => [
+					"#pastebin\\.com/(?!u/)(?:\\w+(?:\\.php\\?i=|/))?(?'id'\\w+)(?'dark'\\?theme=dark)?#",
+				],
+				'iframe.src' => '//pastebin.com/embed_iframe/{@id}{@dark}',
+			],
 		],
-	],
-	'xenforo' => [
-		'unset' => ['helper'],
-		'replace' => [
-			'host' => ['xenforo.com'],
+		'peertube' => [
+			'unset' => ['helper'],
 		],
-	],
-];
+		'vk' => [
+			'append' => [
+				'extract' => ["!hd=(?'hd'\\d)!"],
+			],
+			'replace' => [
+				'iframe.src' => '//vk.com/video_ext.php?oid={@oid}&id={@vid}&hash={@hash}&hd={@hd}',
+			],
+		],
+		'xenforo' => [
+			'unset' => ['helper'],
+			'replace' => [
+				'host' => ['xenforo.com'],
+			],
+		],
+	];
+}

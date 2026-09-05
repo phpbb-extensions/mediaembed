@@ -10,6 +10,7 @@
 
 namespace phpbb\mediaembed\tests;
 
+use phpbb\mediaembed\collection\compatibility_sites;
 use phpbb\mediaembed\collection\upstreamsitescollection;
 use s9e\TextFormatter\Configurator;
 
@@ -45,7 +46,7 @@ class upstream_sites_collection_test extends \phpbb_test_case
 
 	public function test_compatibility_file_contains_only_minimal_patches()
 	{
-		$patches = require __DIR__ . '/../collection/compatibility_sites.php';
+		$patches = compatibility_sites::PATCHES;
 
 		$this->assertSame(['bluesky', 'mastodon', 'pastebin', 'peertube', 'vk', 'xenforo'], array_keys($patches));
 		foreach ($patches as $site_id => $patch)

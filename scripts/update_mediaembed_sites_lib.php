@@ -99,9 +99,13 @@ function get_current_target_version($output)
 		return DEFAULT_TARGET_VERSION;
 	}
 
-	$collection = require $output;
+	$source = @file_get_contents($output);
+	if ($source !== false && preg_match("/const TARGET_VERSION = '([0-9]+\\.[0-9]+\\.[0-9]+)';/", $source, $match))
+	{
+		return $match[1];
+	}
 
-	return isset($collection['target_version']) ? $collection['target_version'] : DEFAULT_TARGET_VERSION;
+	return DEFAULT_TARGET_VERSION;
 }
 
 function read_source($path)
@@ -149,17 +153,19 @@ function render_collection($base_version, $target_version, array $sites, array $
 	$output .= " * Copyright (c) the s9e authors; distributed under the MIT License.\n";
 	$output .= " *\n";
 	$output .= " */\n\n";
-	$output .= "return [\n";
-	$output .= "\t'base_version' => " . var_export($base_version, true) . ",\n";
-	$output .= "\t'target_version' => " . var_export($target_version, true) . ",\n";
-	$output .= "\t'removed_sites' => " . render_string_list($removed_sites) . ",\n";
-	$output .= "\t'sites' => [\n";
+	$output .= "namespace phpbb\\mediaembed\\collection\\generated;\n\n";
+	$output .= "class upstream_sites\n";
+	$output .= "{\n";
+	$output .= "\tconst BASE_VERSION = " . var_export($base_version, true) . ";\n";
+	$output .= "\tconst TARGET_VERSION = " . var_export($target_version, true) . ";\n";
+	$output .= "\tconst REMOVED_SITES = " . render_string_list($removed_sites) . ";\n";
+	$output .= "\tconst SITES = [\n";
 	foreach ($sites as $site_id => $definition)
 	{
 		$output .= "\t\t'{$site_id}' => {$definition},\n";
 	}
-	$output .= "\t],\n";
-	$output .= "];\n";
+	$output .= "\t];\n";
+	$output .= "}\n";
 
 	return $output;
 }
