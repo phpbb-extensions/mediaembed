@@ -4,4 +4,5 @@
 build.xml		export-ignore
 composer.lock	export-ignore
 phpunit.xml.*	export-ignore
+scripts			export-ignore
 tests			export-ignore

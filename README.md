@@ -51,6 +51,26 @@ Translations should be posted to the [translations topic at phpBB.com](https://w
 
 Please fork this repository and submit a pull request to contribute to phpBB Media Embed PlugIn
 
+### Updating bundled media sites
+
+phpBB 3 uses the MediaEmbed definitions bundled with `s9e/text-formatter` 2.11.5 as a baseline. This extension applies a generated PHP-array delta from a newer TextFormatter release. phpBB 4 uses its current TextFormatter definitions and skips this delta. YAML files in `collection/sites` remain manually authored custom definitions and are applied last.
+
+Update the generated delta from a tagged TextFormatter release:
+
+```console
+php scripts/update_mediaembed_sites.php --target=2.19.3
+```
+
+Verify the committed output against its pinned releases:
+
+```console
+php scripts/update_mediaembed_sites.php --check
+```
+
+Definitions needing older-TextFormatter adaptations belong in `collection/compatibility_sites.php`; never edit `collection/generated/upstream_sites.php`. Tests compile every generated definition with phpBB's bundled TextFormatter and reject unsupported upstream helper dependencies. Removed upstream definitions are removed from phpBB 3's available collection too.
+
+Scheduled workflow checks new TextFormatter releases and opens a generated pull request. Pull-request tests remain required: media definitions control remote scraping and iframe output, so updates must not merge without review.
+
 ## License
 
 [GNU General Public License v2](license.txt)

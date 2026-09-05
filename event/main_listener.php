@@ -15,6 +15,7 @@ use phpbb\config\config;
 use phpbb\config\db_text;
 use phpbb\language\language;
 use phpbb\mediaembed\collection\customsitescollection;
+use phpbb\mediaembed\collection\upstreamsitescollection;
 use phpbb\mediaembed\ext;
 use phpbb\template\template;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -45,6 +46,9 @@ class main_listener implements EventSubscriberInterface
 
 	/** @var customsitescollection $custom_sites */
 	protected $custom_sites;
+
+	/** @var upstreamsitescollection $upstream_sites */
+	protected $upstream_sites;
 
 	/** @var string $cache_dir */
 	protected $cache_dir;
@@ -86,9 +90,10 @@ class main_listener implements EventSubscriberInterface
 	 * @param language				$language
 	 * @param template				$template
 	 * @param customsitescollection	$custom_sites
+	 * @param upstreamsitescollection $upstream_sites
 	 * @param string				$cache_dir
 	 */
-	public function __construct(auth $auth, config $config, db_text $config_text, language $language, template $template, customsitescollection $custom_sites, $cache_dir)
+	public function __construct(auth $auth, config $config, db_text $config_text, language $language, template $template, customsitescollection $custom_sites, upstreamsitescollection $upstream_sites, $cache_dir)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
@@ -96,38 +101,34 @@ class main_listener implements EventSubscriberInterface
 		$this->template = $template;
 		$this->config_text = $config_text;
 		$this->custom_sites = $custom_sites;
+		$this->upstream_sites = $upstream_sites;
 		$this->cache_dir = $cache_dir;
 	}
 
 	/**
-	 * Add any custom site definitions to the default MediaEmbed sites object
+	 * Add upstream and custom site definitions to the default MediaEmbed sites object
 	 *
 	 * @param \phpbb\event\data $event The event object
 	 * @return void
 	 */
 	public function add_custom_sites($event)
 	{
-		$phpbb4_builtins = array_flip([
-			'applepodcasts',
-			'bluesky',
-			'bunny',
-			'facebook',
-			'mastodon',
-			'pastebin',
-			'threads',
-			'twitter',
-			'vk',
-		]);
+		if (!$this->is_phpbb4())
+		{
+			foreach ($this->upstream_sites->get_removed_sites() as $site_id)
+			{
+				unset($event['configurator']->MediaEmbed->defaultSites[$site_id]);
+			}
+
+			foreach ($this->upstream_sites->get_collection() as $site_id => $site_config)
+			{
+				$event['configurator']->MediaEmbed->defaultSites->add($site_id, $site_config);
+			}
+		}
 
 		foreach ($this->custom_sites->get_collection() as $site)
 		{
 			$name = basename($site, ext::YML);
-
-			// Skip built-in sites when running phpBB 4
-			if (isset($phpbb4_builtins[$name]) && $this->is_phpbb4())
-			{
-				continue;
-			}
 
 			$event['configurator']->MediaEmbed->defaultSites->add($name, Yaml::parseFile($site));
 		}

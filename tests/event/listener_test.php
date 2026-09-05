@@ -10,6 +10,7 @@
 
 namespace phpbb\mediaembed\tests\event;
 
+use phpbb\mediaembed\collection\upstreamsitescollection;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class listener_test extends \phpbb_database_test_case
@@ -51,6 +52,9 @@ class listener_test extends \phpbb_database_test_case
 	/** @var \PHPUnit\Framework\MockObject\MockObject|\phpbb\mediaembed\collection\customsitescollection */
 	protected $custom_sites;
 
+	/** @var upstreamsitescollection */
+	protected $upstream_sites;
+
 	/**
 	 * Setup test environment
 	 */
@@ -89,6 +93,8 @@ class listener_test extends \phpbb_database_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
+		$this->upstream_sites = new upstreamsitescollection();
+
 		$this->container = $this->get_test_case_helpers()->set_s9e_services();
 	}
 
@@ -106,6 +112,7 @@ class listener_test extends \phpbb_database_test_case
 			$this->language,
 			$this->template,
 			$this->custom_sites,
+			$this->upstream_sites,
 			$this->cache_dir
 		);
 	}
@@ -116,6 +123,42 @@ class listener_test extends \phpbb_database_test_case
 	public function test_construct()
 	{
 		static::assertInstanceOf('\Symfony\Component\EventDispatcher\EventSubscriberInterface', $this->get_listener());
+	}
+
+	public function test_upstream_collection_is_applied_to_phpbb3()
+	{
+		$this->config['version'] = '3.3.15';
+		$this->custom_sites->expects(self::once())
+			->method('get_collection')
+			->willReturn([]);
+		$configurator = $this->container
+			->get('text_formatter.s9e.factory')
+			->get_configurator();
+		$event = new \phpbb\event\data(['configurator' => $configurator]);
+
+		$this->get_listener()->add_custom_sites($event);
+
+		$this->assertTrue(isset($configurator->MediaEmbed->defaultSites['bunny']));
+		$this->assertFalse(isset($configurator->MediaEmbed->defaultSites['amazon']));
+		$this->assertContains('youtube-nocookie.com', $configurator->MediaEmbed->defaultSites['youtube']['host']);
+	}
+
+	public function test_upstream_collection_is_skipped_on_phpbb4()
+	{
+		$this->config['version'] = '4.0.0';
+		$this->custom_sites->expects(self::once())
+			->method('get_collection')
+			->willReturn([]);
+		$configurator = $this->container
+			->get('text_formatter.s9e.factory')
+			->get_configurator();
+		$youtube = $configurator->MediaEmbed->defaultSites['youtube'];
+		$event = new \phpbb\event\data(['configurator' => $configurator]);
+
+		$this->get_listener()->add_custom_sites($event);
+
+		$this->assertSame($youtube, $configurator->MediaEmbed->defaultSites['youtube']);
+		$this->assertTrue(isset($configurator->MediaEmbed->defaultSites['amazon']));
 	}
 
 	/**
@@ -191,12 +234,11 @@ class listener_test extends \phpbb_database_test_case
 			->method('get_collection')
 			->willReturn([
 				__DIR__ . '/../fixtures/sites/ok.yml',
-				__DIR__ . '/../fixtures/sites/bluesky.yml',  // this is to test that phpbb4 filtering works
 			]);
 
 		// Update configs with test values
 		$this->config['media_embed_parse_urls'] = $parse_urls;
-		$this->config['version'] = '4.0.0'; // this is to test that phpbb4 filtering works
+		$this->config['version'] = '4.0.0';
 
 		// Get the s9e configurator
 		$configurator = $this->container
