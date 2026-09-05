@@ -1,9 +1,16 @@
 <?php
 /**
+ *
+ * phpBB Media Embed PlugIn extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2026 phpBB Limited <https://www.phpbb.com>
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
  * Hand-maintained compatibility patches for generated MediaEmbed definitions.
  *
  * Keep this file PHP 7.1 compatible. Generated data lives in generated/upstream_sites.php.
  * Dot-path patches may remove, replace, or append only fields that differ from upstream.
+ *
  */
 
 return [
