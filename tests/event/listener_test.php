@@ -207,8 +207,8 @@ class listener_test extends \phpbb_database_test_case
 	public function configure_media_embed_data()
 	{
 		return [
-			['dailymotion', '[media]http://www.dailymotion.com/video/x222z1[/media]', 'DAILYMOTION id="x222z1"', false, true, true], // site using the MEDIA BBCode
-			['dailymotion', '[media]http://www.dailymotion.com/video/x222z1[/media]', 'DAILYMOTION id="x222z1"', true, true, false], // ignored site using the MEDIA BBCode
+			['dailymotion', '[media]https://www.dailymotion.com/video/x222z1[/media]', 'DAILYMOTION id="x222z1"', false, true, true], // site using the MEDIA BBCode
+			['dailymotion', '[media]https://www.dailymotion.com/video/x222z1[/media]', 'DAILYMOTION id="x222z1"', true, true, false], // ignored site using the MEDIA BBCode
 			['facebook', 'https://www.facebook.com/video/video.php?v=10100658170103643', 'FACEBOOK id="10100658170103643"', false, true, true], // site using plain url
 			['facebook', 'https://www.facebook.com/video/video.php?v=10100658170103643', 'FACEBOOK id="10100658170103643"', false, false, false], // disallow site using plain url
 			['youtube', 'https://youtu.be/-cEzsCAzTak', 'YOUTUBE id="-cEzsCAzTak"', true, true, false], // ignored site using plain url
@@ -265,7 +265,7 @@ class listener_test extends \phpbb_database_test_case
 			'configurator'	=> $configurator,
 		]);
 
-		// Setup the listener and call the media embed configuration methods
+		// Set up the listener and call the media embed configuration methods
 		$listener = $this->get_listener();
 		$listener->add_custom_sites($event);
 		$listener->enable_media_sites($event);
@@ -325,7 +325,7 @@ class listener_test extends \phpbb_database_test_case
 			'configurator'	=> $configurator,
 		]);
 
-		// Setup the listener and call the media embed configuration methods
+		// Set up the listener and call the media embed configuration methods
 		$listener = $this->get_listener();
 		$listener->add_custom_sites($event);
 		$listener->enable_media_sites($event);

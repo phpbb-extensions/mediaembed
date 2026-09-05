@@ -22,7 +22,7 @@ class upstream_sites_collection_test extends \phpbb_test_case
 		$metadata = $collection->get_metadata();
 
 		$this->assertSame('2.11.5', $metadata['base_version']);
-		$this->assertRegExp('/^\d+\.\d+\.\d+$/D', $metadata['target_version']);
+		self::assertRegExp('/^\d+\.\d+\.\d+$/D', $metadata['target_version']);
 		$this->assertTrue(version_compare($metadata['target_version'], $metadata['base_version'], '>'));
 		$this->assertNotEmpty($collection->get_removed_sites());
 	}
@@ -112,8 +112,8 @@ class upstream_sites_collection_test extends \phpbb_test_case
 
 	protected function assertExampleMatches($site_id, array $site_config, $example)
 	{
-		$matched = $this->matchesAnyRegexp($example, isset($site_config['extract']) ? $site_config['extract'] : []);
-		$scrape_configs = isset($site_config['scrape']) ? $site_config['scrape'] : [];
+		$matched = $this->matchesAnyRegexp($example, $site_config['extract'] ?? []);
+		$scrape_configs = $site_config['scrape'] ?? [];
 		if ($scrape_configs && !isset($scrape_configs[0]))
 		{
 			$scrape_configs = [$scrape_configs];
