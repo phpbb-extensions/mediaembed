@@ -141,6 +141,28 @@ class listener_test extends \phpbb_database_test_case
 		$this->assertTrue(isset($configurator->MediaEmbed->defaultSites['bunny']));
 		$this->assertFalse(isset($configurator->MediaEmbed->defaultSites['amazon']));
 		$this->assertContains('youtube-nocookie.com', $configurator->MediaEmbed->defaultSites['youtube']['host']);
+		$this->assertArrayNotHasKey('referrerpolicy', $configurator->MediaEmbed->defaultSites['youtube']['iframe']);
+	}
+
+	public function test_youtube_template_uses_phpbb3_compatibility_fixes()
+	{
+		$this->config['version'] = '3.3.15';
+		$this->custom_sites->expects(self::once())
+			->method('get_collection')
+			->willReturn([]);
+		$configurator = $this->container
+			->get('text_formatter.s9e.factory')
+			->get_configurator();
+		$event = new \phpbb\event\data(['configurator' => $configurator]);
+		$listener = $this->get_listener();
+
+		$listener->add_custom_sites($event);
+		$configurator->MediaEmbed->add('youtube');
+		$listener->modify_tag_templates($event);
+
+		$template = $configurator->tags['YOUTUBE']->template;
+		$this->assertStringContainsString('www.youtube-nocookie.com', $template);
+		$this->assertStringContainsString('referrerpolicy="origin"', $template);
 	}
 
 	public function test_upstream_collection_is_skipped_on_phpbb4()

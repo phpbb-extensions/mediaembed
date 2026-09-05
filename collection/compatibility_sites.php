@@ -56,5 +56,8 @@ class compatibility_sites
 				'host' => ['xenforo.com'],
 			],
 		],
+		'youtube' => [
+			'unset' => ['iframe.referrerpolicy'],
+		],
 	];
 }

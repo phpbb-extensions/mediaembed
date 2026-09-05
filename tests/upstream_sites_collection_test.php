@@ -48,11 +48,34 @@ class upstream_sites_collection_test extends \phpbb_test_case
 	{
 		$patches = compatibility_sites::PATCHES;
 
-		$this->assertSame(['bluesky', 'mastodon', 'pastebin', 'peertube', 'vk', 'xenforo'], array_keys($patches));
+		$this->assertSame(['bluesky', 'mastodon', 'pastebin', 'peertube', 'vk', 'xenforo', 'youtube'], array_keys($patches));
 		foreach ($patches as $site_id => $patch)
 		{
 			$this->assertNotEmpty($patch, "Empty compatibility patch for '$site_id'");
 			$this->assertEmpty(array_diff(array_keys($patch), ['append', 'replace', 'unset']), "Full definition found in compatibility patch for '$site_id'");
+		}
+	}
+
+	public function test_iframe_options_are_supported_by_bundled_textformatter()
+	{
+		$sites = (new upstreamsitescollection())->get_collection();
+		$supported_options = [
+			'allow',
+			'data-s9e-livepreview-ignore-attrs',
+			'data-s9e-livepreview-onrender',
+			'height',
+			'max-width',
+			'onload',
+			'padding-height',
+			'scrolling',
+			'src',
+			'style',
+			'width',
+		];
+
+		foreach ($sites as $site_id => $site_config)
+		{
+			$this->assertIframeOptionsSupported($site_id, $site_config, $supported_options);
 		}
 	}
 
@@ -108,6 +131,25 @@ class upstream_sites_collection_test extends \phpbb_test_case
 		}
 
 		$this->assertTrue($host_matches, "Example host does not match '$site_id': $example");
+	}
+
+	protected function assertIframeOptionsSupported($site_id, array $config, array $supported_options)
+	{
+		foreach ($config as $key => $value)
+		{
+			if ($key === 'iframe')
+			{
+				$unsupported_options = array_diff(array_keys($value), $supported_options);
+				$this->assertEmpty(
+					$unsupported_options,
+					"Unsupported iframe options found in '$site_id': " . implode(', ', $unsupported_options)
+				);
+			}
+			elseif (is_array($value))
+			{
+				$this->assertIframeOptionsSupported($site_id, $value, $supported_options);
+			}
+		}
 	}
 
 	protected function assertExampleMatches($site_id, array $site_config, $example)

@@ -187,15 +187,13 @@ class main_listener implements EventSubscriberInterface
 	{
 		try
 		{
-			// force YouTube to use the no cookies until the user starts video playback, and fix referrer policy issues
+			// force YouTube to use no cookies until playback and restore attributes unsupported by TextFormatter 2.11
 			$tag = $event['configurator']->tags['YOUTUBE'];
 			$tag->template = str_replace('www.youtube.com', 'www.youtube-nocookie.com', $tag->template);
 			if (!$this->is_phpbb4())
 			{
 				$tag->template = str_replace(' allowfullscreen', ' referrerpolicy="origin" allowfullscreen', $tag->template);
 			}
-
-			$event['configurator']->finalize();
 		}
 		catch (\RuntimeException $e)
 		{
