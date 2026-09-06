@@ -99,21 +99,39 @@ class listener_test extends \phpbb_database_test_case
 	}
 
 	/**
-	 * Get the event listener
+	 * Get the formatter event listener
 	 *
-	 * @return \phpbb\mediaembed\event\main_listener
+	 * @return \phpbb\mediaembed\event\formatter_listener
 	 */
-	protected function get_listener()
+	protected function get_formatter_listener()
 	{
-		return new \phpbb\mediaembed\event\main_listener(
-			$this->auth,
+		return new \phpbb\mediaembed\event\formatter_listener(
 			$this->config,
 			$this->config_text,
-			$this->language,
-			$this->template,
 			$this->custom_sites,
 			$this->upstream_sites,
 			$this->cache_dir
+		);
+	}
+
+	/**
+	 * @return \phpbb\mediaembed\event\parsing_listener
+	 */
+	protected function get_parsing_listener()
+	{
+		return new \phpbb\mediaembed\event\parsing_listener($this->auth, $this->config);
+	}
+
+	/**
+	 * @return \phpbb\mediaembed\event\display_listener
+	 */
+	protected function get_display_listener()
+	{
+		return new \phpbb\mediaembed\event\display_listener(
+			$this->config,
+			$this->config_text,
+			$this->language,
+			$this->template
 		);
 	}
 
@@ -122,7 +140,9 @@ class listener_test extends \phpbb_database_test_case
 	 */
 	public function test_construct()
 	{
-		static::assertInstanceOf('\Symfony\Component\EventDispatcher\EventSubscriberInterface', $this->get_listener());
+		static::assertInstanceOf('\Symfony\Component\EventDispatcher\EventSubscriberInterface', $this->get_formatter_listener());
+		static::assertInstanceOf('\Symfony\Component\EventDispatcher\EventSubscriberInterface', $this->get_parsing_listener());
+		static::assertInstanceOf('\Symfony\Component\EventDispatcher\EventSubscriberInterface', $this->get_display_listener());
 	}
 
 	public function test_upstream_collection_is_applied_to_phpbb3()
@@ -136,7 +156,7 @@ class listener_test extends \phpbb_database_test_case
 			->get_configurator();
 		$event = new \phpbb\event\data(['configurator' => $configurator]);
 
-		$this->get_listener()->add_custom_sites($event);
+		$this->get_formatter_listener()->add_custom_sites($event);
 
 		$this->assertTrue(isset($configurator->MediaEmbed->defaultSites['bunny']));
 		$this->assertFalse(isset($configurator->MediaEmbed->defaultSites['amazon']));
@@ -154,7 +174,7 @@ class listener_test extends \phpbb_database_test_case
 			->get('text_formatter.s9e.factory')
 			->get_configurator();
 		$event = new \phpbb\event\data(['configurator' => $configurator]);
-		$listener = $this->get_listener();
+		$listener = $this->get_formatter_listener();
 
 		$listener->add_custom_sites($event);
 		$configurator->MediaEmbed->add('youtube');
@@ -177,7 +197,7 @@ class listener_test extends \phpbb_database_test_case
 		$youtube = $configurator->MediaEmbed->defaultSites['youtube'];
 		$event = new \phpbb\event\data(['configurator' => $configurator]);
 
-		$this->get_listener()->add_custom_sites($event);
+		$this->get_formatter_listener()->add_custom_sites($event);
 
 		$this->assertSame($youtube, $configurator->MediaEmbed->defaultSites['youtube']);
 		$this->assertTrue(isset($configurator->MediaEmbed->defaultSites['amazon']));
@@ -190,16 +210,23 @@ class listener_test extends \phpbb_database_test_case
 	{
 		static::assertEquals([
 			'core.text_formatter_s9e_configure_after',
-			'core.display_custom_bbcodes',
+			'core.text_formatter_s9e_parser_setup',
+		], array_keys(\phpbb\mediaembed\event\formatter_listener::getSubscribedEvents()));
+
+		static::assertEquals([
 			'core.permissions',
-			'core.help_manager_add_block_before',
 			'core.posting_modify_message_text',
 			'core.ucp_pm_compose_modify_parse_before',
 			'core.message_parser_check_message',
-			'core.text_formatter_s9e_parser_setup',
+			'core.text_formatter_s9e_parse_before',
+		], array_keys(\phpbb\mediaembed\event\parsing_listener::getSubscribedEvents()));
+
+		static::assertEquals([
+			'core.display_custom_bbcodes',
+			'core.help_manager_add_block_before',
 			'core.page_header',
 			'core.page_footer',
-		], array_keys(\phpbb\mediaembed\event\main_listener::getSubscribedEvents()));
+		], array_keys(\phpbb\mediaembed\event\display_listener::getSubscribedEvents()));
 	}
 
 	/**
@@ -213,7 +240,7 @@ class listener_test extends \phpbb_database_test_case
 		]);
 
 		// Get the listener and call the set permissions methods
-		$listener = $this->get_listener();
+		$listener = $this->get_parsing_listener();
 		$listener->set_permissions($event);
 
 		// Assert permission keys are added
@@ -288,7 +315,7 @@ class listener_test extends \phpbb_database_test_case
 		]);
 
 		// Set up the listener and call the media embed configuration methods
-		$listener = $this->get_listener();
+		$listener = $this->get_formatter_listener();
 		$listener->add_custom_sites($event);
 		$listener->enable_media_sites($event);
 		$listener->configure_url_parsing($event);
@@ -348,76 +375,80 @@ class listener_test extends \phpbb_database_test_case
 		]);
 
 		// Set up the listener and call the media embed configuration methods
-		$listener = $this->get_listener();
+		$listener = $this->get_formatter_listener();
 		$listener->add_custom_sites($event);
 		$listener->enable_media_sites($event);
 		$listener->modify_tag_templates($event);
 	}
 
-	public static function check_methods_data()
+	public function parse_policy_data()
 	{
 		return [
-			['check_signature', ['mode' => 'sig'], ['media_embed_allow_sig' => false], 1, 1],
-			['check_signature', ['mode' => 'text_reparser.user_signature'], ['media_embed_allow_sig' => false], 1, 1],
-			['check_signature', ['mode' => 'sig'], ['media_embed_allow_sig' => true], 0, 0],
-			['check_signature', ['mode' => 'text_reparser.user_signature'], ['media_embed_allow_sig' => true], 0, 0],
-			['check_signature', ['mode' => 'post'], ['media_embed_allow_sig' => false], 0, 0],
-			['check_signature', ['mode' => 'post'], ['media_embed_allow_sig' => true], 0, 0],
-			['check_magic_urls', ['allow_magic_url' => false], ['media_embed_parse_urls' => false], 1, 0],
-			['check_magic_urls', ['allow_magic_url' => false], ['media_embed_parse_urls' => true], 1, 0],
-			['check_magic_urls', ['allow_magic_url' => true], ['media_embed_parse_urls' => false], 1, 0],
-			['check_magic_urls', ['allow_magic_url' => true], ['media_embed_parse_urls' => true], 0, 0],
-			['check_bbcode_enabled', ['allow_bbcode' => true], [], 0, 0],
-			['check_bbcode_enabled', ['allow_bbcode' => false], [], 1, 1],
+			['sig', true, true, false, true, true, true],
+			['text_reparser.user_signature', true, true, false, true, true, true],
+			['sig', true, true, true, true, false, false],
+			['post', false, true, true, true, true, false],
+			['post', true, true, true, true, false, false],
+			['post', true, true, true, false, true, false],
+			['post', true, false, true, true, true, true],
 		];
 	}
 
 	/**
-	 * Test the check_signature method
+	 * Test per-message parser policy.
 	 *
-	 * @dataProvider check_methods_data
-	 * @param string $method         Name of event method being tested
-	 * @param array  $data           Array of event data for testing
-	 * @param array  $configs        Array of config data for testing
-	 * @param int    $disable_plugin Expected times disable_plugin is called
-	 * @param int    $disable_tag    Expected times disable_tag is called
+	 * @dataProvider parse_policy_data
 	 */
-	public function test_check_methods($method, $data, $configs, $disable_plugin, $disable_tag)
+	public function test_parse_policy($mode, $allow_magic_url, $allow_bbcode, $allow_signature, $parse_urls, $disable_plugin, $disable_tag)
 	{
-		// Set config values with test data
-		foreach ($configs as $key => $config)
-		{
-			$this->config[$key] = $config;
-		}
+		$this->config['media_embed_allow_sig'] = $allow_signature;
+		$this->config['media_embed_parse_urls'] = $parse_urls;
 
-		// Must use a mock of the s9e parser
 		$mock = $this->mock_s9e_parser();
+		$mock->expects($disable_plugin ? self::once() : self::never())->method('disablePlugin')->with('MediaEmbed');
+		$mock->expects($disable_plugin ? self::never() : self::once())->method('enablePlugin')->with('MediaEmbed');
+		$mock->expects($disable_tag ? self::once() : self::never())->method('disableTag')->with('MEDIA');
+		$mock->expects($disable_tag ? self::never() : self::once())->method('enableTag')->with('MEDIA');
 
-		// Test disablePlugin is called if expected
-		$mock->expects(self::exactly($disable_plugin))
-			->method('disablePlugin')
-			->with('MediaEmbed');
-
-		// Test disableTag is called if expected
-		$mock->expects(self::exactly($disable_tag))
-			->method('disableTag')
-			->with('MEDIA');
-
-		// Must use a mock of the phpbb parser to pass to the event
 		$parser = $this->mock_phpbb_parser();
-
-		// The phpbb parser must get the mocked s9e parser
 		$parser->expects(self::once())
 			->method('get_parser')
 			->willReturn($mock);
 
-		// Assign $event data
-		$event = new \phpbb\event\data(array_merge($data, ['parser' => $parser]));
+		$listener = $this->get_parsing_listener();
+		$listener->set_parse_policy(new \phpbb\event\data([
+			'mode' => $mode,
+			'allow_magic_url' => $allow_magic_url,
+			'allow_bbcode' => $allow_bbcode,
+		]));
+		$listener->configure_parser(new \phpbb\event\data(['parser' => $parser]));
+	}
 
-		// Get the listener and call the signature methods
-		$listener = $this->get_listener();
-		$listener->$method($event);
-		$listener->disable_media_embed($event);
+	public function test_parse_policy_can_be_reenabled()
+	{
+		$mock = $this->mock_s9e_parser();
+		$mock->expects(self::once())->method('disablePlugin')->with('MediaEmbed');
+		$mock->expects(self::once())->method('enablePlugin')->with('MediaEmbed');
+		$mock->expects(self::once())->method('disableTag')->with('MEDIA');
+		$mock->expects(self::once())->method('enableTag')->with('MEDIA');
+
+		$parser = $this->mock_phpbb_parser();
+		$parser->expects(self::exactly(2))->method('get_parser')->willReturn($mock);
+
+		$listener = $this->get_parsing_listener();
+		$listener->set_parse_policy(new \phpbb\event\data([
+			'mode' => 'sig',
+			'allow_magic_url' => true,
+			'allow_bbcode' => true,
+		]));
+		$listener->configure_parser(new \phpbb\event\data(['parser' => $parser]));
+
+		$listener->set_parse_policy(new \phpbb\event\data([
+			'mode' => 'post',
+			'allow_magic_url' => true,
+			'allow_bbcode' => true,
+		]));
+		$listener->configure_parser(new \phpbb\event\data(['parser' => $parser]));
 	}
 
 	/**
@@ -470,7 +501,7 @@ class listener_test extends \phpbb_database_test_case
 			->willReturnMap($acl_map);
 
 		// Get the listener and call the methods
-		$listener = $this->get_listener();
+		$listener = $this->get_parsing_listener();
 		switch ($permission)
 		{
 			case 'f_mediaembed':
@@ -482,7 +513,12 @@ class listener_test extends \phpbb_database_test_case
 				$listener->check_pm_permission();
 			break;
 		}
-		$listener->disable_media_embed(new \phpbb\event\data(['parser' => $this->container->get('text_formatter.parser')]));
+		$listener->set_parse_policy(new \phpbb\event\data([
+			'mode' => 'post',
+			'allow_magic_url' => true,
+			'allow_bbcode' => true,
+		]));
+		$listener->configure_parser(new \phpbb\event\data(['parser' => $this->container->get('text_formatter.parser')]));
 	}
 
 	/**
@@ -490,7 +526,7 @@ class listener_test extends \phpbb_database_test_case
 	 */
 	public function test_setup_media_bbcode()
 	{
-		$listener = $this->get_listener();
+		$listener = $this->get_display_listener();
 
 		$this->template->expects(self::once())
 			->method('assign_var')
@@ -501,7 +537,7 @@ class listener_test extends \phpbb_database_test_case
 
 	public function test_setup_media_configs()
 	{
-		$listener = $this->get_listener();
+		$listener = $this->get_display_listener();
 
 		$this->template->expects(self::once())
 			->method('assign_vars')
@@ -546,7 +582,7 @@ class listener_test extends \phpbb_database_test_case
 		]);
 
 		// Get the listener and call the media_embed_help method
-		$listener = $this->get_listener();
+		$listener = $this->get_display_listener();
 		$listener->media_embed_help($event);
 	}
 
@@ -579,7 +615,7 @@ class listener_test extends \phpbb_database_test_case
 			'parser' => $parser]
 		);
 
-		$listener = $this->get_listener();
+		$listener = $this->get_formatter_listener();
 		$listener->setup_cache_dir($event);
 
 		if ($cache)
@@ -638,7 +674,7 @@ class listener_test extends \phpbb_database_test_case
 				->method('append_var');
 		}
 
-		$listener = $this->get_listener();
+		$listener = $this->get_display_listener();
 		$listener->append_agreement();
 	}
 

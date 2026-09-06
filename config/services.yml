@@ -2,17 +2,32 @@ imports:
     - { resource: cron.yml }
 
 services:
-    phpbb.mediaembed.listener:
-        class: phpbb\mediaembed\event\main_listener
+    phpbb.mediaembed.formatter_listener:
+        class: phpbb\mediaembed\event\formatter_listener
+        arguments:
+            - '@config'
+            - '@config_text'
+            - '@phpbb.mediaembed.customsitescollection'
+            - '@phpbb.mediaembed.upstreamsitescollection'
+            - '%core.cache_dir%'
+        tags:
+            - { name: event.listener }
+
+    phpbb.mediaembed.parsing_listener:
+        class: phpbb\mediaembed\event\parsing_listener
         arguments:
             - '@auth'
+            - '@config'
+        tags:
+            - { name: event.listener }
+
+    phpbb.mediaembed.display_listener:
+        class: phpbb\mediaembed\event\display_listener
+        arguments:
             - '@config'
             - '@config_text'
             - '@language'
             - '@template'
-            - '@phpbb.mediaembed.customsitescollection'
-            - '@phpbb.mediaembed.upstreamsitescollection'
-            - '%core.cache_dir%'
         tags:
             - { name: event.listener }
 
