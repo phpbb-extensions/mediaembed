@@ -182,24 +182,39 @@ class acp_module_test extends \phpbb_test_case
 		$p_master->load('acp', '\phpbb\mediaembed\acp\main_module', $mode);
 	}
 
-	public function test_main_module_cache()
+	public function main_module_cache_data()
 	{
-		global $phpbb_container, $request, $template;
+		return [
+			[true, E_USER_NOTICE],
+			[false, E_USER_WARNING],
+		];
+	}
 
+	/**
+	 * @dataProvider main_module_cache_data
+	 * @param bool $valid_form Whether form token is valid
+	 * @param int  $expected   Expected trigger error code
+	 */
+	public function test_main_module_cache($valid_form, $expected)
+	{
+		global $phpbb_container, $language, $request, $template;
+
+		$language = $this->language;
 		$request = $this->request;
 		$template = $this->template;
 		$phpbb_container = $this->phpbb_container;
+		self::$valid_form = $valid_form;
 
 		if (!defined('IN_ADMIN'))
 		{
 			define('IN_ADMIN', true);
 		}
 
-		$expected_args = ['phpbb.mediaembed.acp_controller', 'request'];
-		$expected_returns = [$this->acp_controller, $request];
+		$expected_args = ['phpbb.mediaembed.acp_controller', 'request', 'language'];
+		$expected_returns = [$this->acp_controller, $request, $language];
 		$invocation = 0;
 		$phpbb_container
-			->expects(self::exactly(2))
+			->expects(self::exactly($valid_form ? 2 : 3))
 			->method('get')
 			->willReturnCallback(function($arg) use (&$invocation, $expected_args, $expected_returns) {
 				self::assertEquals($expected_args[$invocation], $arg);
@@ -207,17 +222,23 @@ class acp_module_test extends \phpbb_test_case
 			});
 
 		$request
-			->expects(self::atLeastOnce())
+			->expects(self::exactly(2))
 			->method('is_set_post')
-			->with('action_purge_cache')
-			->willReturn(true);
+			->withConsecutive(
+				['action_purge_cache'],
+				['submit']
+			)
+			->willReturnOnConsecutiveCalls(
+				true,
+				false
+			);
 
 		$this->acp_controller
-			->expects(self::once())
+			->expects($valid_form ? self::once() : self::never())
 			->method('purge_mediaembed_cache')
 			->willReturn(['code' => E_USER_NOTICE, 'message' => '']);
 
-		$this->setExpectedTriggerError(E_USER_NOTICE);
+		$this->setExpectedTriggerError($expected);
 
 		$p_master = new \p_master();
 		$p_master->module_ary[0]['is_duplicate'] = 0;
