@@ -7,8 +7,7 @@ services:
         arguments:
             - '@config'
             - '@config_text'
-            - '@phpbb.mediaembed.customsitescollection'
-            - '@phpbb.mediaembed.upstreamsitescollection'
+            - '@phpbb.mediaembed.sitescollection'
             - '%core.cache_dir%'
         tags:
             - { name: event.listener }
@@ -38,6 +37,13 @@ services:
 
     phpbb.mediaembed.upstreamsitescollection:
         class: phpbb\mediaembed\collection\upstreamsitescollection
+
+    phpbb.mediaembed.sitescollection:
+        class: phpbb\mediaembed\collection\sitescollection
+        arguments:
+            - '@config'
+            - '@phpbb.mediaembed.customsitescollection'
+            - '@phpbb.mediaembed.upstreamsitescollection'
 
     phpbb.mediaembed.cache:
         class: phpbb\mediaembed\cache\cache

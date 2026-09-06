@@ -45,20 +45,8 @@ class media_embed_test extends \phpbb_functional_test_case
 		$this->admin_login();
 
 		$crawler = self::request('GET', "adm/index.php?i=\\phpbb\\mediaembed\\acp\\main_module&mode=manage&sid=$this->sid");
-		$this->assert_checkbox_is_unchecked($crawler, 'ok');
-		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
-		$fields = $form->all();
-		// Tick all the check boxes dang it, because unticked boxes can't be crawled alone
-		foreach ($fields as $fieldname => $fieldobject)
-		{
-			if (preg_match('/mark\[(\d+)]/', $fieldname, $matches))
-			{
-				$form['mark'][$matches[1]]->tick();
-			}
-		}
-		self::submit($form);
-		$crawler = self::request('GET', "adm/index.php?i=\\phpbb\\mediaembed\\acp\\main_module&mode=manage&sid=$this->sid");
 		$this->assert_checkbox_is_checked($crawler, 'ok');
+		self::assertCount(0, $crawler->filter('.errorbox h3'));
 
 		$post = $this->create_topic(2, 'Media Embed Custom Site Test Topic 1', "[media]https://ok.ru/video/" . self::OK_RU_ID . "[/media]");
 		$crawler = self::request('GET', "viewtopic.php?t={$post['topic_id']}&sid=$this->sid");

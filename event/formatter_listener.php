@@ -12,11 +12,8 @@ namespace phpbb\mediaembed\event;
 
 use phpbb\config\config;
 use phpbb\config\db_text;
-use phpbb\mediaembed\collection\customsitescollection;
-use phpbb\mediaembed\collection\upstreamsitescollection;
-use phpbb\mediaembed\ext;
+use phpbb\mediaembed\collection\sitescollection;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Configure MediaEmbed formatter and runtime cache.
@@ -29,17 +26,11 @@ class formatter_listener implements EventSubscriberInterface
 	/** @var db_text */
 	protected $config_text;
 
-	/** @var customsitescollection */
-	protected $custom_sites;
-
-	/** @var upstreamsitescollection */
-	protected $upstream_sites;
+	/** @var sitescollection */
+	protected $sites;
 
 	/** @var string */
 	protected $cache_dir;
-
-	/** @var bool|null Cached result of is_phpbb4() */
-	protected $is_phpbb4;
 
 	/**
 	 * {@inheritDoc}
@@ -55,18 +46,16 @@ class formatter_listener implements EventSubscriberInterface
 	/**
 	 * Constructor.
 	 *
-	 * @param config                  $config         Configuration service
-	 * @param db_text                 $config_text    Text configuration service
-	 * @param customsitescollection   $custom_sites   Custom site definitions
-	 * @param upstreamsitescollection $upstream_sites Upstream site definitions
-	 * @param string                  $cache_dir      Media scraping cache directory
+	 * @param config          $config      Configuration service
+	 * @param db_text         $config_text Text configuration service
+	 * @param sitescollection $sites       Media site definitions
+	 * @param string          $cache_dir   Media scraping cache directory
 	 */
-	public function __construct(config $config, db_text $config_text, customsitescollection $custom_sites, upstreamsitescollection $upstream_sites, $cache_dir)
+	public function __construct(config $config, db_text $config_text, sitescollection $sites, $cache_dir)
 	{
 		$this->config = $config;
 		$this->config_text = $config_text;
-		$this->custom_sites = $custom_sites;
-		$this->upstream_sites = $upstream_sites;
+		$this->sites = $sites;
 		$this->cache_dir = $cache_dir;
 	}
 
@@ -78,24 +67,7 @@ class formatter_listener implements EventSubscriberInterface
 	 */
 	public function add_custom_sites($event)
 	{
-		if (!$this->is_phpbb4())
-		{
-			foreach ($this->upstream_sites->get_removed_sites() as $site_id)
-			{
-				unset($event['configurator']->MediaEmbed->defaultSites[$site_id]);
-			}
-
-			foreach ($this->upstream_sites->get_collection() as $site_id => $site_config)
-			{
-				$event['configurator']->MediaEmbed->defaultSites->add($site_id, $site_config);
-			}
-		}
-
-		foreach ($this->custom_sites->get_collection() as $site)
-		{
-			$name = basename($site, ext::YML);
-			$event['configurator']->MediaEmbed->defaultSites->add($name, Yaml::parseFile($site));
-		}
+		$this->sites->configure($event['configurator']);
 	}
 
 	/**
@@ -151,7 +123,7 @@ class formatter_listener implements EventSubscriberInterface
 		{
 			$tag = $event['configurator']->tags['YOUTUBE'];
 			$tag->template = str_replace('www.youtube.com', 'www.youtube-nocookie.com', $tag->template);
-			if (!$this->is_phpbb4())
+			if (!$this->sites->is_phpbb4())
 			{
 				$tag->template = str_replace(' allowfullscreen', ' referrerpolicy="origin" allowfullscreen', $tag->template);
 			}
@@ -186,20 +158,5 @@ class formatter_listener implements EventSubscriberInterface
 		$site_ids = $this->config_text->get('media_embed_sites');
 
 		return $site_ids ? json_decode($site_ids, true) : [];
-	}
-
-	/**
-	 * Check whether current phpBB version is 4.0 or newer.
-	 *
-	 * @return bool
-	 */
-	private function is_phpbb4()
-	{
-		if ($this->is_phpbb4 === null)
-		{
-			$this->is_phpbb4 = phpbb_version_compare($this->config['version'], '4.0.0-a1', '>=');
-		}
-
-		return $this->is_phpbb4;
 	}
 }

@@ -11,6 +11,7 @@
 namespace phpbb\mediaembed\tests\event;
 
 use phpbb\mediaembed\collection\upstreamsitescollection;
+use phpbb\mediaembed\collection\sitescollection;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class listener_test extends \phpbb_database_test_case
@@ -105,11 +106,12 @@ class listener_test extends \phpbb_database_test_case
 	 */
 	protected function get_formatter_listener()
 	{
+		$sites = new sitescollection($this->config, $this->custom_sites, $this->upstream_sites);
+
 		return new \phpbb\mediaembed\event\formatter_listener(
 			$this->config,
 			$this->config_text,
-			$this->custom_sites,
-			$this->upstream_sites,
+			$sites,
 			$this->cache_dir
 		);
 	}
