@@ -22,7 +22,7 @@ class upstream_sites_collection_test extends \phpbb_test_case
 		$metadata = $collection->get_metadata();
 
 		$this->assertSame('2.11.5', $metadata['base_version']);
-		self::assertRegExp('/^\d+\.\d+\.\d+$/D', $metadata['target_version']);
+		self::assertMatchesRegularExpression('/^\d+\.\d+\.\d+$/D', $metadata['target_version']);
 		$this->assertTrue(version_compare($metadata['target_version'], $metadata['base_version'], '>'));
 		$this->assertNotEmpty($collection->get_removed_sites());
 	}

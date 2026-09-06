@@ -182,7 +182,7 @@ class acp_module_test extends \phpbb_test_case
 		$p_master->load('acp', '\phpbb\mediaembed\acp\main_module', $mode);
 	}
 
-	public function main_module_cache_data()
+	public static function main_module_cache_data()
 	{
 		return [
 			[true, E_USER_NOTICE],
@@ -221,17 +221,16 @@ class acp_module_test extends \phpbb_test_case
 				return $expected_returns[$invocation++];
 			});
 
+		$expected_args = ['action_purge_cache', 'submit'];
+		$expected_returns = [true, false];
+		$request_invocation = 0;
 		$request
 			->expects(self::exactly(2))
 			->method('is_set_post')
-			->withConsecutive(
-				['action_purge_cache'],
-				['submit']
-			)
-			->willReturnOnConsecutiveCalls(
-				true,
-				false
-			);
+			->willReturnCallback(function($arg) use (&$request_invocation, $expected_args, $expected_returns) {
+				self::assertEquals($expected_args[$request_invocation], $arg);
+				return $expected_returns[$request_invocation++];
+			});
 
 		$this->acp_controller
 			->expects($valid_form ? self::once() : self::never())

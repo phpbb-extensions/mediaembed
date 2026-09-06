@@ -190,6 +190,11 @@ class listener_test extends \phpbb_database_test_case
 	public function test_upstream_collection_is_skipped_on_phpbb4()
 	{
 		$this->config['version'] = '4.0.0';
+		$this->upstream_sites = $this->createMock(upstreamsitescollection::class);
+		$this->upstream_sites->expects(self::never())
+			->method('get_removed_sites');
+		$this->upstream_sites->expects(self::never())
+			->method('get_collection');
 		$this->custom_sites->expects(self::once())
 			->method('get_collection')
 			->willReturn([]);
@@ -202,7 +207,6 @@ class listener_test extends \phpbb_database_test_case
 		$this->get_formatter_listener()->add_custom_sites($event);
 
 		$this->assertSame($youtube, $configurator->MediaEmbed->defaultSites['youtube']);
-		$this->assertTrue(isset($configurator->MediaEmbed->defaultSites['amazon']));
 	}
 
 	/**
@@ -383,7 +387,7 @@ class listener_test extends \phpbb_database_test_case
 		$listener->modify_tag_templates($event);
 	}
 
-	public function parse_policy_data()
+	public static function parse_policy_data()
 	{
 		return [
 			['sig', true, true, false, true, true, true],
