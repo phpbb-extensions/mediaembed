@@ -1,5 +1,37 @@
 # Changelog
 
+### 2.1.0 - 2026-09-06
+
+- Updated phpBB 3's MediaEmbed site definitions from s9e/TextFormatter 2.11.5 to 2.19.3.
+- Expanded phpBB 3 support with new media sites:
+  - Captivate
+  - Crankers Videos
+  - Nacho Video
+  - Omny Studio
+  - On3 DB
+  - PeerTube
+  - XenForo
+- Removed obsolete or nonfunctional media sites:
+  - Amazon
+  - Bleacher Report
+  - Dotsub
+  - eBaum's World
+  - Gfycat
+  - Livestream
+  - ModDB
+  - NBC Sports
+  - Snotr
+  - Stitcher
+  - Streamja
+- Redesigned ACP Manage Sites as a responsive checkbox grid with live filtering by site name or ID and bulk-selection controls beside the filter.
+- Fixed fresh installations to enable every compatible site in the final collection immediately and avoid warnings for sites removed from the collection.
+- Fixed parser state leaking between messages so permissions and BBCode or plain-URL settings are applied independently to every parse.
+- Updated Apple Music and VideoPress example URLs.
+- Updated bundled translations.
+- Hardened security in the ACP when using the Purge Media Cache form action.
+- Internal: Refactored event handling into focused formatter, parsing, and display listeners backed by a shared site collection.
+- Internal: Added generated PHP site-definition updates, compatibility validation, and scheduled checks for new TextFormatter releases while retaining YAML for manually authored sites.
+
 ### 2.0.5 - 2026-03-21
 
 - Added and/or updated support for media sites:
