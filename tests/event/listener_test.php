@@ -185,6 +185,9 @@ class listener_test extends \phpbb_database_test_case
 		$template = $configurator->tags['YOUTUBE']->template;
 		$this->assertStringContainsString('www.youtube-nocookie.com', $template);
 		$this->assertStringContainsString('referrerpolicy="origin"', $template);
+		$this->assertStringContainsString('contains(., \'/shorts/\')', $template);
+		$this->assertStringContainsString('max-width:360px', $template);
+		$this->assertStringContainsString('padding-bottom:177.777778%', $template);
 	}
 
 	public function test_upstream_collection_is_skipped_on_phpbb4()

@@ -121,12 +121,7 @@ class formatter_listener implements EventSubscriberInterface
 	{
 		try
 		{
-			$tag = $event['configurator']->tags['YOUTUBE'];
-			$tag->template = str_replace('www.youtube.com', 'www.youtube-nocookie.com', $tag->template);
-			if (!$this->sites->is_phpbb4())
-			{
-				$tag->template = str_replace(' allowfullscreen', ' referrerpolicy="origin" allowfullscreen', $tag->template);
-			}
+			$this->configure_youtube($event['configurator']->tags['YOUTUBE']);
 		}
 		catch (\RuntimeException $e)
 		{
@@ -158,5 +153,32 @@ class formatter_listener implements EventSubscriberInterface
 		$site_ids = $this->config_text->get('media_embed_sites');
 
 		return $site_ids ? json_decode($site_ids, true) : [];
+	}
+
+	/**
+	 * Apply YouTube privacy, compatibility, and Shorts rendering changes.
+	 *
+	 * @param s9e\TextFormatter\Configurator\Items\Tag $tag Tag to configure
+	 * @return void
+	 */
+	public function configure_youtube($tag)
+	{
+		$template = str_replace('www.youtube.com', 'www.youtube-nocookie.com', (string) $tag->template);
+		if (!$this->sites->is_phpbb4())
+		{
+			$template = str_replace(' allowfullscreen', ' referrerpolicy="origin" allowfullscreen', $template);
+		}
+
+		$shorts_template = str_replace(
+			['max-width:640px', 'padding-bottom:56.25%'],
+			['max-width:360px', 'padding-bottom:177.777778%'],
+			$template
+		);
+
+		$tag->template =
+			'<xsl:choose>' .
+				'<xsl:when test="contains(., \'/shorts/\')">' . $shorts_template . '</xsl:when>' .
+				'<xsl:otherwise>' . $template . '</xsl:otherwise>' .
+			'</xsl:choose>';
 	}
 }
