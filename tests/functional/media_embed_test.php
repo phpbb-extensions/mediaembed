@@ -18,6 +18,7 @@ use phpbb\mediaembed\event\display_listener;
 class media_embed_test extends \phpbb_functional_test_case
 {
 	protected $youtubeId = 'PHzShhtkzEk';
+	protected $youtubeShortsId = 'xer3HqUWLkw';
 	protected $ok_ru_Id = '549000643961';
 
 	protected static function setup_extensions()
@@ -36,7 +37,7 @@ class media_embed_test extends \phpbb_functional_test_case
 
 		$post = $this->create_topic($forum_id, 'Media Embed Test Topic 1', "[media]https://youtu.be/$this->youtubeId[/media]");
 		$crawler = self::request('GET', "viewtopic.php?t={$post['topic_id']}&sid=$this->sid");
-		self::assertStringContainsString("//www.youtube-nocookie.com/embed/$this->youtubeId", $crawler->filter("#post_content{$post['topic_id']} iframe")->attr('src'));
+		self::assertStringContainsString("//www.youtube-nocookie.com/embed/$this->youtubeId", $crawler->filter("#post_content{$post['post_id']} iframe")->attr('src'));
 	}
 
 	public function test_posting_custom_site()
@@ -50,7 +51,19 @@ class media_embed_test extends \phpbb_functional_test_case
 
 		$post = $this->create_topic(2, 'Media Embed Custom Site Test Topic 1', "[media]https://ok.ru/video/$this->ok_ru_Id[/media]");
 		$crawler = self::request('GET', "viewtopic.php?t={$post['topic_id']}&sid=$this->sid");
-		self::assertStringContainsString("//ok.ru/videoembed/$this->ok_ru_Id", $crawler->filter("#post_content{$post['topic_id']} iframe")->attr('src'));
+		self::assertStringContainsString("//ok.ru/videoembed/$this->ok_ru_Id", $crawler->filter("#post_content{$post['post_id']} iframe")->attr('src'));
+	}
+
+	public function test_youtube_shorts_template()
+	{
+		$this->login();
+
+		$forum_id = 2;
+
+		$post = $this->create_topic($forum_id, 'YouTube Shorts vertical rendering test', "https://youtube.com/shorts/$this->youtubeShortsId");
+		$crawler = self::request('GET', "viewtopic.php?t={$post['topic_id']}&sid=$this->sid");
+		self::assertStringContainsString("max-width:360px", $crawler->filter('#post_content' . $post['post_id'] . ' span[data-s9e-mediaembed="youtube"]')->attr('style'));
+		self::assertStringContainsString("padding-bottom:177.77%", $crawler->filter('#post_content' . $post['post_id'] . ' span[data-s9e-mediaembed="youtube"] > span')->attr('style'));
 	}
 
 	public function signatures_data()
