@@ -60,10 +60,21 @@ class media_embed_test extends \phpbb_functional_test_case
 
 		$forum_id = 2;
 
-		$post = $this->create_topic($forum_id, 'YouTube Shorts vertical rendering test', "https://youtube.com/shorts/$this->youtubeShortsId");
+		$post = $this->create_topic(
+			$forum_id,
+			'YouTube Shorts vertical rendering test',
+			"https://youtube.com/shorts/$this->youtubeShortsId\nhttps://youtu.be/$this->youtubeId"
+		);
 		$crawler = self::request('GET', "viewtopic.php?t={$post['topic_id']}&sid=$this->sid");
-		self::assertStringContainsString("max-width:360px", $crawler->filter('#post_content' . $post['post_id'] . ' span[data-s9e-mediaembed="youtube"]')->attr('style'));
-		self::assertStringContainsString("padding-bottom:177.77%", $crawler->filter('#post_content' . $post['post_id'] . ' span[data-s9e-mediaembed="youtube"] > span')->attr('style'));
+		$selector = '#post_content' . $post['post_id'] . ' span[data-s9e-mediaembed="youtube"]';
+		$embeds = $crawler->filter($selector);
+		$wrappers = $crawler->filter($selector . ' > span');
+		self::assertCount(2, $embeds);
+		self::assertCount(2, $wrappers);
+		self::assertStringContainsString('max-width:360px', $embeds->eq(0)->attr('style'));
+		self::assertStringContainsString('padding-bottom:177.777778%', $wrappers->eq(0)->attr('style'));
+		self::assertStringContainsString('max-width:640px', $embeds->eq(1)->attr('style'));
+		self::assertStringContainsString('padding-bottom:56.25%', $wrappers->eq(1)->attr('style'));
 	}
 
 	public function signatures_data()

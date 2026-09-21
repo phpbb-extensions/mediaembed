@@ -163,22 +163,6 @@ class formatter_listener implements EventSubscriberInterface
 	}
 
 	/**
-	 * Add tag filter to mark YouTube Shorts URLs.
-	 *
-	 * @param s9e\TextFormatter\Configurator\Items\Tag $tag Tag to add the filter to
-	 * @param string $text Media URL src content
-	 *
-	 * @return void
-	 */
-	public static function filter_youtube_shorts($tag, $text)
-	{
-		if (strpos($text, '/shorts/') !== false)
-		{
-			$tag->setAttribute('is_shorts', '1');
-		}
-	}
-
-	/**
 	 * Modify YouTube tag template to vertically render YouTube Shorts
 	 *
 	 * @param s9e\TextFormatter\Configurator\Items\Tag $tag Tag to configure
@@ -187,27 +171,16 @@ class formatter_listener implements EventSubscriberInterface
 	 */
 	public function configure_youtube_shorts($tag)
 	{
-		// Add 'is_shorts' tag attribute if does not exist
-		if (!isset($tag->attributes['is_shorts']))
-		{
-			$tag->attributes->add('is_shorts')->required = false;
-		}
-
-		// Add filterchain to filter URLs using 'is_shorts' attribute
-		$tag->filterChain
-			->prepend([__CLASS__, 'filter_youtube_shorts'])
-			->addParameterByName('text');
-
 		// Modify template string to inject YouTube Shorts rendering attributes
 		$modified_template = str_replace(
 			['max-width:640px', 'padding-bottom:56.25%'],
-			['max-width:360px', 'padding-bottom:177.77%'],
+			['max-width:360px', 'padding-bottom:177.777778%'],
 			(string) $tag->template
 		);
 
 		return
 			'<xsl:choose>' .
-				'<xsl:when test="@is_shorts">' . $modified_template . '</xsl:when>' .
+				'<xsl:when test="contains(., \'/shorts/\')">' . $modified_template . '</xsl:when>' .
 				'<xsl:otherwise>' . (string) $tag->template . '</xsl:otherwise>' .
 			'</xsl:choose>';
 	}
