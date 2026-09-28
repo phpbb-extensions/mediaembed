@@ -51,4 +51,7 @@ $lang = array_merge($lang, [
 	'ACP_MEDIA_MANAGE_EXPLAIN'			=> 'Aici puteți gestiona site-urile din care doriți să permiteți pluginului Media Embed să afișeze conținut.',
 	'ACP_MEDIA_SITES_ERROR'				=> 'Nu există site-uri media de afișat.',
 	'ACP_MEDIA_SITES_MISSING'			=> 'Următoarele site-uri nu mai sunt acceptate sau nu mai funcționează. Vă rugăm să retrimiteți această pagină pentru a le elimina.',
+	'ACP_MEDIA_PRIVACY_LEGEND'			=> 'Confidențialitate',
+	'ACP_MEDIA_SHOW_AGREEMENT'			=> 'Informare privind conținutul media încorporat',
+	'ACP_MEDIA_SHOW_AGREEMENT_EXPLAIN'	=> 'Afișați în Politica de confidențialitate detalii despre modul în care conținutul încorporat de pe site-uri terțe poate colecta sau urmări informațiile utilizatorilor.',
 ]);

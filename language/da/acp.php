@@ -51,4 +51,7 @@ $lang = array_merge($lang, [
 	'ACP_MEDIA_MANAGE_EXPLAIN'			=> 'Her kan du håndtere stederne som du vil tillade Media Embed PlugIn at vise indhold fra.',
 	'ACP_MEDIA_SITES_ERROR'				=> 'Der er ikke nogen mediesteder at vise.',
 	'ACP_MEDIA_SITES_MISSING'			=> 'Følgende websteder understøttes eller fungerer ikke længere. Indsend siden igen for at fjerne dem.',
+	'ACP_MEDIA_PRIVACY_LEGEND'			=> 'Privatliv',
+	'ACP_MEDIA_SHOW_AGREEMENT'			=> 'Oplysninger om indlejrede medier',
+	'ACP_MEDIA_SHOW_AGREEMENT_EXPLAIN'	=> 'Vis oplysninger i privatlivspolitikken om, hvordan indlejret indhold fra tredjepartswebsteder kan indsamle eller spore brugeroplysninger.',
 ]);

@@ -51,4 +51,7 @@ $lang = array_merge($lang, [
 	'ACP_MEDIA_MANAGE_EXPLAIN'			=> 'Aqui você pode gerenciar os sites que deseja permitir que o Media Embed PlugIn mostre o conteúdo.',
 	'ACP_MEDIA_SITES_ERROR'				=> 'Não há sites de mídia para exibir.',
 	'ACP_MEDIA_SITES_MISSING'			=> 'Os sites a seguir não são mais compatíveis ou deixaram de funcionar. Reenvie esta página para removê-los.',
+	'ACP_MEDIA_PRIVACY_LEGEND'			=> 'Privacidade',
+	'ACP_MEDIA_SHOW_AGREEMENT'			=> 'Divulgação de mídia incorporada',
+	'ACP_MEDIA_SHOW_AGREEMENT_EXPLAIN'	=> 'Mostrar na Política de Privacidade informações sobre como o conteúdo incorporado de sites de terceiros pode coletar ou rastrear informações do usuário.',
 ]);

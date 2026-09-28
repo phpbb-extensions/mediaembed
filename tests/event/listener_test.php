@@ -74,6 +74,7 @@ class listener_test extends \phpbb_database_test_case
 
 		$this->config = new \phpbb\config\config([
 			'media_embed_bbcode' => 1,
+			'media_embed_show_agreement' => 1,
 			'media_embed_allow_sig' => 0,
 			'media_embed_parse_urls' => 1,
 			'media_embed_full_width' => 1,
@@ -646,9 +647,10 @@ class listener_test extends \phpbb_database_test_case
 	public static function append_agreement_data()
 	{
 		return [
-			[false, 'PRIVACY', 0], // No agreement
-			[true, 'TERMS', 0], // Wrong title
-			[true, 'PRIVACY', 1], // Correct conditions
+			[true, false, 'PRIVACY', 0], // No agreement
+			[true, true, 'TERMS', 0], // Wrong title
+			[false, true, 'PRIVACY', 0], // Don't display agreement
+			[true, true, 'PRIVACY', 1], // Correct conditions
 		];
 	}
 
@@ -656,12 +658,14 @@ class listener_test extends \phpbb_database_test_case
 	 * Test the append_agreement method
 	 *
 	 * @dataProvider append_agreement_data
+	 * @param bool $show_agreement Whether to display agreement text
 	 * @param mixed $s_agreement S_AGREEMENT template variable value
 	 * @param mixed $agreement_title AGREEMENT_TITLE template variable value
 	 * @param int $expected_append_calls Expected append_var calls
 	 */
-	public function test_append_agreement($s_agreement, $agreement_title, $expected_append_calls)
+	public function test_append_agreement($show_agreement, $s_agreement, $agreement_title, $expected_append_calls)
 	{
+		$this->config['media_embed_show_agreement'] = $show_agreement;
 		$this->config['sitename'] = 'Test Forum';
 
 		$this->template->expects(self::atMost(2))

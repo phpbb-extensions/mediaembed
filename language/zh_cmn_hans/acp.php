@@ -52,4 +52,7 @@ $lang = array_merge($lang, [
 	'ACP_MEDIA_MANAGE_EXPLAIN'			=> '你可以管理你所允许 Media Embed PlugIn 在帖子中显示内容的网站。',
 	'ACP_MEDIA_SITES_ERROR'				=> '没有可用的媒体网站用于显示。.',
 	'ACP_MEDIA_SITES_MISSING'			=> '以下网站已不再被支持或工作。请重新提交此页面以删除它们。',
+	'ACP_MEDIA_PRIVACY_LEGEND'			=> '隐私',
+	'ACP_MEDIA_SHOW_AGREEMENT'			=> '嵌入式媒体披露',
+	'ACP_MEDIA_SHOW_AGREEMENT_EXPLAIN'	=> '在隐私政策中显示第三方网站的嵌入内容可能如何收集或跟踪用户信息的详细信息。',
 ]);

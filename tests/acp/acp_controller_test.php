@@ -86,6 +86,7 @@ class acp_controller_test extends \phpbb_test_case
 			->getMock();
 		$this->config = new config([
 			'media_embed_bbcode' => '0',
+			'media_embed_show_agreement' => '0',
 			'media_embed_allow_sig' => '0',
 			'media_embed_parse_urls' => '0',
 			'media_embed_enable_cache' => '0',
@@ -133,6 +134,7 @@ class acp_controller_test extends \phpbb_test_case
 			->method('assign_vars')
 			->with([
 				'S_MEDIA_EMBED_BBCODE' => $this->config['media_embed_bbcode'],
+				'S_MEDIA_EMBED_SHOW_AGREEMENT' => $this->config['media_embed_show_agreement'],
 				'S_MEDIA_EMBED_ALLOW_SIG' => $this->config['media_embed_allow_sig'],
 				'S_MEDIA_EMBED_PARSE_URLS' => $this->config['media_embed_parse_urls'],
 				'S_MEDIA_EMBED_ENABLE_CACHE' => $this->config['media_embed_enable_cache'],
@@ -181,13 +183,14 @@ class acp_controller_test extends \phpbb_test_case
 	{
 		$expected_args = [
 			['media_embed_bbcode', 0],
+			['media_embed_show_agreement', 0],
 			['media_embed_allow_sig', 0],
 			['media_embed_parse_urls', 0],
 			['media_embed_enable_cache', 0],
 			['media_embed_full_width', 0],
 			['media_embed_max_width', '']
 		];
-		$expected_returns = [1, 1, 1, 1, 1, $data[0]];
+		$expected_returns = [1, 1, 1, 1, 1, 1, $data[0]];
 		$invocation = 0;
 		$this->request
 			->expects(self::exactly(count($expected_args)))
@@ -212,6 +215,7 @@ class acp_controller_test extends \phpbb_test_case
 		$result = $controller->save_settings();
 
 		$this->assertEquals(1, $this->config['media_embed_bbcode']);
+		$this->assertEquals(1, $this->config['media_embed_show_agreement']);
 		$this->assertEquals(1, $this->config['media_embed_allow_sig']);
 		$this->assertEquals(1, $this->config['media_embed_parse_urls']);
 		$this->assertEquals(1, $this->config['media_embed_enable_cache']);

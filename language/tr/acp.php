@@ -52,4 +52,7 @@ $lang = array_merge($lang, [
 	'ACP_MEDIA_MANAGE_EXPLAIN'			=> 'Buradan, içeriğini göstermek için Medya (Ortam) Yerleştirme Eklentisine izin vermek istediğiniz siteleri yönetebilirsiniz.',
 	'ACP_MEDIA_SITES_ERROR'				=> 'Gösterilecek hiç bir medya (ortam) sitesi yok.',
 	'ACP_MEDIA_SITES_MISSING'			=> 'Aşağıdaki siteler artık desteklenmiyor veya çalışmıyor. Lütfen bu siteleri kaldırmak için bu sayfayı yeniden gönderin.',
+	'ACP_MEDIA_PRIVACY_LEGEND'			=> 'Gizlilik',
+	'ACP_MEDIA_SHOW_AGREEMENT'			=> 'Yerleşik medya açıklaması',
+	'ACP_MEDIA_SHOW_AGREEMENT_EXPLAIN'	=> 'Üçüncü taraf sitelerden yerleştirilen içeriğin kullanıcı bilgilerini nasıl toplayabileceği veya izleyebileceğiyle ilgili ayrıntıları Gizlilik Politikası’nda gösterin.',
 ]);
