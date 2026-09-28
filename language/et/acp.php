@@ -52,4 +52,7 @@ $lang = array_merge($lang, [
 	'ACP_MEDIA_MANAGE_EXPLAIN'			=> 'Sellel leheküljel on sul võimalik hallata veebilehti, kust sa soovid lubada manustada sisu.',
 	'ACP_MEDIA_SITES_ERROR'				=> 'Ei ole kuvada ühtegi meedia lehekülge.',
 	'ACP_MEDIA_SITES_MISSING'			=> 'Järgmised saidid pole enam toetatud või ei tööta. Nende eemaldamiseks esita leht uuesti.',
+	'ACP_MEDIA_PRIVACY_LEGEND'			=> 'Privaatsus',
+	'ACP_MEDIA_SHOW_AGREEMENT'			=> 'Manustatud meedia avalikustamine',
+	'ACP_MEDIA_SHOW_AGREEMENT_EXPLAIN'	=> 'Kuva privaatsuspoliitikas üksikasjad selle kohta, kuidas kolmandate osapoolte saitidelt manustatud sisu võib kasutajateavet koguda või jälgida.',
 ]);

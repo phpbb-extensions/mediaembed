@@ -51,4 +51,7 @@ $lang = array_merge($lang, [
 	'ACP_MEDIA_MANAGE_EXPLAIN'			=> 'Qui puoi gestire i siti che vuoi consentire al Plugin Media Embed di visualizzare il contenuto.',
 	'ACP_MEDIA_SITES_ERROR'				=> 'Non ci sono siti con media da visualizzare.',
 	'ACP_MEDIA_SITES_MISSING'			=> 'I seguenti siti non sono piu\' supportati o funzionanti. Si prega di risottomettere questa pagina per rimuoverli.',
+	'ACP_MEDIA_PRIVACY_LEGEND'			=> 'Privacy',
+	'ACP_MEDIA_SHOW_AGREEMENT'			=> 'Informativa sui contenuti multimediali incorporati',
+	'ACP_MEDIA_SHOW_AGREEMENT_EXPLAIN'	=> 'Mostra nell’Informativa sulla privacy i dettagli su come i contenuti incorporati da siti di terze parti possono raccogliere o monitorare le informazioni degli utenti.',
 ]);

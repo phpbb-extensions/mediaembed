@@ -52,4 +52,7 @@ $lang = array_merge($lang, [
 	'ACP_MEDIA_MANAGE_EXPLAIN'			=> 'Tu môžete spravovať stránky, pre ktoré chcete povoliť získavanie obsahu pluginu vkladania médií vkladanie médií.',
 	'ACP_MEDIA_SITES_ERROR'				=> 'Nie sú žiadne stránky médií na zobrazenie.',
 	'ACP_MEDIA_SITES_MISSING'			=> 'Nasledujúce stránky už nie sú podporované alebo nefungujú. Znova odošlite túto stránku, aby sa odstránili.',
+	'ACP_MEDIA_PRIVACY_LEGEND'			=> 'Ochrana osobných údajov',
+	'ACP_MEDIA_SHOW_AGREEMENT'			=> 'Informácie o vložených médiách',
+	'ACP_MEDIA_SHOW_AGREEMENT_EXPLAIN'	=> 'Zobraziť v zásadách ochrany osobných údajov podrobnosti o tom, ako môže vložený obsah zo stránok tretích strán zhromažďovať alebo sledovať informácie o používateľoch.',
 ]);

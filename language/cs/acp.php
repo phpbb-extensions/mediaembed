@@ -51,4 +51,7 @@ $lang = array_merge($lang, [
 	'ACP_MEDIA_MANAGE_EXPLAIN'			=> 'Zde můžete spravovat, jaké stránky mohou zobrazit obsaz z Media Embed pluginu.',
 	'ACP_MEDIA_SITES_ERROR'				=> 'Nejsou zde žádné stránky s médii k zobrazení.',
 	'ACP_MEDIA_SITES_MISSING'			=> 'Následující weby již nejsou podporovány nebo nefungují. Odešlete tuto stránku znovu, aby byly odstraněny.',
+	'ACP_MEDIA_PRIVACY_LEGEND'			=> 'Ochrana osobních údajů',
+	'ACP_MEDIA_SHOW_AGREEMENT'			=> 'Informace o vložených médiích',
+	'ACP_MEDIA_SHOW_AGREEMENT_EXPLAIN'	=> 'Zobrazit v zásadách ochrany osobních údajů podrobnosti o tom, jak může vložený obsah z webů třetích stran shromažďovat nebo sledovat informace o uživatelích.',
 ]);

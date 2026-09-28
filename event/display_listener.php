@@ -125,7 +125,9 @@ class display_listener implements EventSubscriberInterface
 	 */
 	public function append_agreement()
 	{
-		if (!$this->template->retrieve_var('S_AGREEMENT') || $this->template->retrieve_var('AGREEMENT_TITLE') !== $this->language->lang('PRIVACY'))
+		if (!$this->config['media_embed_show_agreement']
+			|| !$this->template->retrieve_var('S_AGREEMENT')
+			|| $this->template->retrieve_var('AGREEMENT_TITLE') !== $this->language->lang('PRIVACY'))
 		{
 			return;
 		}

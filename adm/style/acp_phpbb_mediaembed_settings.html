@@ -50,6 +50,14 @@
 			<dd><textarea id="media_embed_max_width" name="media_embed_max_width" rows="8" cols="40" style="width: 50%;" placeholder="twitter:100%&#10;youtube:80%&#10;funnyordie:480px">{{ S_MEDIA_EMBED_MAX_WIDTHS }}</textarea></dd>
 		</dl>
 	</fieldset>
+	<fieldset>
+		<legend>{{ lang('ACP_MEDIA_PRIVACY_LEGEND') }}</legend>
+		<dl>
+			<dt><label for="media_embed_show_agreement">{{ lang('ACP_MEDIA_SHOW_AGREEMENT') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_MEDIA_SHOW_AGREEMENT_EXPLAIN') }}</span></dt>
+			<dd><label><input type="radio" class="radio" name="media_embed_show_agreement" id="media_embed_show_agreement" value="1"{% if S_MEDIA_EMBED_SHOW_AGREEMENT %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="media_embed_show_agreement" value="0"{% if not S_MEDIA_EMBED_SHOW_AGREEMENT %} checked="checked"{% endif %}> {{ lang('NO') }}</label></dd>
+		</dl>
+	</fieldset>
 	<fieldset class="submit-buttons">
 		<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}">&nbsp;
 		<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}">
