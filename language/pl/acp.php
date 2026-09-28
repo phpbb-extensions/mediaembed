@@ -52,4 +52,7 @@ $lang = array_merge($lang, [
 	'ACP_MEDIA_MANAGE_EXPLAIN'			=> 'Tutaj można dokonać konfiguracji wyświetlania elementów stron przez rozszerzenie Media Embed.',
 	'ACP_MEDIA_SITES_ERROR'				=> 'Nie ma żadnych stron do wyświetlenia.',
 	'ACP_MEDIA_SITES_MISSING'			=> 'Poniższe strony nie są dłużej wspierane. Kliknij przycisk wyślij, aby zaktualizować listę.',
+	'ACP_MEDIA_PRIVACY_LEGEND'			=> 'Prywatność',
+	'ACP_MEDIA_SHOW_AGREEMENT'			=> 'Informacje o osadzonych multimediach',
+	'ACP_MEDIA_SHOW_AGREEMENT_EXPLAIN'	=> 'Pokaż w Polityce prywatności szczegółowe informacje o tym, jak osadzone treści z witryn stron trzecich mogą zbierać lub śledzić informacje o użytkownikach.',
 ]);

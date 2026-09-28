@@ -51,4 +51,7 @@ $lang = array_merge($lang, [
 	'ACP_MEDIA_MANAGE_EXPLAIN'			=> '您可以在此處管理要允許媒體嵌入外掛顯示內容的站點。',
 	'ACP_MEDIA_SITES_ERROR'				=> '沒有可顯示的媒體網站。',
 	'ACP_MEDIA_SITES_MISSING'			=> '以下站點不再受支持或不再工作。 請重新送出此頁面以將其刪除。',
+	'ACP_MEDIA_PRIVACY_LEGEND'			=> '隱私權',
+	'ACP_MEDIA_SHOW_AGREEMENT'			=> '嵌入式媒體揭露',
+	'ACP_MEDIA_SHOW_AGREEMENT_EXPLAIN'	=> '在隱私權政策中顯示第三方網站的嵌入內容可能如何收集或追蹤使用者資訊的詳細資訊。',
 ]);

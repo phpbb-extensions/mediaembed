@@ -51,4 +51,7 @@ $lang = array_merge($lang, [
 	'ACP_MEDIA_MANAGE_EXPLAIN'			=> 'Hier kunt u de websites beheren van welke u de de Media Embed PlugIn wilt toestaan inhoud te tonen.',
 	'ACP_MEDIA_SITES_ERROR'				=> 'Er zijn geen media websites om te tonen.',
 	'ACP_MEDIA_SITES_MISSING'			=> 'De volgende websites worden niet meer ondersteund of werken niet meer. Verzend deze pagina opnieuw om ze te verwijderen.',
+	'ACP_MEDIA_PRIVACY_LEGEND'			=> 'Privacy',
+	'ACP_MEDIA_SHOW_AGREEMENT'			=> 'Openbaarmaking over ingesloten media',
+	'ACP_MEDIA_SHOW_AGREEMENT_EXPLAIN'	=> 'Toon in het privacybeleid hoe ingesloten inhoud van websites van derden gebruikersinformatie kan verzamelen of volgen.',
 ]);

@@ -96,6 +96,7 @@ class acp_controller implements acp_controller_interface
 	{
 		$this->template->assign_vars([
 			'S_MEDIA_EMBED_BBCODE'       => $this->config['media_embed_bbcode'],
+			'S_MEDIA_EMBED_SHOW_AGREEMENT' => $this->config['media_embed_show_agreement'],
 			'S_MEDIA_EMBED_ALLOW_SIG'    => $this->config['media_embed_allow_sig'],
 			'S_MEDIA_EMBED_PARSE_URLS'   => $this->config['media_embed_parse_urls'],
 			'S_MEDIA_EMBED_ENABLE_CACHE' => $this->config['media_embed_enable_cache'],
@@ -125,6 +126,7 @@ class acp_controller implements acp_controller_interface
 	public function save_settings()
 	{
 		$this->config->set('media_embed_bbcode', $this->request->variable('media_embed_bbcode', 0));
+		$this->config->set('media_embed_show_agreement', $this->request->variable('media_embed_show_agreement', 0));
 		$this->config->set('media_embed_allow_sig', $this->request->variable('media_embed_allow_sig', 0));
 		$this->config->set('media_embed_parse_urls', $this->request->variable('media_embed_parse_urls', 0));
 		$this->config->set('media_embed_enable_cache', $this->request->variable('media_embed_enable_cache', 0));

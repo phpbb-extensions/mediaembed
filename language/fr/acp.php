@@ -71,4 +71,7 @@ $lang = array_merge($lang, [
 	'ACP_MEDIA_MANAGE_EXPLAIN'			=> 'Depuis cette page il est possible d’autoriser les sites Web des services qui seront pris en charge par l’extension « phpBB Media Embed PlugIn » pour afficher leur contenu dans les messages.',
 	'ACP_MEDIA_SITES_ERROR'				=> 'Il n’y aucun site de médias à afficher.',
 	'ACP_MEDIA_SITES_MISSING'			=> 'Les sites Web suivants ne sont plus pris en charge ou ne fonctionnent plus. Merci de re-valider cette page pour les retirer.',
+	'ACP_MEDIA_PRIVACY_LEGEND'			=> 'Confidentialité',
+	'ACP_MEDIA_SHOW_AGREEMENT'			=> 'Divulgation relative aux médias intégrés',
+	'ACP_MEDIA_SHOW_AGREEMENT_EXPLAIN'	=> 'Afficher dans la politique de confidentialité des informations sur la manière dont le contenu intégré provenant de sites tiers peut collecter ou suivre les informations des utilisateurs.',
 ]);
