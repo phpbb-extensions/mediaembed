@@ -3,19 +3,19 @@
 	"type": "phpbb-extension",
 	"description": "An official phpBB extension that allows users to embed content from allowed sites using a [media] BBCode, or from simply posting a supported URL in plain text.",
 	"homepage": "https://www.phpbb.com/customise/db/extension/mediaembed/",
-	"version": "2.1.0",
+	"version": "2.1.1",
 	"license": "GPL-2.0-only",
 	"authors": [
 		{
 			"name": "Marc Alexander",
 			"email": "admin@m-a-styles.de",
-			"homepage": "http://www.m-a-styles.de",
+			"homepage": "https://www.m-a-styles.de",
 			"role": "Extensions Team Consultant"
 		},
 		{
 			"name": "Michael Cullum",
 			"email": "michael@phpbb.com",
-			"homepage": "http://michaelcullum.com",
+			"homepage": "https://michaelcullum.com",
 			"role": "Extensions Team Consultant"
 		},
 		{
@@ -25,7 +25,7 @@
 		},
 		{
 			"name": "Ruslan Uzdenov",
-			"homepage": "http://www.phpbbguru.net",
+			"homepage": "https://www.phpbbguru.net",
 			"role": "Extensions Development Team"
 		}
 	],

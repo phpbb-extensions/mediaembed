@@ -1,5 +1,10 @@
 # Changelog
 
+### 2.1.1 - 2026-10-07
+
+- Added vertical rendering for YouTube Shorts while retaining landscape rendering for regular YouTube videos.
+- Added an ACP setting to show or hide the embedded media disclosure in the Privacy Policy.
+
 ### 2.1.0 - 2026-09-06
 
 - Updated phpBB 3's MediaEmbed site definitions from s9e/TextFormatter 2.11.5 to 2.19.3.
