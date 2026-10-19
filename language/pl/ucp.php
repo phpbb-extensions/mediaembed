@@ -20,11 +20,12 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, [
-	'MEDIA_EMBED_PRIVACY_POLICY' => '
-		<br><br>
-		<h3>Osadzone treści z innych stron internetowych</h3>
+	'MEDIA_EMBED_PRIVACY_POLICY_TITLE'	=> 'Osadzone treści z innych stron internetowych',
+	'MEDIA_EMBED_PRIVACY_POLICY_TEXT'	=> '
 		“%1$s” mogą zawierać posty lub treści z osadzonymi materiałami pochodzącymi z zewnętrznych stron internetowych, w tym między innymi z serwisów YouTube, Facebook, Twitter i podobnych platform. Osadzone treści z tych zewnętrznych stron działają tak samo, jakbyś odwiedził bezpośrednio stronę, z której pochodzą.
-		<br><br>Te zewnętrzne strony internetowe mogą gromadzić dane o użytkowniku, wykorzystywać pliki cookie, osadzać dodatkowe narzędzia śledzące stron trzecich oraz monitorować interakcje użytkownika z osadzonymi treściami, w tym śledzić te interakcje, jeśli użytkownik posiada konto i jest zalogowany na tej stronie.
-		<br><br>Należy pamiętać, że takie działania pozostają poza kontrolą serwisu „%1$s” i podlegają politykom prywatności oraz warunkom korzystania z usług poszczególnych zewnętrznych stron internetowych. Zachęcamy do zapoznania się z politykami prywatności i politykami dotyczącymi plików cookie wszelkich usług stron trzecich, z którymi wchodzisz w interakcję za pośrednictwem osadzonych treści.
+		<br><br>
+		Te zewnętrzne strony internetowe mogą gromadzić dane o użytkowniku, wykorzystywać pliki cookie, osadzać dodatkowe narzędzia śledzące stron trzecich oraz monitorować interakcje użytkownika z osadzonymi treściami, w tym śledzić te interakcje, jeśli użytkownik posiada konto i jest zalogowany na tej stronie.
+		<br><br>
+		Należy pamiętać, że takie działania pozostają poza kontrolą serwisu „%1$s” i podlegają politykom prywatności oraz warunkom korzystania z usług poszczególnych zewnętrznych stron internetowych. Zachęcamy do zapoznania się z politykami prywatności i politykami dotyczącymi plików cookie wszelkich usług stron trzecich, z którymi wchodzisz w interakcję za pośrednictwem osadzonych treści.
 	',
 ]);

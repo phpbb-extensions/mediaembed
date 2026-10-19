@@ -19,11 +19,12 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, [
-	'MEDIA_EMBED_PRIVACY_POLICY' => '
-		<br><br>
-		<h3>Vložený obsah z jiných webů</h3>
+	'MEDIA_EMBED_PRIVACY_POLICY_TITLE'	=> 'Vložený obsah z jiných webů',
+	'MEDIA_EMBED_PRIVACY_POLICY_TEXT'	=> '
 		„%1$s“ může obsahovat příspěvky nebo jiný obsah s vloženým materiálem z externích webů, mimo jiné z YouTube, Facebooku, Twitteru a podobných platforem. Vložený obsah z těchto externích webů se chová stejně, jako kdybyste navštívili původní web přímo.
-		<br><br>Tyto externí weby o vás mohou shromažďovat údaje, používat soubory cookie, vkládat další sledování třetích stran a sledovat vaši interakci s vloženým obsahem, včetně sledování interakce, pokud máte na daném webu účet a jste přihlášeni.
-		<br><br>Upozorňujeme, že tato činnost je mimo kontrolu webu „%1$s“ a řídí se zásadami ochrany osobních údajů a podmínkami používání příslušných externích webů. Doporučujeme prostudovat zásady ochrany osobních údajů a používání souborů cookie všech služeb třetích stran, se kterými prostřednictvím vloženého obsahu pracujete.
+		<br><br>
+		Tyto externí weby o vás mohou shromažďovat údaje, používat soubory cookie, vkládat další sledování třetích stran a sledovat vaši interakci s vloženým obsahem, včetně sledování interakce, pokud máte na daném webu účet a jste přihlášeni.
+		<br><br>
+		Upozorňujeme, že tato činnost je mimo kontrolu webu „%1$s“ a řídí se zásadami ochrany osobních údajů a podmínkami používání příslušných externích webů. Doporučujeme prostudovat zásady ochrany osobních údajů a používání souborů cookie všech služeb třetích stran, se kterými prostřednictvím vloženého obsahu pracujete.
 	',
 ]);

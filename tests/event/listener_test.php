@@ -652,26 +652,45 @@ class listener_test extends \phpbb_database_test_case
 	{
 		$this->config['media_embed_show_agreement'] = $show_agreement;
 		$this->config['sitename'] = 'Test Forum';
+		$privacy_policy = '<br><br><h3>Embedded Content</h3>Privacy policy text';
 
 		$this->template->expects(self::atMost(2))
 			->method('retrieve_var')
 			->withConsecutive(['S_AGREEMENT'], ['AGREEMENT_TITLE'])
 			->willReturnOnConsecutiveCalls($s_agreement, $this->language->lang($agreement_title));
 
-		if ($expected_append_calls > 0)
-		{
-			$this->template->expects(self::once())
-				->method('append_var')
-				->with('AGREEMENT_TEXT', $this->language->lang('MEDIA_EMBED_PRIVACY_POLICY', 'Test Forum'));
-		}
-		else
-		{
-			$this->template->expects(self::never())
-				->method('append_var');
-		}
+		$this->template->expects($expected_append_calls ? self::once() : self::never())
+			->method('set_filenames')
+			->with([
+				'media_embed_privacy_policy' => '@phpbb_mediaembed/privacy_policy.html',
+			]);
+
+		$this->template->expects($expected_append_calls ? self::once() : self::never())
+			->method('assign_display')
+			->with('media_embed_privacy_policy')
+			->willReturn($privacy_policy);
+
+		$this->template->expects($expected_append_calls ? self::once() : self::never())
+			->method('append_var')
+			->with('AGREEMENT_TEXT', $privacy_policy);
 
 		$listener = $this->get_display_listener();
 		$listener->append_agreement();
+	}
+
+	public function test_privacy_policy_language_has_only_break_markup()
+	{
+		global $phpbb_root_path, $phpEx;
+
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$lang_loader->set_extension_manager(new \phpbb_mock_extension_manager($phpbb_root_path));
+		$language = new \phpbb\language\language($lang_loader);
+		$language->add_lang('ucp', 'phpbb/mediaembed');
+		$privacy_policy = $language->lang('MEDIA_EMBED_PRIVACY_POLICY_TEXT', 'Test Forum');
+
+		self::assertStringNotContainsString('<', $language->lang('MEDIA_EMBED_PRIVACY_POLICY_TITLE'));
+		self::assertStringContainsString('<br><br>', $privacy_policy);
+		self::assertStringNotContainsString('<', str_replace('<br>', '', $privacy_policy));
 	}
 
 	protected function mock_s9e_parser()
