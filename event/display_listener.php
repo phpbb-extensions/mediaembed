@@ -119,7 +119,7 @@ class display_listener implements EventSubscriberInterface
 	}
 
 	/**
-	 * Append MediaEmbed language to privacy agreement.
+	 * Append embedded media disclosure to privacy agreement.
 	 *
 	 * @return void
 	 */
@@ -133,7 +133,10 @@ class display_listener implements EventSubscriberInterface
 		}
 
 		$this->language->add_lang('ucp', 'phpbb/mediaembed');
-		$this->template->append_var('AGREEMENT_TEXT', $this->language->lang('MEDIA_EMBED_PRIVACY_POLICY', $this->config['sitename']));
+		$this->template->set_filenames([
+			'media_embed_privacy_policy' => '@phpbb_mediaembed/privacy_policy.html',
+		]);
+		$this->template->append_var('AGREEMENT_TEXT', $this->template->assign_display('media_embed_privacy_policy'));
 	}
 
 	/**
