@@ -1,0 +1,6 @@
+name: 3Speak
+host: 3speak.tv
+example: https://3speak.tv/watch?v=seckorama/sumski-vinodol
+extract: "!//(?:www\\.)?3speak\\.tv/watch\\?v=(?'author'[a-z][a-z0-9.-]{1,14}[a-z0-9])/(?'permlink'[a-z0-9-]+)!"
+iframe:
+    src: https://play.3speak.tv/watch?v={@author}/{@permlink}&mode=iframe
