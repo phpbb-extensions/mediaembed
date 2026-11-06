@@ -175,9 +175,10 @@ class media_embed_test extends \phpbb_functional_test_case
 		$crawler = self::request('GET', "adm/index.php?i=\\phpbb\\mediaembed\\acp\\main_module&mode=settings&sid=$this->sid");
 		$this->assertContainsLang('ACP_MEDIA_SETTINGS', $crawler->filter('#main')->text(), 'The Media Embed settings module failed to load');
 		$form_data = [
-			'media_embed_max_width'	=> "vimeo:100px\nyoutube:100%",
+			'media_embed_max_width'	=> "kick:480px\napplemusic:100%",
 			'media_embed_full_width'=> 1,
 			'media_embed_show_agreement' => 1,
+			'media_embed_parse_urls' => 0,
 		];
 		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
 		$crawler = self::submit($form, $form_data);
@@ -188,6 +189,10 @@ class media_embed_test extends \phpbb_functional_test_case
 		$this->assertContainsLang('ACP_MEDIA_MANAGE', $crawler->filter('#main')->text(), 'The Media Embed settings module failed to load');
 
 		$this->assert_checkbox_is_checked($crawler, 'youtube');
+		$this->assert_find_one_checkbox($crawler, 'kick');
+		$this->assert_find_one_checkbox($crawler, 'applemusic');
+		self::assertCount(0, $crawler->filterXPath('//input[@type="checkbox" and @value="amazon"]'));
+		self::assertCount(0, $crawler->filter('.errorbox h3'));
 	}
 
 	public function test_ucp_agreement()

@@ -38,7 +38,7 @@ class formatter_listener implements EventSubscriberInterface
 	public static function getSubscribedEvents()
 	{
 		return [
-			'core.text_formatter_s9e_configure_after' => [['add_custom_sites', 3], ['enable_media_sites', 2], ['configure_url_parsing', 1], ['modify_tag_templates', 0]],
+			'core.text_formatter_s9e_configure_after' => [['add_custom_sites', 2], ['enable_media_sites', 1], ['modify_tag_templates', 0]],
 			'core.text_formatter_s9e_parser_setup' => 'setup_cache_dir',
 		];
 	}
@@ -93,21 +93,6 @@ class formatter_listener implements EventSubscriberInterface
 			{
 				continue;
 			}
-		}
-	}
-
-	/**
-	 * Configure plain URL parsing.
-	 *
-	 * @param \phpbb\event\data $event Event data
-	 * @return void
-	 */
-	public function configure_url_parsing($event)
-	{
-		if (!$this->config->offsetGet('media_embed_parse_urls'))
-		{
-			$event['configurator']->MediaEmbed->finalize();
-			unset($event['configurator']->MediaEmbed);
 		}
 	}
 

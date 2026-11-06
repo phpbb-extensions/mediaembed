@@ -215,9 +215,9 @@ class listener_test extends \phpbb_database_test_case
 	public function test_getSubscribedEvents()
 	{
 		static::assertEquals([
-			'core.text_formatter_s9e_configure_after',
-			'core.text_formatter_s9e_parser_setup',
-		], array_keys(\phpbb\mediaembed\event\formatter_listener::getSubscribedEvents()));
+			'core.text_formatter_s9e_configure_after' => [['add_custom_sites', 2], ['enable_media_sites', 1], ['modify_tag_templates', 0]],
+			'core.text_formatter_s9e_parser_setup' => 'setup_cache_dir',
+		], \phpbb\mediaembed\event\formatter_listener::getSubscribedEvents());
 
 		static::assertEquals([
 			'core.permissions',
@@ -263,12 +263,14 @@ class listener_test extends \phpbb_database_test_case
 	{
 		return [
 			['dailymotion', '[media]https://www.dailymotion.com/video/x222z1[/media]', 'DAILYMOTION id="x222z1"', false, true, true], // site using the MEDIA BBCode
+			['dailymotion', '[media]https://www.dailymotion.com/video/x222z1[/media]', 'DAILYMOTION id="x222z1"', false, false, true], // MEDIA BBCode with plain URL parsing disabled
 			['dailymotion', '[media]https://www.dailymotion.com/video/x222z1[/media]', 'DAILYMOTION id="x222z1"', true, true, false], // ignored site using the MEDIA BBCode
 			['facebook', 'https://www.facebook.com/video/video.php?v=10100658170103643', 'FACEBOOK id="10100658170103643"', false, true, true], // site using plain url
 			['facebook', 'https://www.facebook.com/video/video.php?v=10100658170103643', 'FACEBOOK id="10100658170103643"', false, false, false], // disallow site using plain url
 			['youtube', 'https://youtu.be/-cEzsCAzTak', 'YOUTUBE id="-cEzsCAzTak"', true, true, false], // ignored site using plain url
 			['youtube', 'https://youtu.be/-cEzsCAzTak', 'YOUTUBE id="-cEzsCAzTak"', true, false, false], // ignored site and disallowed plain url
 			['ok', '[media]https://ok.ru/video/549000643961[/media]', 'OK id="549000643961"', false, true, true], // custom site using the MEDIA BBCode
+			['ok', '[media]https://ok.ru/video/549000643961[/media]', 'OK id="549000643961"', false, false, true], // custom site with plain URL parsing disabled
 		];
 	}
 
@@ -324,12 +326,23 @@ class listener_test extends \phpbb_database_test_case
 		$listener = $this->get_formatter_listener();
 		$listener->add_custom_sites($event);
 		$listener->enable_media_sites($event);
-		$listener->configure_url_parsing($event);
 		$listener->modify_tag_templates($event);
+		self::assertTrue(isset($configurator->MediaEmbed->defaultSites['ok']));
 
 		// Get an instance of the parser
 		$parser = null;
 		extract($configurator->finalize(), EXTR_OVERWRITE);
+
+		$phpbb_parser = $this->mock_phpbb_parser();
+		$phpbb_parser->expects(self::once())->method('get_parser')->willReturn($parser);
+
+		$parsing_listener = $this->get_parsing_listener();
+		$parsing_listener->set_parse_policy(new \phpbb\event\data([
+			'mode' => 'post',
+			'allow_magic_url' => true,
+			'allow_bbcode' => true,
+		]));
+		$parsing_listener->configure_parser(new \phpbb\event\data(['parser' => $phpbb_parser]));
 
 		$assertion = $expected ? 'assertStringContainsString' : 'assertStringNotContainsString';
 
