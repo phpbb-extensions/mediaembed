@@ -162,8 +162,8 @@ class formatter_listener implements EventSubscriberInterface
 		}
 
 		$shorts_template = str_replace(
-			['max-width:640px', 'padding-bottom:56.25%'],
-			['max-width:360px', 'padding-bottom:177.777778%'],
+			['max-width:640px', 'padding-bottom:56.25%', 'data-s9e-mediaembed="youtube"'],
+			['max-width:360px', 'padding-bottom:177.777778%', 'data-s9e-mediaembed="youtube" data-mediaembed-shorts="1"'],
 			$template
 		);
 

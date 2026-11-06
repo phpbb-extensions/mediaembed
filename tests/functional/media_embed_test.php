@@ -71,6 +71,8 @@ class media_embed_test extends \phpbb_functional_test_case
 		$wrappers = $crawler->filter($selector . ' > span');
 		self::assertCount(2, $embeds);
 		self::assertCount(2, $wrappers);
+		self::assertSame('1', $embeds->eq(0)->attr('data-mediaembed-shorts'));
+		self::assertNull($embeds->eq(1)->attr('data-mediaembed-shorts'));
 		self::assertStringContainsString('max-width:360px', $embeds->eq(0)->attr('style'));
 		self::assertStringContainsString('padding-bottom:177.777778%', $wrappers->eq(0)->attr('style'));
 		self::assertStringContainsString('max-width:640px', $embeds->eq(1)->attr('style'));

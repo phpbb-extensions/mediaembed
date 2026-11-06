@@ -189,6 +189,7 @@ class listener_test extends \phpbb_database_test_case
 		$this->assertStringContainsString('contains(., \'/shorts/\')', $template);
 		$this->assertStringContainsString('max-width:360px', $template);
 		$this->assertStringContainsString('padding-bottom:177.777778%', $template);
+		$this->assertSame(1, substr_count($template, 'data-mediaembed-shorts="1"'));
 	}
 
 	public function test_youtube_template_is_not_modified_when_bbcode_exists()
