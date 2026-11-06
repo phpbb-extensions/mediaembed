@@ -18,6 +18,9 @@ use Symfony\Component\Finder\Finder;
  */
 class cache
 {
+	/** @var string Cache key used for decoded custom media widths */
+	protected const MAX_WIDTH_CACHE_KEY = '_phpbb_mediaembed_max_width';
+
 	/** @var cache_driver */
 	protected $cache;
 
@@ -69,5 +72,36 @@ class cache
 	{
 		$this->cache->destroy($this->cache_key_parser);
 		$this->cache->destroy($this->cache_key_renderer);
+	}
+
+	/**
+	 * Get cached custom media widths.
+	 *
+	 * @return array|false Cached widths, or false on a cache miss
+	 */
+	public function get_media_embed_max_width()
+	{
+		return $this->cache->get(self::MAX_WIDTH_CACHE_KEY);
+	}
+
+	/**
+	 * Cache custom media widths.
+	 *
+	 * @param array $max_widths Decoded custom media widths
+	 * @return void
+	 */
+	public function set_media_embed_max_width(array $max_widths)
+	{
+		$this->cache->put(self::MAX_WIDTH_CACHE_KEY, $max_widths);
+	}
+
+	/**
+	 * Purge cached custom media widths.
+	 *
+	 * @return void
+	 */
+	public function purge_media_embed_max_width()
+	{
+		$this->cache->destroy(self::MAX_WIDTH_CACHE_KEY);
 	}
 }

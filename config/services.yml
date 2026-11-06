@@ -27,6 +27,7 @@ services:
             - '@config'
             - '@config_text'
             - '@language'
+            - '@phpbb.mediaembed.cache'
             - '@template'
         tags:
             - { name: event.listener }

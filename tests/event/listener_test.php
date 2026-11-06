@@ -47,6 +47,9 @@ class listener_test extends \phpbb_database_test_case
 	/** @var \phpbb\language\language */
 	protected $language;
 
+	/** @var \PHPUnit\Framework\MockObject\MockObject|\phpbb\mediaembed\cache\cache */
+	protected $media_cache;
+
 	/** @var \PHPUnit\Framework\MockObject\MockObject|\phpbb\template\template */
 	protected $template;
 
@@ -89,6 +92,9 @@ class listener_test extends \phpbb_database_test_case
 		$this->language = new \phpbb\language\language(
 			new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx)
 		);
+		$this->media_cache = $this->getMockBuilder('\phpbb\mediaembed\cache\cache')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
@@ -137,6 +143,7 @@ class listener_test extends \phpbb_database_test_case
 			$this->config,
 			$this->config_text,
 			$this->language,
+			$this->media_cache,
 			$this->template
 		);
 	}
@@ -686,16 +693,48 @@ class listener_test extends \phpbb_database_test_case
 
 	public function test_setup_media_configs()
 	{
+		$max_widths = [['site' => 'youtube', 'width' => '480px']];
+		$this->media_cache->expects(self::once())
+			->method('get_media_embed_max_width')
+			->willReturn(false);
+		$this->config_text->expects(self::once())
+			->method('get')
+			->with('media_embed_max_width')
+			->willReturn(json_encode($max_widths));
+		$this->media_cache->expects(self::once())
+			->method('set_media_embed_max_width')
+			->with($max_widths);
+
 		$listener = $this->get_display_listener();
 
 		$this->template->expects(self::once())
 			->method('assign_vars')
 			->with([
 				'S_MEDIA_EMBED_FULL_WIDTH'	=> $this->config['media_embed_full_width'],
-				'S_MEDIA_EMBED_MAX_WIDTHS'	=> '',
+				'S_MEDIA_EMBED_MAX_WIDTHS'	=> $max_widths,
 			]);
 
 		$listener->setup_media_configs();
+	}
+
+	public function test_setup_media_configs_uses_empty_cache()
+	{
+		$max_widths = [];
+		$this->media_cache->expects(self::once())
+			->method('get_media_embed_max_width')
+			->willReturn($max_widths);
+		$this->config_text->expects(self::never())
+			->method('get');
+		$this->media_cache->expects(self::never())
+			->method('set_media_embed_max_width');
+		$this->template->expects(self::once())
+			->method('assign_vars')
+			->with([
+				'S_MEDIA_EMBED_FULL_WIDTH'	=> $this->config['media_embed_full_width'],
+				'S_MEDIA_EMBED_MAX_WIDTHS'	=> $max_widths,
+			]);
+
+		$this->get_display_listener()->setup_media_configs();
 	}
 
 	public function test_media_embed_help()

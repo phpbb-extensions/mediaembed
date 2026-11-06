@@ -14,6 +14,7 @@ use phpbb\auth\auth;
 use phpbb\config\config;
 use phpbb\config\db_text;
 use phpbb\language\language;
+use phpbb\mediaembed\cache\cache as media_cache;
 use phpbb\template\template;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -35,6 +36,9 @@ class display_listener implements EventSubscriberInterface
 
 	/** @var language */
 	protected $language;
+
+	/** @var media_cache */
+	protected $media_cache;
 
 	/** @var template */
 	protected $template;
@@ -61,18 +65,20 @@ class display_listener implements EventSubscriberInterface
 	/**
 	 * Constructor.
 	 *
-	 * @param auth     $auth        Authentication service
-	 * @param config   $config      Configuration service
-	 * @param db_text  $config_text Text configuration service
-	 * @param language $language    Language service
-	 * @param template $template    Template service
+	 * @param auth        $auth        Authentication service
+	 * @param config      $config      Configuration service
+	 * @param db_text     $config_text Text configuration service
+	 * @param language    $language    Language service
+	 * @param media_cache $media_cache MediaEmbed cache service
+	 * @param template    $template    Template service
 	 */
-	public function __construct(auth $auth, config $config, db_text $config_text, language $language, template $template)
+	public function __construct(auth $auth, config $config, db_text $config_text, language $language, media_cache $media_cache, template $template)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
 		$this->config_text = $config_text;
 		$this->language = $language;
+		$this->media_cache = $media_cache;
 		$this->template = $template;
 	}
 
@@ -181,9 +187,16 @@ class display_listener implements EventSubscriberInterface
 	 */
 	public function setup_media_configs()
 	{
+		$max_widths = $this->media_cache->get_media_embed_max_width();
+		if ($max_widths === false)
+		{
+			$max_widths = json_decode($this->config_text->get('media_embed_max_width'), true) ?: [];
+			$this->media_cache->set_media_embed_max_width($max_widths);
+		}
+
 		$this->template->assign_vars([
 			'S_MEDIA_EMBED_FULL_WIDTH' => $this->config->offsetGet('media_embed_full_width'),
-			'S_MEDIA_EMBED_MAX_WIDTHS' => json_decode($this->config_text->get('media_embed_max_width'), true),
+			'S_MEDIA_EMBED_MAX_WIDTHS' => $max_widths,
 		]);
 	}
 
