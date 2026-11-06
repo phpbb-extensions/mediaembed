@@ -97,21 +97,14 @@ class formatter_listener implements EventSubscriberInterface
 	}
 
 	/**
-	 * Apply compatibility and privacy changes to generated tag templates.
+	 * Apply site-specific changes to generated tag templates.
 	 *
 	 * @param \phpbb\event\data $event Event data
 	 * @return void
 	 */
 	public function modify_tag_templates($event)
 	{
-		try
-		{
-			$this->configure_youtube($event['configurator']->tags['YOUTUBE']);
-		}
-		catch (\RuntimeException $e)
-		{
-			// YouTube is not enabled.
-		}
+		$this->configure_youtube($event['configurator']);
 	}
 
 	/**
@@ -143,11 +136,25 @@ class formatter_listener implements EventSubscriberInterface
 	/**
 	 * Apply YouTube privacy, compatibility, and Shorts rendering changes.
 	 *
-	 * @param s9e\TextFormatter\Configurator\Items\Tag $tag Tag to configure
+	 * @param \s9e\TextFormatter\Configurator $configurator TextFormatter configurator
 	 * @return void
 	 */
-	public function configure_youtube($tag)
+	public function configure_youtube($configurator)
 	{
+		if (isset($configurator->BBCodes['youtube']))
+		{
+			return;
+		}
+
+		try
+		{
+			$tag = $configurator->tags['YOUTUBE'];
+		}
+		catch (\RuntimeException $e)
+		{
+			return;
+		}
+
 		$template = str_replace('www.youtube.com', 'www.youtube-nocookie.com', (string) $tag->template);
 		if (!$this->sites->is_phpbb4())
 		{

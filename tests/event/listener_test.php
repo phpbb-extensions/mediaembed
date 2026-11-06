@@ -191,6 +191,30 @@ class listener_test extends \phpbb_database_test_case
 		$this->assertStringContainsString('padding-bottom:177.777778%', $template);
 	}
 
+	public function test_youtube_template_is_not_modified_when_bbcode_exists()
+	{
+		$this->config_text->expects(self::once())
+			->method('get')
+			->with('media_embed_sites')
+			->willReturn(json_encode(['youtube']));
+
+		$configurator = $this->container
+			->get('text_formatter.s9e.factory')
+			->get_configurator();
+		$configurator->BBCodes->addCustom(
+			'[youtube]{TEXT}[/youtube]',
+			new \s9e\TextFormatter\Configurator\Items\UnsafeTemplate('<a href="https://www.youtube.com/watch?v={TEXT}">{TEXT}</a>')
+		);
+		$template = (string) $configurator->tags['YOUTUBE']->template;
+		$event = new \phpbb\event\data(['configurator' => $configurator]);
+		$listener = $this->get_formatter_listener();
+
+		$listener->enable_media_sites($event);
+		$listener->modify_tag_templates($event);
+
+		$this->assertSame($template, (string) $configurator->tags['YOUTUBE']->template);
+	}
+
 	public function test_upstream_collection_is_skipped_on_phpbb4()
 	{
 		$this->config['version'] = '4.0.0';
