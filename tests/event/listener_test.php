@@ -700,6 +700,11 @@ class listener_test extends \phpbb_database_test_case
 
 	public function test_media_embed_help()
 	{
+		$this->config_text->expects(self::once())
+			->method('get')
+			->with('media_embed_sites')
+			->willReturn(json_encode(['youtube']));
+
 		// Test template methods and lang vars are called as expected
 		$this->template->expects(self::exactly(2))
 			->method('assign_block_vars')

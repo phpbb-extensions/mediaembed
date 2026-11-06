@@ -42,12 +42,12 @@ $lang = array_merge($lang, [
 	'HELP_EMBEDDING_MEDIA'			=> 'Meedia manustamine',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Kuidas manustada meediat teiselt veebileheküljelt postitusse',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Kasutajatel on võimalik manustada sisu nagu näiteks videosi ja helifaile lubatud veebilehekülgedelt kasutades
-										<strong>[media][/media]</strong> silte või lihtsalt postitades toetatud veebiaadresse puhta tekstina. Näiteks:<br><br>
-										<strong>[media]</strong>%1$s<strong>[/media]</strong>
-										<br><br>Nii nagu eespool öeldud, siis aadressi on võimalik kasutada ka ilma
-										<strong>[media]</strong> siltideta.
-										<br><br>Siin toodud näide tekitab aga tulemuseks sellise:<br><br>%2$s
+										<strong>[media][/media]</strong> silte%1$s.%2$s
 										<br><br>Toetatud on järgmised veebilehed:<br><samp>%3$s.</samp>
 										<br><br>Et näha täielikku dokumentatsiooni toeatatutest lehekülgedest, ning näidis aadressidest, palun külasta <a href="https://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										lehekülge</a>.',
+	'HELP_EMBEDDING_MEDIA_PLAIN_URL' => ' või lihtsalt postitades toetatud veebiaadresse puhta tekstina',
+	'HELP_EMBEDDING_MEDIA_DEMO'		=> '<br><br>Näiteks:<br><br>
+										<strong>[media]</strong>%1$s<strong>[/media]</strong>
+										<br><br>Siin toodud näide tekitab aga tulemuseks sellise:<br><br>%2$s',
 ]);

@@ -174,6 +174,62 @@ class media_embed_test extends \phpbb_functional_test_case
 		self::assertStringContainsString("//www.youtube-nocookie.com/embed/$matches[1]", $crawler->filter('body iframe')->attr('src'));
 	}
 
+	public function test_media_embed_help_without_plain_url_conversion()
+	{
+		$this->add_lang_ext('phpbb/mediaembed', 'help');
+		$this->get_db();
+		$this->db->sql_query('UPDATE ' . CONFIG_TABLE . "
+			SET config_value = '0'
+			WHERE config_name = 'media_embed_parse_urls'");
+		$this->purge_cache();
+
+		try
+		{
+			$crawler = self::request('GET', 'app.php/help/bbcode');
+			preg_match('/https:\/\/youtu\.be\/(.*)/', display_listener::MEDIA_DEMO_URL, $matches);
+			self::assertStringContainsString("//www.youtube-nocookie.com/embed/$matches[1]", $crawler->filter('body iframe')->attr('src'));
+			self::assertStringNotContainsString($this->lang('HELP_EMBEDDING_MEDIA_PLAIN_URL'), $crawler->filter('body')->text());
+		}
+		finally
+		{
+			$this->db->sql_query('UPDATE ' . CONFIG_TABLE . "
+				SET config_value = '1'
+				WHERE config_name = 'media_embed_parse_urls'");
+			$this->purge_cache();
+		}
+	}
+
+	public function test_media_embed_help_without_youtube()
+	{
+		$this->add_lang_ext('phpbb/mediaembed', 'help');
+		$this->get_db();
+		$sql = 'SELECT config_value
+			FROM ' . CONFIG_TEXT_TABLE . "
+			WHERE config_name = 'media_embed_sites'";
+		$result = $this->db->sql_query($sql);
+		$stored_sites = $this->db->sql_fetchfield('config_value');
+		$this->db->sql_freeresult($result);
+		$sites = array_values(array_diff(json_decode($stored_sites, true), ['youtube']));
+		$this->db->sql_query('UPDATE ' . CONFIG_TEXT_TABLE . "
+			SET config_value = '" . $this->db->sql_escape(json_encode($sites)) . "'
+			WHERE config_name = 'media_embed_sites'");
+		$this->purge_cache();
+
+		try
+		{
+			$crawler = self::request('GET', 'app.php/help/bbcode');
+			self::assertCount(0, $crawler->filter('body iframe'));
+			self::assertStringNotContainsString(display_listener::MEDIA_DEMO_URL, $crawler->filter('body')->html());
+		}
+		finally
+		{
+			$this->db->sql_query('UPDATE ' . CONFIG_TEXT_TABLE . "
+				SET config_value = '" . $this->db->sql_escape($stored_sites) . "'
+				WHERE config_name = 'media_embed_sites'");
+			$this->purge_cache();
+		}
+	}
+
 	public function test_acp_modules()
 	{
 		$this->add_lang_ext('phpbb/mediaembed', 'acp');

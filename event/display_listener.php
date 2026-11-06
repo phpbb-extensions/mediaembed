@@ -153,14 +153,24 @@ class display_listener implements EventSubscriberInterface
 			'SWITCH_COLUMN' => false,
 		]);
 
-		$uid = $bitfield = $flags = '';
-		$demo_text = self::MEDIA_DEMO_URL;
-		generate_text_for_storage($demo_text, $uid, $bitfield, $flags, true, true);
-		$demo_display = generate_text_for_display($demo_text, $uid, $bitfield, $flags);
+		$site_ids = $this->get_site_ids();
+		$plain_url_help = $this->config->offsetGet('media_embed_parse_urls')
+			? $this->language->lang('HELP_EMBEDDING_MEDIA_PLAIN_URL')
+			: '';
+		$demo_help = '';
+
+		if (in_array('youtube', $site_ids, true))
+		{
+			$uid = $bitfield = $flags = '';
+			$demo_text = '[media]' . self::MEDIA_DEMO_URL . '[/media]';
+			generate_text_for_storage($demo_text, $uid, $bitfield, $flags, true, true);
+			$demo_display = generate_text_for_display($demo_text, $uid, $bitfield, $flags);
+			$demo_help = $this->language->lang('HELP_EMBEDDING_MEDIA_DEMO', self::MEDIA_DEMO_URL, $demo_display);
+		}
 
 		$this->template->assign_block_vars('faq_block.faq_row', [
 			'FAQ_QUESTION' => $this->language->lang('HELP_EMBEDDING_MEDIA_QUESTION'),
-			'FAQ_ANSWER' => $this->language->lang('HELP_EMBEDDING_MEDIA_ANSWER', self::MEDIA_DEMO_URL, $demo_display, implode(', ', $this->get_site_ids())),
+			'FAQ_ANSWER' => $this->language->lang('HELP_EMBEDDING_MEDIA_ANSWER', $plain_url_help, $demo_help, implode(', ', $site_ids)),
 		]);
 	}
 

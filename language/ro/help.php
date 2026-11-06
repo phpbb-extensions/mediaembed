@@ -41,14 +41,13 @@ $lang = array_merge($lang, [
 	'HELP_EMBEDDING_MEDIA'			=> 'Încorporarea media',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Cum să încorporați media de pe alte site-uri în postări',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Utilizatorii pot încorpora conținut, cum ar fi videoclipuri și audio de pe site-uri permise folosind
-                                        etichetele <strong>[media][/media]</strong> sau pur și simplu de la postarea unui mesaj acceptat
-                                        URL în text simplu. De exemplu:<br /><br />
-                                        <strong>[media]</strong>%1$s<strong>[/media]</strong>
-                                        <br /><br />Așa cum sa menționat mai sus, linkul ar putea fi folosit și fără
-                                        etichete <strong>[media]</strong>.
-                                        <br /><br />Exemplul prezentat aici ar genera:<br /><br />%2$s
+                                        etichetele <strong>[media][/media]</strong>%1$s.%2$s
                                         <br /><br />Sunt acceptate următoarele site-uri:<br /><samp>%3$s.</samp>
                                         <br /><br />Pentru documentația completă despre site-urile acceptate și exemple de adrese URL,
                                         accesați <a href="https://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
                                         Documentația pluginului MediaEmbed</a>.',
+	'HELP_EMBEDDING_MEDIA_PLAIN_URL' => ' sau pur și simplu de la postarea unui mesaj acceptat URL în text simplu',
+	'HELP_EMBEDDING_MEDIA_DEMO'		=> '<br /><br />De exemplu:<br /><br />
+                                        <strong>[media]</strong>%1$s<strong>[/media]</strong>
+                                        <br /><br />Exemplul prezentat aici ar genera:<br /><br />%2$s',
 ]);
