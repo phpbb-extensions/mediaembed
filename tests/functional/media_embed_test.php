@@ -106,6 +106,7 @@ class media_embed_test extends \phpbb_functional_test_case
 		$this->login();
 
 		$crawler = self::request('GET', 'ucp.php?i=ucp_profile&mode=signature');
+		self::assertCount($allowed ? 1 : 0, $crawler->filter('button[name="addmedia"]'));
 
 		$form = $crawler->selectButton('Submit')->form([
 			'signature'	=> "[media]https://youtu.be/$this->youtubeId[/media]",
@@ -139,8 +140,27 @@ class media_embed_test extends \phpbb_functional_test_case
 		$form->setValues($data);
 		self::submit($form);
 
+		$crawler = self::request('GET', "posting.php?mode=post&f=2&sid=$this->sid");
+		self::assertCount(0, $crawler->filter('button[name="addmedia"]'));
+
 		// Now verify the media bbcode can't be used to post
 		$this->create_topic(2, 'Media Embed Test Topic 2', '[media]foo[/media]', [], $this->lang('UNAUTHORISED_BBCODE', '[media]'));
+	}
+
+	public function test_pm_media_bbcode_button_wo_permission()
+	{
+		$this->add_lang('acp/permissions');
+
+		$this->login();
+		$this->admin_login();
+
+		$crawler = self::request('GET', "adm/index.php?i=acp_permissions&icat=16&mode=setting_group_global&group_id[0]=2&type=u_&sid=$this->sid");
+		$form = $crawler->selectButton($this->lang('APPLY_PERMISSIONS'))->form();
+		$form['setting[2][0][u_pm_mediaembed]']->select(ACL_NEVER);
+		self::submit($form);
+
+		$crawler = self::request('GET', "ucp.php?i=pm&mode=compose&sid=$this->sid");
+		self::assertCount(0, $crawler->filter('button[name="addmedia"]'));
 	}
 
 	public function test_media_embed_help()

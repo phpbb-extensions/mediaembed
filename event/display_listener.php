@@ -10,6 +10,7 @@
 
 namespace phpbb\mediaembed\event;
 
+use phpbb\auth\auth;
 use phpbb\config\config;
 use phpbb\config\db_text;
 use phpbb\language\language;
@@ -23,6 +24,9 @@ class display_listener implements EventSubscriberInterface
 {
 	public const MEDIA_DEMO_URL = 'https://youtu.be/Ne18ZQ7LLI0';
 
+	/** @var auth */
+	protected $auth;
+
 	/** @var config */
 	protected $config;
 
@@ -35,12 +39,18 @@ class display_listener implements EventSubscriberInterface
 	/** @var template */
 	protected $template;
 
+	/** @var bool */
+	protected $media_allowed = true;
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public static function getSubscribedEvents()
 	{
 		return [
+			'core.posting_modify_template_vars' => 'set_forum_button_permission',
+			'core.ucp_pm_compose_template' => 'set_pm_button_permission',
+			'core.ucp_profile_modify_signature' => 'set_signature_button_permission',
 			'core.display_custom_bbcodes' => 'setup_media_bbcode',
 			'core.help_manager_add_block_before' => 'media_embed_help',
 			'core.page_header' => 'setup_media_configs',
@@ -51,13 +61,15 @@ class display_listener implements EventSubscriberInterface
 	/**
 	 * Constructor.
 	 *
+	 * @param auth     $auth        Authentication service
 	 * @param config   $config      Configuration service
 	 * @param db_text  $config_text Text configuration service
 	 * @param language $language    Language service
 	 * @param template $template    Template service
 	 */
-	public function __construct(config $config, db_text $config_text, language $language, template $template)
+	public function __construct(auth $auth, config $config, db_text $config_text, language $language, template $template)
 	{
+		$this->auth = $auth;
 		$this->config = $config;
 		$this->config_text = $config_text;
 		$this->language = $language;
@@ -71,8 +83,55 @@ class display_listener implements EventSubscriberInterface
 	 */
 	public function setup_media_bbcode()
 	{
+		if ($this->template->retrieve_var('S_SIGNATURE'))
+		{
+			$this->set_signature_button_permission();
+		}
+
 		$this->language->add_lang('common', 'phpbb/mediaembed');
-		$this->template->assign_var('S_BBCODE_MEDIA', $this->config->offsetGet('media_embed_bbcode'));
+		$this->template->assign_var(
+			'S_BBCODE_MEDIA',
+			$this->config->offsetGet('media_embed_bbcode') && $this->media_allowed
+		);
+	}
+
+	/**
+	 * Set Media BBCode button permission for forum posting.
+	 *
+	 * @param \phpbb\event\data $event Event data
+	 * @return void
+	 */
+	public function set_forum_button_permission($event)
+	{
+		$media_allowed = $this->config->offsetGet('media_embed_bbcode')
+			&& $this->config->offsetGet('allow_bbcode')
+			&& $this->auth->acl_get('f_bbcode', $event['forum_id'])
+			&& $this->auth->acl_get('f_mediaembed', $event['forum_id']);
+
+		$event->update_subarray('page_data', 'S_BBCODE_MEDIA', $media_allowed);
+	}
+
+	/**
+	 * Set Media BBCode button permission for private messages.
+	 *
+	 * @param \phpbb\event\data $event Event data
+	 * @return void
+	 */
+	public function set_pm_button_permission($event)
+	{
+		$this->media_allowed = !empty($event['template_ary']['S_BBCODE_ALLOWED'])
+			&& $this->auth->acl_get('u_pm_mediaembed');
+	}
+
+	/**
+	 * Set Media BBCode button permission for signatures.
+	 *
+	 * @return void
+	 */
+	public function set_signature_button_permission()
+	{
+		$this->media_allowed = $this->config->offsetGet('allow_sig_bbcode')
+			&& $this->config->offsetGet('media_embed_allow_sig');
 	}
 
 	/**

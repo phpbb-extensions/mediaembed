@@ -23,6 +23,7 @@ services:
     phpbb.mediaembed.display_listener:
         class: phpbb\mediaembed\event\display_listener
         arguments:
+            - '@auth'
             - '@config'
             - '@config_text'
             - '@language'

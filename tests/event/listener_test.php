@@ -73,6 +73,8 @@ class listener_test extends \phpbb_database_test_case
 			->getMock();
 
 		$this->config = new \phpbb\config\config([
+			'allow_bbcode' => 1,
+			'allow_sig_bbcode' => 1,
 			'media_embed_bbcode' => 1,
 			'media_embed_show_agreement' => 1,
 			'media_embed_allow_sig' => 0,
@@ -131,6 +133,7 @@ class listener_test extends \phpbb_database_test_case
 	protected function get_display_listener()
 	{
 		return new \phpbb\mediaembed\event\display_listener(
+			$this->auth,
 			$this->config,
 			$this->config_text,
 			$this->language,
@@ -253,6 +256,9 @@ class listener_test extends \phpbb_database_test_case
 		], array_keys(\phpbb\mediaembed\event\parsing_listener::getSubscribedEvents()));
 
 		static::assertEquals([
+			'core.posting_modify_template_vars',
+			'core.ucp_pm_compose_template',
+			'core.ucp_profile_modify_signature',
 			'core.display_custom_bbcodes',
 			'core.help_manager_add_block_before',
 			'core.page_header',
@@ -574,9 +580,108 @@ class listener_test extends \phpbb_database_test_case
 
 		$this->template->expects(self::once())
 			->method('assign_var')
-			->with('S_BBCODE_MEDIA', $this->config['media_embed_bbcode']);
+			->with('S_BBCODE_MEDIA', true);
 
 		$listener->setup_media_bbcode();
+	}
+
+	public function test_setup_media_bbcode_respects_global_switch()
+	{
+		$this->config['media_embed_bbcode'] = 0;
+		$this->template->expects(self::once())
+			->method('assign_var')
+			->with('S_BBCODE_MEDIA', false);
+
+		$this->get_display_listener()->setup_media_bbcode();
+	}
+
+	public function forum_button_permission_data()
+	{
+		return [
+			[true, true, true, true],
+			[true, false, true, false],
+			[true, true, false, false],
+			[false, true, true, false],
+		];
+	}
+
+	/**
+	 * @dataProvider forum_button_permission_data
+	 */
+	public function test_forum_button_permission($allow_bbcode, $allow_forum_bbcode, $allow_media, $expected)
+	{
+		$this->config['allow_bbcode'] = $allow_bbcode;
+		$this->auth->method('acl_get')->willReturnMap([
+			['f_bbcode', 2, $allow_forum_bbcode],
+			['f_mediaembed', 2, $allow_media],
+		]);
+		$listener = $this->get_display_listener();
+		$event = new \phpbb\event\data(['forum_id' => 2, 'page_data' => []]);
+		$listener->set_forum_button_permission($event);
+
+		self::assertSame($expected, $event['page_data']['S_BBCODE_MEDIA']);
+	}
+
+	public function pm_button_permission_data()
+	{
+		return [
+			[true, true, true],
+			[true, false, false],
+			[false, true, false],
+		];
+	}
+
+	/**
+	 * @dataProvider pm_button_permission_data
+	 */
+	public function test_pm_button_permission($allow_bbcode, $allow_media, $expected)
+	{
+		$this->auth->method('acl_get')->with('u_pm_mediaembed')->willReturn($allow_media);
+		$this->template->expects(self::once())
+			->method('assign_var')
+			->with('S_BBCODE_MEDIA', $expected);
+
+		$listener = $this->get_display_listener();
+		$listener->set_pm_button_permission(new \phpbb\event\data([
+			'template_ary' => ['S_BBCODE_ALLOWED' => $allow_bbcode],
+		]));
+		$listener->setup_media_bbcode();
+	}
+
+	public function signature_button_permission_data()
+	{
+		return [
+			[true, true, true],
+			[true, false, false],
+			[false, true, false],
+		];
+	}
+
+	/**
+	 * @dataProvider signature_button_permission_data
+	 */
+	public function test_signature_button_permission($allow_bbcode, $allow_media, $expected)
+	{
+		$this->config['allow_sig_bbcode'] = $allow_bbcode;
+		$this->config['media_embed_allow_sig'] = $allow_media;
+		$this->template->expects(self::once())
+			->method('assign_var')
+			->with('S_BBCODE_MEDIA', $expected);
+
+		$listener = $this->get_display_listener();
+		$listener->set_signature_button_permission();
+		$listener->setup_media_bbcode();
+	}
+
+	public function test_acp_signature_button_permission()
+	{
+		$this->config['media_embed_allow_sig'] = 0;
+		$this->template->method('retrieve_var')->with('S_SIGNATURE')->willReturn(true);
+		$this->template->expects(self::once())
+			->method('assign_var')
+			->with('S_BBCODE_MEDIA', false);
+
+		$this->get_display_listener()->setup_media_bbcode();
 	}
 
 	public function test_setup_media_configs()
