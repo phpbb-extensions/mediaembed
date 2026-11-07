@@ -204,6 +204,8 @@ class acp_controller_test extends \phpbb_test_case
 		$this->config_text->expects(self::once())
 			->method('set')
 			->with('media_embed_max_width', $data[1]);
+		$this->media_cache->expects(self::once())
+			->method('purge_media_embed_max_width');
 
 		$this->textformatter->expects(self::atMost(1))
 			->method('get_configurator')

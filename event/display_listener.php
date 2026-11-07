@@ -10,9 +10,11 @@
 
 namespace phpbb\mediaembed\event;
 
+use phpbb\auth\auth;
 use phpbb\config\config;
 use phpbb\config\db_text;
 use phpbb\language\language;
+use phpbb\mediaembed\cache\cache as media_cache;
 use phpbb\template\template;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -23,6 +25,9 @@ class display_listener implements EventSubscriberInterface
 {
 	public const MEDIA_DEMO_URL = 'https://youtu.be/Ne18ZQ7LLI0';
 
+	/** @var auth */
+	protected $auth;
+
 	/** @var config */
 	protected $config;
 
@@ -32,8 +37,14 @@ class display_listener implements EventSubscriberInterface
 	/** @var language */
 	protected $language;
 
+	/** @var media_cache */
+	protected $media_cache;
+
 	/** @var template */
 	protected $template;
+
+	/** @var bool */
+	protected $media_allowed = true;
 
 	/**
 	 * {@inheritDoc}
@@ -41,6 +52,9 @@ class display_listener implements EventSubscriberInterface
 	public static function getSubscribedEvents()
 	{
 		return [
+			'core.posting_modify_template_vars' => 'set_forum_button_permission',
+			'core.ucp_pm_compose_template' => 'set_pm_button_permission',
+			'core.ucp_profile_modify_signature' => 'set_signature_button_permission',
 			'core.display_custom_bbcodes' => 'setup_media_bbcode',
 			'core.help_manager_add_block_before' => 'media_embed_help',
 			'core.page_header' => 'setup_media_configs',
@@ -51,16 +65,20 @@ class display_listener implements EventSubscriberInterface
 	/**
 	 * Constructor.
 	 *
-	 * @param config   $config      Configuration service
-	 * @param db_text  $config_text Text configuration service
-	 * @param language $language    Language service
-	 * @param template $template    Template service
+	 * @param auth        $auth        Authentication service
+	 * @param config      $config      Configuration service
+	 * @param db_text     $config_text Text configuration service
+	 * @param language    $language    Language service
+	 * @param media_cache $media_cache MediaEmbed cache service
+	 * @param template    $template    Template service
 	 */
-	public function __construct(config $config, db_text $config_text, language $language, template $template)
+	public function __construct(auth $auth, config $config, db_text $config_text, language $language, media_cache $media_cache, template $template)
 	{
+		$this->auth = $auth;
 		$this->config = $config;
 		$this->config_text = $config_text;
 		$this->language = $language;
+		$this->media_cache = $media_cache;
 		$this->template = $template;
 	}
 
@@ -71,8 +89,55 @@ class display_listener implements EventSubscriberInterface
 	 */
 	public function setup_media_bbcode()
 	{
+		if ($this->template->retrieve_var('S_SIGNATURE'))
+		{
+			$this->set_signature_button_permission();
+		}
+
 		$this->language->add_lang('common', 'phpbb/mediaembed');
-		$this->template->assign_var('S_BBCODE_MEDIA', $this->config->offsetGet('media_embed_bbcode'));
+		$this->template->assign_var(
+			'S_BBCODE_MEDIA',
+			$this->config->offsetGet('media_embed_bbcode') && $this->media_allowed
+		);
+	}
+
+	/**
+	 * Set Media BBCode button permission for forum posting.
+	 *
+	 * @param \phpbb\event\data $event Event data
+	 * @return void
+	 */
+	public function set_forum_button_permission($event)
+	{
+		$media_allowed = $this->config->offsetGet('media_embed_bbcode')
+			&& $this->config->offsetGet('allow_bbcode')
+			&& $this->auth->acl_get('f_bbcode', $event['forum_id'])
+			&& $this->auth->acl_get('f_mediaembed', $event['forum_id']);
+
+		$event->update_subarray('page_data', 'S_BBCODE_MEDIA', $media_allowed);
+	}
+
+	/**
+	 * Set Media BBCode button permission for private messages.
+	 *
+	 * @param \phpbb\event\data $event Event data
+	 * @return void
+	 */
+	public function set_pm_button_permission($event)
+	{
+		$this->media_allowed = !empty($event['template_ary']['S_BBCODE_ALLOWED'])
+			&& $this->auth->acl_get('u_pm_mediaembed');
+	}
+
+	/**
+	 * Set Media BBCode button permission for signatures.
+	 *
+	 * @return void
+	 */
+	public function set_signature_button_permission()
+	{
+		$this->media_allowed = $this->config->offsetGet('allow_sig_bbcode')
+			&& $this->config->offsetGet('media_embed_allow_sig');
 	}
 
 	/**
@@ -94,14 +159,24 @@ class display_listener implements EventSubscriberInterface
 			'SWITCH_COLUMN' => false,
 		]);
 
-		$uid = $bitfield = $flags = '';
-		$demo_text = self::MEDIA_DEMO_URL;
-		generate_text_for_storage($demo_text, $uid, $bitfield, $flags, true, true);
-		$demo_display = generate_text_for_display($demo_text, $uid, $bitfield, $flags);
+		$site_ids = $this->get_site_ids();
+		$plain_url_help = $this->config->offsetGet('media_embed_parse_urls')
+			? $this->language->lang('HELP_EMBEDDING_MEDIA_PLAIN_URL')
+			: '';
+		$demo_help = '';
+
+		if (in_array('youtube', $site_ids, true))
+		{
+			$uid = $bitfield = $flags = '';
+			$demo_text = '[media]' . self::MEDIA_DEMO_URL . '[/media]';
+			generate_text_for_storage($demo_text, $uid, $bitfield, $flags, true, true);
+			$demo_display = generate_text_for_display($demo_text, $uid, $bitfield, $flags);
+			$demo_help = $this->language->lang('HELP_EMBEDDING_MEDIA_DEMO', self::MEDIA_DEMO_URL, $demo_display);
+		}
 
 		$this->template->assign_block_vars('faq_block.faq_row', [
 			'FAQ_QUESTION' => $this->language->lang('HELP_EMBEDDING_MEDIA_QUESTION'),
-			'FAQ_ANSWER' => $this->language->lang('HELP_EMBEDDING_MEDIA_ANSWER', self::MEDIA_DEMO_URL, $demo_display, implode(', ', $this->get_site_ids())),
+			'FAQ_ANSWER' => $this->language->lang('HELP_EMBEDDING_MEDIA_ANSWER', $plain_url_help, $demo_help, implode(', ', $site_ids)),
 		]);
 	}
 
@@ -112,9 +187,16 @@ class display_listener implements EventSubscriberInterface
 	 */
 	public function setup_media_configs()
 	{
+		$max_widths = $this->media_cache->get_media_embed_max_width();
+		if ($max_widths === false)
+		{
+			$max_widths = json_decode($this->config_text->get('media_embed_max_width'), true) ?: [];
+			$this->media_cache->set_media_embed_max_width($max_widths);
+		}
+
 		$this->template->assign_vars([
 			'S_MEDIA_EMBED_FULL_WIDTH' => $this->config->offsetGet('media_embed_full_width'),
-			'S_MEDIA_EMBED_MAX_WIDTHS' => json_decode($this->config_text->get('media_embed_max_width'), true),
+			'S_MEDIA_EMBED_MAX_WIDTHS' => $max_widths,
 		]);
 	}
 

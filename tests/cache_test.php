@@ -30,7 +30,7 @@ class cache_test extends \phpbb_test_case
 
 		$this->cache_driver = $this->getMockBuilder('phpbb\cache\driver\file')
 			->disableOriginalConstructor()
-			->onlyMethods(['destroy', 'remove_file'])
+			->onlyMethods(['destroy', 'get', 'put', 'remove_file'])
 			->getMock();
 
 		$this->membed_cache = new \phpbb\mediaembed\cache\cache(
@@ -63,5 +63,24 @@ class cache_test extends \phpbb_test_case
 			});
 
 		$this->membed_cache->purge_textformatter_cache();
+	}
+
+	public function test_media_embed_max_width_cache()
+	{
+		$max_widths = [['site' => 'youtube', 'width' => '480px']];
+		$this->cache_driver->expects(self::once())
+			->method('get')
+			->with('_phpbb_mediaembed_max_width')
+			->willReturn($max_widths);
+		$this->cache_driver->expects(self::once())
+			->method('put')
+			->with('_phpbb_mediaembed_max_width', $max_widths);
+		$this->cache_driver->expects(self::once())
+			->method('destroy')
+			->with('_phpbb_mediaembed_max_width');
+
+		self::assertSame($max_widths, $this->membed_cache->get_media_embed_max_width());
+		$this->membed_cache->set_media_embed_max_width($max_widths);
+		$this->membed_cache->purge_media_embed_max_width();
 	}
 }
