@@ -1,9 +1,15 @@
 # Changelog
 
-### 2.1.1 - 2026-10-07
+### 2.1.1 - 2026-11-07
 
 - Added vertical rendering for YouTube Shorts while retaining landscape rendering for regular YouTube videos.
 - Added an ACP setting to show or hide the embedded media disclosure in the Privacy Policy.
+- Fixed a bug introduced in 2.1.0 where disabling plain URL parsing would cause obsolete or nonfunctional media sites to appear in the ACP.
+- Fixed a bug where MediaEmbed could un-intentionally alter a custom YouTube BBCode template definition.
+- Fixed a compatibility issue with the Consent manager extension that could disable the custom and full width content sizing options.
+- Setting a custom or full width content size will no longer stretch or distort YouTube Shorts.
+- The MEDIA BBCode will now only be visible to users with permission to use it.
+- The MediaEmbed section in the FAQ will no longer render the example YouTube video if YouTube videos are not allowed.
 
 ### 2.1.0 - 2026-09-06
 
