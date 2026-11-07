@@ -106,13 +106,11 @@ class parsing_listener implements EventSubscriberInterface
 			&& !$this->config->offsetGet('media_embed_allow_sig');
 
 		$this->disable_tag = !$this->media_allowed || $signature_disabled || !$event['allow_bbcode'];
-		$this->disable_plugin = $this->disable_tag
-			|| !$event['allow_magic_url']
-			|| !$this->config->offsetGet('media_embed_parse_urls');
+		$this->disable_plugin = $this->disable_tag || !$event['allow_magic_url'];
 	}
 
 	/**
-	 * Apply current message policy to runtime parser.
+	 * Apply global and current message policy to runtime parser.
 	 *
 	 * @param \phpbb\event\data $event Event data
 	 * @return void
@@ -120,7 +118,8 @@ class parsing_listener implements EventSubscriberInterface
 	public function configure_parser($event)
 	{
 		$parser = $event['parser']->get_parser();
-		$plugin_method = $this->disable_plugin ? 'disablePlugin' : 'enablePlugin';
+		$disable_plugin = $this->disable_plugin || !$this->config->offsetGet('media_embed_parse_urls');
+		$plugin_method = $disable_plugin ? 'disablePlugin' : 'enablePlugin';
 		$tag_method = $this->disable_tag ? 'disableTag' : 'enableTag';
 
 		$parser->{$plugin_method}('MediaEmbed');

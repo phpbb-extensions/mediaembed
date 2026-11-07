@@ -133,6 +133,7 @@ class acp_controller implements acp_controller_interface
 		$this->config->set('media_embed_full_width', $this->request->variable('media_embed_full_width', 0));
 
 		$this->set_media_embed_max_width();
+		$this->media_cache->purge_media_embed_max_width();
 
 		$this->media_cache->purge_textformatter_cache();
 

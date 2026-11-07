@@ -71,6 +71,8 @@ class media_embed_test extends \phpbb_functional_test_case
 		$wrappers = $crawler->filter($selector . ' > span');
 		self::assertCount(2, $embeds);
 		self::assertCount(2, $wrappers);
+		self::assertSame('1', $embeds->eq(0)->attr('data-mediaembed-shorts'));
+		self::assertNull($embeds->eq(1)->attr('data-mediaembed-shorts'));
 		self::assertStringContainsString('max-width:360px', $embeds->eq(0)->attr('style'));
 		self::assertStringContainsString('padding-bottom:177.777778%', $wrappers->eq(0)->attr('style'));
 		self::assertStringContainsString('max-width:640px', $embeds->eq(1)->attr('style'));
@@ -104,6 +106,7 @@ class media_embed_test extends \phpbb_functional_test_case
 		$this->login();
 
 		$crawler = self::request('GET', 'ucp.php?i=ucp_profile&mode=signature');
+		self::assertCount($allowed ? 1 : 0, $crawler->filter('button[name="addmedia"]'));
 
 		$form = $crawler->selectButton('Submit')->form([
 			'signature'	=> "[media]https://youtu.be/$this->youtubeId[/media]",
@@ -137,8 +140,27 @@ class media_embed_test extends \phpbb_functional_test_case
 		$form->setValues($data);
 		self::submit($form);
 
+		$crawler = self::request('GET', "posting.php?mode=post&f=2&sid=$this->sid");
+		self::assertCount(0, $crawler->filter('button[name="addmedia"]'));
+
 		// Now verify the media bbcode can't be used to post
 		$this->create_topic(2, 'Media Embed Test Topic 2', '[media]foo[/media]', [], $this->lang('UNAUTHORISED_BBCODE', '[media]'));
+	}
+
+	public function test_pm_media_bbcode_button_wo_permission()
+	{
+		$this->add_lang('acp/permissions');
+
+		$this->login();
+		$this->admin_login();
+
+		$crawler = self::request('GET', "adm/index.php?i=acp_permissions&icat=16&mode=setting_group_global&group_id[0]=2&type=u_&sid=$this->sid");
+		$form = $crawler->selectButton($this->lang('APPLY_PERMISSIONS'))->form();
+		$form['setting[2][0][u_pm_mediaembed]']->select(ACL_NEVER);
+		self::submit($form);
+
+		$crawler = self::request('GET', "ucp.php?i=pm&mode=compose&sid=$this->sid");
+		self::assertCount(0, $crawler->filter('button[name="addmedia"]'));
 	}
 
 	public function test_media_embed_help()
@@ -150,6 +172,62 @@ class media_embed_test extends \phpbb_functional_test_case
 
 		preg_match('/https:\/\/youtu\.be\/(.*)/', display_listener::MEDIA_DEMO_URL, $matches);
 		self::assertStringContainsString("//www.youtube-nocookie.com/embed/$matches[1]", $crawler->filter('body iframe')->attr('src'));
+	}
+
+	public function test_media_embed_help_without_plain_url_conversion()
+	{
+		$this->add_lang_ext('phpbb/mediaembed', 'help');
+		$this->get_db();
+		$this->db->sql_query('UPDATE ' . CONFIG_TABLE . "
+			SET config_value = '0'
+			WHERE config_name = 'media_embed_parse_urls'");
+		$this->purge_cache();
+
+		try
+		{
+			$crawler = self::request('GET', 'app.php/help/bbcode');
+			preg_match('/https:\/\/youtu\.be\/(.*)/', display_listener::MEDIA_DEMO_URL, $matches);
+			self::assertStringContainsString("//www.youtube-nocookie.com/embed/$matches[1]", $crawler->filter('body iframe')->attr('src'));
+			self::assertStringNotContainsString($this->lang('HELP_EMBEDDING_MEDIA_PLAIN_URL'), $crawler->filter('body')->text());
+		}
+		finally
+		{
+			$this->db->sql_query('UPDATE ' . CONFIG_TABLE . "
+				SET config_value = '1'
+				WHERE config_name = 'media_embed_parse_urls'");
+			$this->purge_cache();
+		}
+	}
+
+	public function test_media_embed_help_without_youtube()
+	{
+		$this->add_lang_ext('phpbb/mediaembed', 'help');
+		$this->get_db();
+		$sql = 'SELECT config_value
+			FROM ' . CONFIG_TEXT_TABLE . "
+			WHERE config_name = 'media_embed_sites'";
+		$result = $this->db->sql_query($sql);
+		$stored_sites = $this->db->sql_fetchfield('config_value');
+		$this->db->sql_freeresult($result);
+		$sites = array_values(array_diff(json_decode($stored_sites, true), ['youtube']));
+		$this->db->sql_query('UPDATE ' . CONFIG_TEXT_TABLE . "
+			SET config_value = '" . $this->db->sql_escape(json_encode($sites)) . "'
+			WHERE config_name = 'media_embed_sites'");
+		$this->purge_cache();
+
+		try
+		{
+			$crawler = self::request('GET', 'app.php/help/bbcode');
+			self::assertCount(0, $crawler->filter('body iframe'));
+			self::assertStringNotContainsString(display_listener::MEDIA_DEMO_URL, $crawler->filter('body')->html());
+		}
+		finally
+		{
+			$this->db->sql_query('UPDATE ' . CONFIG_TEXT_TABLE . "
+				SET config_value = '" . $this->db->sql_escape($stored_sites) . "'
+				WHERE config_name = 'media_embed_sites'");
+			$this->purge_cache();
+		}
 	}
 
 	public function test_acp_modules()
@@ -175,9 +253,10 @@ class media_embed_test extends \phpbb_functional_test_case
 		$crawler = self::request('GET', "adm/index.php?i=\\phpbb\\mediaembed\\acp\\main_module&mode=settings&sid=$this->sid");
 		$this->assertContainsLang('ACP_MEDIA_SETTINGS', $crawler->filter('#main')->text(), 'The Media Embed settings module failed to load');
 		$form_data = [
-			'media_embed_max_width'	=> "vimeo:100px\nyoutube:100%",
+			'media_embed_max_width'	=> "kick:480px\napplemusic:100%",
 			'media_embed_full_width'=> 1,
 			'media_embed_show_agreement' => 1,
+			'media_embed_parse_urls' => 0,
 		];
 		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
 		$crawler = self::submit($form, $form_data);
@@ -188,6 +267,10 @@ class media_embed_test extends \phpbb_functional_test_case
 		$this->assertContainsLang('ACP_MEDIA_MANAGE', $crawler->filter('#main')->text(), 'The Media Embed settings module failed to load');
 
 		$this->assert_checkbox_is_checked($crawler, 'youtube');
+		$this->assert_find_one_checkbox($crawler, 'kick');
+		$this->assert_find_one_checkbox($crawler, 'applemusic');
+		self::assertCount(0, $crawler->filterXPath('//input[@type="checkbox" and @value="amazon"]'));
+		self::assertCount(0, $crawler->filter('.errorbox h3'));
 	}
 
 	public function test_ucp_agreement()

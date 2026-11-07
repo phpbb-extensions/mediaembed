@@ -42,14 +42,13 @@ $lang = array_merge($lang, [
 	'HELP_EMBEDDING_MEDIA'			=> 'Vkladanie médií',
 	'HELP_EMBEDDING_MEDIA_QUESTION'	=> 'Ako vložiť obsah z inej stránky do príspevku',
 	'HELP_EMBEDDING_MEDIA_ANSWER'	=> 'Používatelia môžu vložiť obsah (napríklad video alebo zvuk z povolených stránok použítím
-										<strong>[media][/media]</strong> kódu alebo jednoducho odoslať podporovanú
-										URL v texte. Napríklad:<br><br>
-										<strong>[media]</strong>%1$s<strong>[/media]</strong>
-										<br><br>Ako je uvedené vyššie, odkaz môže byť použitý bez
-										<strong>[media]</strong> kódu.
-										<br><br>Príklad zobrazený tuto vygeneruje:<br><br>%2$s
+										<strong>[media][/media]</strong> kódu%1$s.%2$s
 										<br><br>Podporované sú tieto stránky:<br><samp>%3$s.</samp>
 										<br><br>Pre kompletnú dokumentáciu ohľadom podporovaných stránok a príkladov adries
 										navštívte <a href="https://s9etextformatter.readthedocs.io/Plugins/MediaEmbed/Sites/">
 										dokumentáciu pluginu vkladania médií</a> (v Angličtine).',
+	'HELP_EMBEDDING_MEDIA_PLAIN_URL' => ' alebo jednoducho odoslať podporovanú URL v texte',
+	'HELP_EMBEDDING_MEDIA_DEMO'		=> '<br><br>Napríklad:<br><br>
+										<strong>[media]</strong>%1$s<strong>[/media]</strong>
+										<br><br>Príklad zobrazený tuto vygeneruje:<br><br>%2$s',
 ]);

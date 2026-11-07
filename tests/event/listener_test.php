@@ -47,6 +47,9 @@ class listener_test extends \phpbb_database_test_case
 	/** @var \phpbb\language\language */
 	protected $language;
 
+	/** @var \PHPUnit\Framework\MockObject\MockObject|\phpbb\mediaembed\cache\cache */
+	protected $media_cache;
+
 	/** @var \PHPUnit\Framework\MockObject\MockObject|\phpbb\template\template */
 	protected $template;
 
@@ -73,6 +76,8 @@ class listener_test extends \phpbb_database_test_case
 			->getMock();
 
 		$this->config = new \phpbb\config\config([
+			'allow_bbcode' => 1,
+			'allow_sig_bbcode' => 1,
 			'media_embed_bbcode' => 1,
 			'media_embed_show_agreement' => 1,
 			'media_embed_allow_sig' => 0,
@@ -87,6 +92,9 @@ class listener_test extends \phpbb_database_test_case
 		$this->language = new \phpbb\language\language(
 			new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx)
 		);
+		$this->media_cache = $this->getMockBuilder('\phpbb\mediaembed\cache\cache')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
@@ -131,9 +139,11 @@ class listener_test extends \phpbb_database_test_case
 	protected function get_display_listener()
 	{
 		return new \phpbb\mediaembed\event\display_listener(
+			$this->auth,
 			$this->config,
 			$this->config_text,
 			$this->language,
+			$this->media_cache,
 			$this->template
 		);
 	}
@@ -189,6 +199,31 @@ class listener_test extends \phpbb_database_test_case
 		$this->assertStringContainsString('contains(., \'/shorts/\')', $template);
 		$this->assertStringContainsString('max-width:360px', $template);
 		$this->assertStringContainsString('padding-bottom:177.777778%', $template);
+		$this->assertSame(1, substr_count($template, 'data-mediaembed-shorts="1"'));
+	}
+
+	public function test_youtube_template_is_not_modified_when_bbcode_exists()
+	{
+		$this->config_text->expects(self::once())
+			->method('get')
+			->with('media_embed_sites')
+			->willReturn(json_encode(['youtube']));
+
+		$configurator = $this->container
+			->get('text_formatter.s9e.factory')
+			->get_configurator();
+		$configurator->BBCodes->addCustom(
+			'[youtube]{TEXT}[/youtube]',
+			new \s9e\TextFormatter\Configurator\Items\UnsafeTemplate('<a href="https://www.youtube.com/watch?v={TEXT}">{TEXT}</a>')
+		);
+		$template = (string) $configurator->tags['YOUTUBE']->template;
+		$event = new \phpbb\event\data(['configurator' => $configurator]);
+		$listener = $this->get_formatter_listener();
+
+		$listener->enable_media_sites($event);
+		$listener->modify_tag_templates($event);
+
+		$this->assertSame($template, (string) $configurator->tags['YOUTUBE']->template);
 	}
 
 	public function test_upstream_collection_is_skipped_on_phpbb4()
@@ -215,9 +250,9 @@ class listener_test extends \phpbb_database_test_case
 	public function test_getSubscribedEvents()
 	{
 		static::assertEquals([
-			'core.text_formatter_s9e_configure_after',
-			'core.text_formatter_s9e_parser_setup',
-		], array_keys(\phpbb\mediaembed\event\formatter_listener::getSubscribedEvents()));
+			'core.text_formatter_s9e_configure_after' => [['add_custom_sites', 2], ['enable_media_sites', 1], ['modify_tag_templates', 0]],
+			'core.text_formatter_s9e_parser_setup' => 'setup_cache_dir',
+		], \phpbb\mediaembed\event\formatter_listener::getSubscribedEvents());
 
 		static::assertEquals([
 			'core.permissions',
@@ -228,6 +263,9 @@ class listener_test extends \phpbb_database_test_case
 		], array_keys(\phpbb\mediaembed\event\parsing_listener::getSubscribedEvents()));
 
 		static::assertEquals([
+			'core.posting_modify_template_vars',
+			'core.ucp_pm_compose_template',
+			'core.ucp_profile_modify_signature',
 			'core.display_custom_bbcodes',
 			'core.help_manager_add_block_before',
 			'core.page_header',
@@ -263,12 +301,14 @@ class listener_test extends \phpbb_database_test_case
 	{
 		return [
 			['dailymotion', '[media]https://www.dailymotion.com/video/x222z1[/media]', 'DAILYMOTION id="x222z1"', false, true, true], // site using the MEDIA BBCode
+			['dailymotion', '[media]https://www.dailymotion.com/video/x222z1[/media]', 'DAILYMOTION id="x222z1"', false, false, true], // MEDIA BBCode with plain URL parsing disabled
 			['dailymotion', '[media]https://www.dailymotion.com/video/x222z1[/media]', 'DAILYMOTION id="x222z1"', true, true, false], // ignored site using the MEDIA BBCode
 			['facebook', 'https://www.facebook.com/video/video.php?v=10100658170103643', 'FACEBOOK id="10100658170103643"', false, true, true], // site using plain url
 			['facebook', 'https://www.facebook.com/video/video.php?v=10100658170103643', 'FACEBOOK id="10100658170103643"', false, false, false], // disallow site using plain url
 			['youtube', 'https://youtu.be/-cEzsCAzTak', 'YOUTUBE id="-cEzsCAzTak"', true, true, false], // ignored site using plain url
 			['youtube', 'https://youtu.be/-cEzsCAzTak', 'YOUTUBE id="-cEzsCAzTak"', true, false, false], // ignored site and disallowed plain url
 			['ok', '[media]https://ok.ru/video/549000643961[/media]', 'OK id="549000643961"', false, true, true], // custom site using the MEDIA BBCode
+			['ok', '[media]https://ok.ru/video/549000643961[/media]', 'OK id="549000643961"', false, false, true], // custom site with plain URL parsing disabled
 		];
 	}
 
@@ -324,12 +364,23 @@ class listener_test extends \phpbb_database_test_case
 		$listener = $this->get_formatter_listener();
 		$listener->add_custom_sites($event);
 		$listener->enable_media_sites($event);
-		$listener->configure_url_parsing($event);
 		$listener->modify_tag_templates($event);
+		self::assertTrue(isset($configurator->MediaEmbed->defaultSites['ok']));
 
 		// Get an instance of the parser
 		$parser = null;
 		extract($configurator->finalize(), EXTR_OVERWRITE);
+
+		$phpbb_parser = $this->mock_phpbb_parser();
+		$phpbb_parser->expects(self::once())->method('get_parser')->willReturn($parser);
+
+		$parsing_listener = $this->get_parsing_listener();
+		$parsing_listener->set_parse_policy(new \phpbb\event\data([
+			'mode' => 'post',
+			'allow_magic_url' => true,
+			'allow_bbcode' => true,
+		]));
+		$parsing_listener->configure_parser(new \phpbb\event\data(['parser' => $phpbb_parser]));
 
 		$assertion = $expected ? 'assertStringContainsString' : 'assertStringNotContainsString';
 
@@ -536,27 +587,163 @@ class listener_test extends \phpbb_database_test_case
 
 		$this->template->expects(self::once())
 			->method('assign_var')
-			->with('S_BBCODE_MEDIA', $this->config['media_embed_bbcode']);
+			->with('S_BBCODE_MEDIA', true);
 
 		$listener->setup_media_bbcode();
 	}
 
+	public function test_setup_media_bbcode_respects_global_switch()
+	{
+		$this->config['media_embed_bbcode'] = 0;
+		$this->template->expects(self::once())
+			->method('assign_var')
+			->with('S_BBCODE_MEDIA', false);
+
+		$this->get_display_listener()->setup_media_bbcode();
+	}
+
+	public function forum_button_permission_data()
+	{
+		return [
+			[true, true, true, true],
+			[true, false, true, false],
+			[true, true, false, false],
+			[false, true, true, false],
+		];
+	}
+
+	/**
+	 * @dataProvider forum_button_permission_data
+	 */
+	public function test_forum_button_permission($allow_bbcode, $allow_forum_bbcode, $allow_media, $expected)
+	{
+		$this->config['allow_bbcode'] = $allow_bbcode;
+		$this->auth->method('acl_get')->willReturnMap([
+			['f_bbcode', 2, $allow_forum_bbcode],
+			['f_mediaembed', 2, $allow_media],
+		]);
+		$listener = $this->get_display_listener();
+		$event = new \phpbb\event\data(['forum_id' => 2, 'page_data' => []]);
+		$listener->set_forum_button_permission($event);
+
+		self::assertSame($expected, $event['page_data']['S_BBCODE_MEDIA']);
+	}
+
+	public function pm_button_permission_data()
+	{
+		return [
+			[true, true, true],
+			[true, false, false],
+			[false, true, false],
+		];
+	}
+
+	/**
+	 * @dataProvider pm_button_permission_data
+	 */
+	public function test_pm_button_permission($allow_bbcode, $allow_media, $expected)
+	{
+		$this->auth->method('acl_get')->with('u_pm_mediaembed')->willReturn($allow_media);
+		$this->template->expects(self::once())
+			->method('assign_var')
+			->with('S_BBCODE_MEDIA', $expected);
+
+		$listener = $this->get_display_listener();
+		$listener->set_pm_button_permission(new \phpbb\event\data([
+			'template_ary' => ['S_BBCODE_ALLOWED' => $allow_bbcode],
+		]));
+		$listener->setup_media_bbcode();
+	}
+
+	public function signature_button_permission_data()
+	{
+		return [
+			[true, true, true],
+			[true, false, false],
+			[false, true, false],
+		];
+	}
+
+	/**
+	 * @dataProvider signature_button_permission_data
+	 */
+	public function test_signature_button_permission($allow_bbcode, $allow_media, $expected)
+	{
+		$this->config['allow_sig_bbcode'] = $allow_bbcode;
+		$this->config['media_embed_allow_sig'] = $allow_media;
+		$this->template->expects(self::once())
+			->method('assign_var')
+			->with('S_BBCODE_MEDIA', $expected);
+
+		$listener = $this->get_display_listener();
+		$listener->set_signature_button_permission();
+		$listener->setup_media_bbcode();
+	}
+
+	public function test_acp_signature_button_permission()
+	{
+		$this->config['media_embed_allow_sig'] = 0;
+		$this->template->method('retrieve_var')->with('S_SIGNATURE')->willReturn(true);
+		$this->template->expects(self::once())
+			->method('assign_var')
+			->with('S_BBCODE_MEDIA', false);
+
+		$this->get_display_listener()->setup_media_bbcode();
+	}
+
 	public function test_setup_media_configs()
 	{
+		$max_widths = [['site' => 'youtube', 'width' => '480px']];
+		$this->media_cache->expects(self::once())
+			->method('get_media_embed_max_width')
+			->willReturn(false);
+		$this->config_text->expects(self::once())
+			->method('get')
+			->with('media_embed_max_width')
+			->willReturn(json_encode($max_widths));
+		$this->media_cache->expects(self::once())
+			->method('set_media_embed_max_width')
+			->with($max_widths);
+
 		$listener = $this->get_display_listener();
 
 		$this->template->expects(self::once())
 			->method('assign_vars')
 			->with([
 				'S_MEDIA_EMBED_FULL_WIDTH'	=> $this->config['media_embed_full_width'],
-				'S_MEDIA_EMBED_MAX_WIDTHS'	=> '',
+				'S_MEDIA_EMBED_MAX_WIDTHS'	=> $max_widths,
 			]);
 
 		$listener->setup_media_configs();
 	}
 
+	public function test_setup_media_configs_uses_empty_cache()
+	{
+		$max_widths = [];
+		$this->media_cache->expects(self::once())
+			->method('get_media_embed_max_width')
+			->willReturn($max_widths);
+		$this->config_text->expects(self::never())
+			->method('get');
+		$this->media_cache->expects(self::never())
+			->method('set_media_embed_max_width');
+		$this->template->expects(self::once())
+			->method('assign_vars')
+			->with([
+				'S_MEDIA_EMBED_FULL_WIDTH'	=> $this->config['media_embed_full_width'],
+				'S_MEDIA_EMBED_MAX_WIDTHS'	=> $max_widths,
+			]);
+
+		$this->get_display_listener()->setup_media_configs();
+	}
+
 	public function test_media_embed_help()
 	{
+		$this->config_text->expects(self::once())
+			->method('get')
+			->with('media_embed_sites')
+			->willReturn(json_encode(['youtube']));
+
 		// Test template methods and lang vars are called as expected
 		$this->template->expects(self::exactly(2))
 			->method('assign_block_vars')
