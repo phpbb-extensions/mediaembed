@@ -185,7 +185,7 @@ class media_embed_test extends \phpbb_functional_test_case
 
 		try
 		{
-			$crawler = self::request('GET', 'app.php/help/bbcode');
+			$crawler = self::request('GET', 'index.php/help/bbcode');
 			preg_match('/https:\/\/youtu\.be\/(.*)/', display_listener::MEDIA_DEMO_URL, $matches);
 			self::assertStringContainsString("//www.youtube-nocookie.com/embed/$matches[1]", $crawler->filter('body iframe')->attr('src'));
 			self::assertStringNotContainsString($this->lang('HELP_EMBEDDING_MEDIA_PLAIN_URL'), $crawler->filter('body')->text());
@@ -217,7 +217,7 @@ class media_embed_test extends \phpbb_functional_test_case
 
 		try
 		{
-			$crawler = self::request('GET', 'app.php/help/bbcode');
+			$crawler = self::request('GET', 'index.php/help/bbcode');
 			self::assertCount(0, $crawler->filter('body iframe'));
 			self::assertStringNotContainsString(display_listener::MEDIA_DEMO_URL, $crawler->filter('body')->html());
 		}

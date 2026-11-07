@@ -606,7 +606,7 @@ class listener_test extends \phpbb_database_test_case
 		$this->get_display_listener()->setup_media_bbcode();
 	}
 
-	public function forum_button_permission_data()
+	public static function forum_button_permission_data()
 	{
 		return [
 			[true, true, true, true],
@@ -633,7 +633,7 @@ class listener_test extends \phpbb_database_test_case
 		self::assertSame($expected, $event['page_data']['S_BBCODE_MEDIA']);
 	}
 
-	public function pm_button_permission_data()
+	public static function pm_button_permission_data()
 	{
 		return [
 			[true, true, true],
@@ -659,7 +659,7 @@ class listener_test extends \phpbb_database_test_case
 		$listener->setup_media_bbcode();
 	}
 
-	public function signature_button_permission_data()
+	public static function signature_button_permission_data()
 	{
 		return [
 			[true, true, true],
