@@ -35,7 +35,7 @@
 		</dl>
 		<dl>
 			<dt><label for="action_purge_cache">{{ lang('ACP_MEDIA_PURGE_CACHE') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_MEDIA_PURGE_CACHE_EXPLAIN') }}</span></dt>
-			<dd><input class="button2" type="submit" id="action_purge_cache" name="action_purge_cache" value="{{ lang('PURGE_CACHE') }}"></dd>
+			<dd><input class="button2" type="submit" id="action_purge_cache" name="action_purge_cache" value="{{ lang('PURGE_CACHE')|e('html_attr') }}"></dd>
 		</dl>
 	</fieldset>
 	<fieldset>

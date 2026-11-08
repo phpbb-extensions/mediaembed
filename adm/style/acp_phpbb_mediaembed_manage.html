@@ -20,7 +20,7 @@
 		<div class="mediaembed-site-toolbar">
 			<p class="mediaembed-site-filter">
 				<label for="mediaembed-site-filter"><strong>{{ lang('SEARCH') ~ lang('COLON') }}</strong></label>
-				<input type="search" id="mediaembed-site-filter" class="text medium" autocomplete="off" aria-controls="mediaembed-site-list" placeholder="{{ lang('SEARCH_MINI') }}">
+				<input type="search" id="mediaembed-site-filter" class="text medium" autocomplete="off" aria-controls="mediaembed-site-list" placeholder="{{ lang('SEARCH_MINI')|e('html_attr') }}">
 			</p>
 			<p class="small mediaembed-site-actions"><a href="#" data-marksites="true">{{ lang('MARK_ALL') }}</a> &bull; <a href="#" data-marksites="false">{{ lang('UNMARK_ALL') }}</a></p>
 		</div>
