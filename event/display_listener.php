@@ -167,9 +167,23 @@ class display_listener implements EventSubscriberInterface
 
 		if (in_array('youtube', $site_ids, true))
 		{
-			$uid = $bitfield = $flags = '';
+			$uid = $bitfield = '';
+			$flags = 0;
 			$demo_text = '[media]' . self::MEDIA_DEMO_URL . '[/media]';
-			generate_text_for_storage($demo_text, $uid, $bitfield, $flags, true, true);
+			generate_text_for_storage(
+				$demo_text,
+				$uid,
+				$bitfield,
+				$flags,
+				true,
+				true,
+				false,
+				true,
+				true,
+				true,
+				true,
+				'phpbb_mediaembed_demo'
+			);
 			$demo_display = generate_text_for_display($demo_text, $uid, $bitfield, $flags);
 			$demo_help = $this->language->lang('HELP_EMBEDDING_MEDIA_DEMO', self::MEDIA_DEMO_URL, $demo_display);
 		}
