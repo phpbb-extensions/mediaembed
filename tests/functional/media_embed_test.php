@@ -174,6 +174,35 @@ class media_embed_test extends \phpbb_functional_test_case
 		self::assertStringContainsString("//www.youtube-nocookie.com/embed/$matches[1]", $crawler->filter('body iframe')->attr('src'));
 	}
 
+	public static function post_length_limits()
+	{
+		return [
+			'minimum above demo length' => ['min_post_chars', '100'],
+			'maximum below demo length' => ['max_post_chars', '20'],
+		];
+	}
+
+	/**
+	 * @dataProvider post_length_limits
+	 */
+	public function test_media_embed_help_ignores_post_length_limit($setting, $limit)
+	{
+		$config = new \phpbb\config\db($this->get_db(), $this->get_cache_driver(), CONFIG_TABLE);
+		$original_limit = $config[$setting];
+		$config->set($setting, $limit);
+
+		try
+		{
+			$crawler = self::request('GET', 'app.php/help/bbcode');
+			$video_id = basename(display_listener::MEDIA_DEMO_URL);
+			self::assertStringContainsString("//www.youtube-nocookie.com/embed/$video_id", $crawler->filter('body iframe')->attr('src'));
+		}
+		finally
+		{
+			$config->set($setting, $original_limit);
+		}
+	}
+
 	public function test_media_embed_help_without_plain_url_conversion()
 	{
 		$this->add_lang_ext('phpbb/mediaembed', 'help');
